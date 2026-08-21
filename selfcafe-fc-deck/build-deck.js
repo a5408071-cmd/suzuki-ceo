@@ -189,7 +189,7 @@ pres.title = "セルフカフェ 業務委託型制度";
 
   // 実績チップ
   const chips = [
-    ["LuStore", "全国70店舗以上"],
+    ["LuStore", "全国71店舗"],
     ["LuCoins", "初期費用 30万〜50万円"],
     ["LuTimer", "1日15分程度の運営"],
   ];
@@ -558,26 +558,27 @@ pres.title = "セルフカフェ 業務委託型制度";
   const rx = 7.60, rw = RIGHT - rx;
   card(s, rx, 1.55, rw, 5.29);
   icon(s, "LuStore", "green", rx + 0.34, 1.80, 0.30);
-  s.addText("主な展開エリア", {
+  s.addText("展開エリア（2026年7月時点）", {
     x: rx + 0.74, y: 1.78, w: rw - 1.08, h: 0.30,
     fontFace: F.jp, fontSize: 10.5, bold: true, color: C.brown, margin: 0, valign: "middle",
   });
   s.addText(
     [
-      { text: "70", options: { fontFace: F.num, fontSize: 46, bold: true, color: C.green } },
-      { text: " 店舗以上", options: { fontFace: F.jp, fontSize: 15, bold: true, color: C.green } },
+      { text: "71", options: { fontFace: F.num, fontSize: 46, bold: true, color: C.green } },
+      { text: " 店舗", options: { fontFace: F.jp, fontSize: 15, bold: true, color: C.green } },
     ],
     { x: rx + 0.34, y: 2.14, w: rw - 0.68, h: 0.66, margin: 0, valign: "middle", align: "left" }
   );
   s.addShape("rect", { x: rx + 0.34, y: 2.92, w: rw - 0.68, h: 0.011, fill: { color: C.line } });
 
-  const prefs = [["愛知県", 35], ["大阪府", 18], ["東京都", 5], ["岩手県", 2], ["岐阜県", 2], ["埼玉県", 1], ["千葉県", 1], ["静岡県", 1], ["滋賀県", 1]];
+  const prefs = [["愛知県", 36], ["大阪府", 18], ["東京都", 7], ["岩手県", 2], ["岐阜県", 2],
+    ["埼玉県", 1], ["千葉県", 1], ["静岡県", 1], ["滋賀県", 1], ["三重県", 1], ["鳥取県", 1]];
   prefs.forEach((p, i) => {
-    const y = 3.06 + i * 0.30;
-    s.addText(p[0], { x: rx + 0.34, y, w: 2.0, h: 0.28, fontFace: F.jp, fontSize: 11.5, color: C.ink, margin: 0, valign: "middle" });
+    const y = 3.04 + i * 0.252;
+    s.addText(p[0], { x: rx + 0.34, y, w: 2.0, h: 0.24, fontFace: F.jp, fontSize: 10.5, color: C.ink, margin: 0, valign: "middle" });
     s.addText(String(p[1]) + " 店舗", {
-      x: rx + rw - 1.90, y, w: 1.56, h: 0.28,
-      fontFace: F.jp, fontSize: 11.5, bold: true, color: C.green, align: "right", margin: 0, valign: "middle",
+      x: rx + rw - 1.90, y, w: 1.56, h: 0.24,
+      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, align: "right", margin: 0, valign: "middle",
     });
   });
 
@@ -592,12 +593,12 @@ pres.title = "セルフカフェ 業務委託型制度";
 {
   const s = pres.addSlide();
   shell(s, "実績データ：店舗展開数の推移", 9);
-  kicker(s, "営業中店舗の開店月ベース累計（2022.09〜2026.08／単位：店舗）", 1.36);
+  kicker(s, "営業中店舗の開店月ベース累計（2022.09〜2026.07／単位：店舗）", 1.36);
 
   const series = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 4, 8, 8, 9, 9, 12, 17, 19, 21, 22, 23,
-    23, 25, 28, 31, 32, 34, 39, 42, 44, 44, 46, 47, 48, 48, 50, 50, 51, 53, 58, 60, 63, 65, 68, 70];
+    23, 25, 28, 31, 32, 34, 39, 42, 44, 44, 46, 47, 48, 48, 50, 50, 51, 55, 58, 61, 64, 67, 71];
   const labels = series.map((_, i) =>
-    i === 0 ? "2022.09" : i === 12 ? "2023.09" : i === 24 ? "2024.09" : i === 36 ? "2025.09" : i === 47 ? "2026.08" : ""
+    i === 0 ? "2022.09" : i === 12 ? "2023.09" : i === 24 ? "2024.09" : i === 36 ? "2025.09" : i === 46 ? "2026.07" : ""
   );
 
   s.addChart(
@@ -621,9 +622,9 @@ pres.title = "セルフカフェ 業務委託型制度";
   );
 
   const tx = 9.55, tw = RIGHT - tx;
-  statTile(s, tx, 1.80, tw, 1.42, "70", "店舗以上", "2026年8月時点の営業中店舗数", { dark: true, valueSize: 34 });
-  statTile(s, tx, 3.36, tw, 1.42, "9", "都府県", "東北から関西まで広がる展開エリア");
-  statTile(s, tx, 4.92, tw, 1.42, "47", "ヶ月", "1号店OPENからの経過期間");
+  statTile(s, tx, 1.80, tw, 1.42, "71", "店舗", "2026年7月時点の営業中店舗数", { dark: true, valueSize: 34 });
+  statTile(s, tx, 3.36, tw, 1.42, "11", "都府県", "東北〜中国地方に広がる展開エリア");
+  statTile(s, tx, 4.92, tw, 1.42, "46", "ヶ月", "1号店OPENからの経過期間");
 
   s.addText("2022年9月の1号店OPENから、驚異的なスピードで出店エリアを拡大。店舗ネットワークは着実に成長を続けています。", {
     x: M, y: 6.42, w: 8.52, h: 0.46,
@@ -639,7 +640,7 @@ pres.title = "セルフカフェ 業務委託型制度";
 
   const labels = ["2023.01", "2023.07", "2024.01", "2024.07", "2025.01", "2025.07", "2026.01", "2026.07"];
   const users = [895, 1419, 9722, 26383, 46017, 74260, 80293, 101343];
-  const stores = [1, 1, 9, 22, 32, 46, 51, 68];
+  const stores = [1, 1, 9, 22, 32, 46, 51, 71];
 
   s.addChart(
     [
@@ -681,7 +682,7 @@ pres.title = "セルフカフェ 業務委託型制度";
         },
         {
           valAxisLabelColor: C.muted, valAxisLabelFontFace: F.num, valAxisLabelFontSize: 10,
-          valAxisMinVal: 0, valAxisMaxVal: 70, valAxisMajorUnit: 20,
+          valAxisMinVal: 0, valAxisMaxVal: 80, valAxisMajorUnit: 20,
           valAxisLineShow: false, valGridLine: { style: "none" },
         },
       ],

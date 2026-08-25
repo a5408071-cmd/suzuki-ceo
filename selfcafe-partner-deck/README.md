@@ -12,9 +12,13 @@ Googleスライド「FCパートナー制度資料　202606」を、**業務委�
 | `assets/photos/` | 挿入済みの写真（差し替えは同名ファイルを置き換えて再ビルド） |
 
 ```bash
-node build-assets.js   # → assets/
-node build-deck.js     # → selfcafe-partner-deck.pptx
+node build-assets.js                          # → assets/
+node build-deck.js                            # → selfcafe-partner-deck.pptx
+python3 ../fix-pptx.py selfcafe-partner-deck.pptx   # PowerPointの「修復」防止（必須）
 ```
+
+`fix-pptx.py` は pptxgenjs が出力するOOXMLのスキーマ違反（存在しない軸IDの参照など、
+PowerPointで「プレゼンテーションに問題が見つかりました」と出る原因）を修正する。
 
 ## デザイン基準（業務委託型資料からの実測値）
 

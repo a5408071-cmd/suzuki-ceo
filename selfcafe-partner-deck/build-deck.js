@@ -516,23 +516,20 @@ pres.title = "セルフカフェ パートナー制度";
     });
   });
 
-  // 下段：地方都市の優位性
+  // 下段：地方都市の優位性（全幅パネル）
   const by = TOP + h + 0.24, bh = 1.94;
-  const pw = 6.9;
-  panel(s, M, by, pw, bh);
+  panel(s, M, by, CW, bh);
   eyebrowIn(s, M + 0.36, by + 0.26, 2.4, "LOCAL ADVANTAGE", C.cvPale);
   s.addText("地方都市ほど、競合がいない。", {
-    x: M + 0.36, y: by + 0.52, w: pw - 0.72, h: 0.44,
-    fontFace: F.jp, fontSize: 21, bold: true, color: C.white, margin: 0, valign: "middle",
+    x: M + 0.36, y: by + 0.56, w: 6.4, h: 0.5,
+    fontFace: F.jp, fontSize: 22, bold: true, color: C.white, margin: 0, valign: "middle",
   });
-  s.addText("都市部に比べて同種の施設が少なく、開店直後から認知が広がりやすい傾向があります。岩手県 盛岡駅前店は1日80杯ペースで稼働しています（出店事例のページ参照）。", {
-    x: M + 0.36, y: by + 1.0, w: pw - 0.72, h: 0.74,
-    fontFace: F.jp, fontSize: 11, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.42,
+  icon(s, "LuMapPin", "pale", M + 6.6, by + 0.58, 0.46);
+  s.addText("都市部に比べて同種の施設が少なく、開店直後から認知が広がりやすい傾向があります。\n岩手県 盛岡駅前店は1日80杯ペースで稼働しています（出店事例のページ参照）。", {
+    x: M + 7.4, y: by + 0.34, w: CW - 7.8, h: 1.36,
+    fontFace: F.jp, fontSize: 11, color: C.cvBody, margin: 0, valign: "middle", lineSpacingMultiple: 1.5,
   });
-  icon(s, "LuMapPin", "pale", M + pw - 0.98, by + 0.3, 0.44);
-
-  const rx = M + pw + 0.42;
-  photoSlot(s, rx, by, R - rx, bh, "セミナー・イベントでの利用／物販の様子", { img: "p06-usecase.jpg", capSize: 9.5 });
+  s.addShape("rect", { x: M + 7.1, y: by + 0.36, w: 0.013, h: bh - 0.72, fill: { color: "2A7A4E" } });
 
   note(s, 6.72, "※ 二次利用（貸しスペース・物販）の可否は立地・契約条件により異なります。個別にご相談ください。");
 }
@@ -790,37 +787,37 @@ pres.title = "セルフカフェ パートナー制度";
     });
   });
 
-  // 出店ストーリーの注釈（1号店・2号店）
+  // 出店ストーリーの注釈（1号店 22.09／2号店 23.09）
+  // コネクタは数値ラベルを避けて左にずらし、基線上の金色ドットに落とす
   const anns = [
-    { i: 0, y: baseY - 0.86, lines: [
-      ["23.01", { fontFace: F.num, fontSize: 9.5, bold: true, color: C.gold }],
-      ["ささしまライブ店 OPEN", { fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink }],
+    { ax: px0 + 0.14, y: baseY - 1.06, lines: [
+      ["22.09", { fontFace: F.num, fontSize: 9.5, bold: true, color: C.gold }],
+      ["1号店・ささしまライブ店 OPEN", { fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink }],
     ]},
-    { i: 1, y: baseY - 1.82, lines: [
-      ["23.07", { fontFace: F.num, fontSize: 9.5, bold: true, color: C.gold }],
+    { ax: px0 + 1.89, y: baseY - 1.98, lines: [
+      ["23.09", { fontFace: F.num, fontSize: 9.5, bold: true, color: C.gold }],
       ["2店舗目・千種店 OPEN", { fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink }],
       ["ここから店舗展開開始", { fontFace: F.jp, fontSize: 10, bold: true, color: C.green }],
     ]},
   ];
   anns.forEach((an) => {
-    const cxn = px0 + an.i * slotW + slotW / 2;
     an.lines.forEach((ln, j) => {
       s.addText(ln[0], {
-        x: cxn - 0.22, y: an.y + j * 0.22, w: 2.4, h: 0.2,
+        x: an.ax + 0.14, y: an.y + j * 0.22, w: 2.6, h: 0.2,
         ...ln[1], margin: 0, valign: "middle",
       });
     });
-    const yb = an.y + an.lines.length * 0.22 + 0.04;
+    const yb = an.y + an.lines.length * 0.22 + 0.05;
     s.addShape("line", {
-      x: cxn, y: yb, w: 0, h: baseY - 0.05 - yb,
+      x: an.ax, y: yb, w: 0, h: baseY - 0.07 - yb,
       line: { color: C.gold, width: 1, dashType: "dash" },
     });
-    s.addShape("ellipse", { x: cxn - 0.035, y: yb - 0.035, w: 0.07, h: 0.07, fill: { color: C.gold }, line: { type: "none" } });
+    s.addShape("ellipse", { x: an.ax - 0.04, y: baseY - 0.075, w: 0.08, h: 0.08, fill: { color: C.gold }, line: { type: "none" } });
   });
 
   // 成長を示す右上方向の矢印（ラベルの間を抜ける軌道）
   s.addShape("line", {
-    x: px0 + 2.28, y: baseY - 1.78, w: 2.62, h: 0.98, flipV: true,
+    x: px0 + 2.62, y: baseY - 1.66, w: 2.14, h: 0.86, flipV: true,
     line: { color: C.gold, width: 4.5, endArrowType: "triangle" },
   });
 
@@ -1144,7 +1141,7 @@ pres.title = "セルフカフェ パートナー制度";
     x: M + 0.44, y: TOP + 0.68, w: pw - 0.88, h: 1.0,
     fontFace: F.jp, fontSize: 19, bold: true, color: C.white, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
   });
-  s.addText("店内の各所に非常ボタンを設置し、お客様同士のトラブルまで幅広く対応。6台のカメラによるモニタリングで、お問い合わせにも即時対応します。", {
+  s.addText("店内の各所に非常ボタンを設置し、お客様同士のトラブルまで幅広く対応。6台以上のカメラによるモニタリングで、お問い合わせにも即時対応します。", {
     x: M + 0.44, y: TOP + 1.82, w: pw - 0.88, h: 0.72,
     fontFace: F.jp, fontSize: 10.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
   });
@@ -1176,7 +1173,7 @@ pres.title = "セルフカフェ パートナー制度";
 
   const rx = M + pw + 0.42, rw = R - rx;
   const items = [
-    ["LuVideo", "6台", "カメラモニタリング", "店内を多角的に常時監視。死角を作らない配置で異常を早期に把握します。"],
+    ["LuVideo", "6台以上", "カメラモニタリング", "店内を多角的に常時監視。死角を作らない配置で異常を早期に把握します。"],
     ["LuMic", "双方向", "音声対応", "カメラはスタッフとお客様が直接やり取りできる双方向音声に対応。その場で声がけやサポートを行えます。"],
     ["LuMessageCircle", "即時", "LINEチャット対応", "お客様からのお問い合わせに即時対応。質問対応・意見収集の窓口としても機能します。"],
   ];
@@ -1524,7 +1521,7 @@ pres.title = "セルフカフェ パートナー制度";
 {
   const s = pres.addSlide();
   shell(s,  "収益", "投資回収シミュレーション",
-    "20坪（初期費用800万円）と50坪（同1,200万円）について、家賃あり／家賃なし（自社物件）の回収期間を試算しました。");
+    "20坪（初期費用800万円）と40坪（同1,200万円）について、家賃あり／家賃なし（自社物件）の回収期間を試算しました。");
 
   const cases = [
     {
@@ -1537,12 +1534,12 @@ pres.title = "セルフカフェ パートナー制度";
       ],
     },
     {
-      no: "CASE 02", size: "50坪（90席）", invest: "1,200", investNote: "初期費用",
-      sales: "1,386,000円", salesNote: "420円 × 110杯 × 30日",
-      cost: "-583,200円", rent: "-400,000円", rentNote: "坪単価 8,000円",
+      no: "CASE 02", size: "40坪（80席）", invest: "1,200", investNote: "初期費用",
+      sales: "1,260,000円", salesNote: "420円 × 100杯 × 30日",
+      cost: "-553,000円", rent: "-320,000円", rentNote: "坪単価 8,000円",
       pats: [
-        { name: "家賃あり（賃借）", profit: "40.3万円", pb: "約2年6ヶ月", pbS: "30ヶ月", dark: false },
-        { name: "家賃なし（自社物件）", profit: "100.3万円", pb: "約1年", pbS: "12ヶ月", dark: true },
+        { name: "家賃あり（賃借）", profit: "38.7万円", pb: "約2年7ヶ月", pbS: "31ヶ月", dark: false },
+        { name: "家賃なし（自社物件）", profit: "70.7万円", pb: "約1年5ヶ月", pbS: "17ヶ月", dark: true },
       ],
     },
   ];
@@ -1620,7 +1617,7 @@ pres.title = "セルフカフェ パートナー制度";
   // 前提
   const byr = TOP + 4.14;
   tintCard(s, M, byr, CW, 0.56);
-  s.addText("前提：1杯420円／販売数 20坪=75杯・50坪=110杯／日／ロイヤリティ 月5万円／減価償却費・税は含まない", {
+  s.addText("前提：1杯420円／販売数 20坪=75杯・40坪=100杯／日（収益シミュレーションと同一）／ロイヤリティ 月5万円／減価償却費・税は含まない", {
     x: M + 0.26, y: byr, w: CW - 0.52, h: 0.56,
     fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle",
   });
@@ -1643,35 +1640,36 @@ pres.title = "セルフカフェ パートナー制度";
 
   const y2 = TOP + 0.92;
   const pw = 6.6;
-  // 外観は元画像の縦横比のまま（トリミングなしの引き）で全体を見せる
-  photoSlot(s, M, y2, pw, 1.59, "盛岡駅前店の外観", { img: "p02-storefront.jpg", capSize: 9.5 });
-  photoSlot(s, M, y2 + 1.79, pw, 2.11, "店内の様子（店内カメラ）", { img: "store-morioka.jpg", capSize: 9.5 });
+  // 外観を全幅の1枚で大きく（元画像比率 4.15 ≒ 枠比率のため、ほぼトリミングなしの引き）
+  photoSlot(s, M, y2, CW, 2.82, "盛岡駅前店の外観", { img: "p02-storefront.jpg", capSize: 10 });
 
-  const rx = M + pw + 0.42, rw = R - rx;
-  card(s, rx, y2, rw, 3.9);
-  eyebrowIn(s, rx + 0.3, y2 + 0.28, 2.4, "CASE STUDY");
+  // 下段：CASE STUDY 横帯
+  const y3 = y2 + 2.98, bh3 = 1.06;
+  card(s, M, y3, CW, bh3);
+  eyebrowIn(s, M + 0.3, y3 + 0.16, 2.0, "CASE STUDY");
   s.addText("1日80杯ペースでの稼働", {
-    x: rx + 0.3, y: y2 + 0.56, w: rw - 0.6, h: 0.42,
-    fontFace: F.jp, fontSize: 18, bold: true, color: C.ink, margin: 0, valign: "middle",
+    x: M + 0.3, y: y3 + 0.36, w: 3.4, h: 0.34,
+    fontFace: F.jp, fontSize: 15, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
-  s.addText("1回の利用で2〜3時間、2杯程度購入する傾向があります。地方都市の駅前立地で、学生からビジネスマンまで幅広い層を獲得しています。", {
-    x: rx + 0.3, y: y2 + 1.06, w: rw - 0.6, h: 0.9,
-    fontFace: F.jp, fontSize: 11, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
+  s.addText("1回の利用で2〜3時間、2杯程度購入。学生からビジネスマンまで幅広い層を獲得。", {
+    x: M + 0.3, y: y3 + 0.72, w: 4.3, h: 0.26,
+    fontFace: F.jp, fontSize: 8.5, color: C.muted, margin: 0, valign: "middle",
   });
-  s.addShape("rect", { x: rx + 0.3, y: y2 + 2.04, w: rw - 0.6, h: 0.011, fill: { color: C.warmLine } });
+  s.addShape("rect", { x: M + 4.8, y: y3 + 0.18, w: 0.011, h: bh3 - 0.36, fill: { color: C.warmLine } });
   const facts = [["開業", "2025年4月"], ["面積・席数", "20坪／40席"], ["立地", "岩手県盛岡市・駅前"], ["営業時間", "24時間"]];
+  const fw = (CW - 5.2) / 4;
   facts.forEach((f, i) => {
-    const y = y2 + 2.2 + i * 0.4;
+    const fx = M + 5.1 + i * fw;
     s.addText(f[0], {
-      x: rx + 0.3, y, w: 1.6, h: 0.32,
-      fontFace: F.jp, fontSize: 9.5, color: C.muted, margin: 0, valign: "middle",
+      x: fx, y: y3 + 0.2, w: fw - 0.1, h: 0.24,
+      fontFace: F.jp, fontSize: 9, color: C.muted, margin: 0, valign: "middle",
     });
     s.addText(f[1], {
-      x: rx + 1.9, y, w: rw - 2.2, h: 0.32,
-      fontFace: F.jp, fontSize: 11, bold: true, color: C.ink, margin: 0, valign: "middle",
+      x: fx, y: y3 + 0.48, w: fw - 0.1, h: 0.36,
+      fontFace: F.jp, fontSize: 12.5, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
   });
-  note(s, 6.66, "※ 実績値であり、他店舗での同等の売上・利益を保証するものではありません。");
+  note(s, y3 + bh3 + 0.14, "※ 実績値であり、他店舗での同等の売上・利益を保証するものではありません。");
 }
 
 /* ===================================================== p22 有料オプション */
@@ -1775,7 +1773,7 @@ pres.title = "セルフカフェ パートナー制度";
     x: rx, y: TOP + 4.2, w: rw, h: 0.52, rectRadius: 0.05,
     fill: { color: C.tint }, line: { type: "none" },
   });
-  s.addText("既存スペースの一角に、2台並べての設置も可能です。", {
+  s.addText("ドリンクマシンは2台設置が基本。既存スペースの一角にも収まります。", {
     x: rx + 0.26, y: TOP + 4.2, w: rw - 0.52, h: 0.52,
     fontFace: F.jp, fontSize: 11, bold: true, color: C.green, margin: 0, valign: "middle",
   });
@@ -1795,7 +1793,7 @@ pres.title = "セルフカフェ パートナー制度";
     ["人材", "人材採用については？",
       "新しく人材を採用する必要はありません。清掃管理・原料補充はご自身でもご対応可能ですが、業務委託として委託することも可能です。"],
     ["集客", "集客はどうすれば？",
-      "数々のメディア取材や、本部によるSEO/MEO対策をはじめとしたWebマーケティングによって集客を支援します。"],
+      "数々のメディア取材や、本部によるSEO・MEO・AIO（LLMO）対策をはじめとしたWebマーケティングによって集客を支援します。"],
     ["許認可", "許認可の申請は必要ですか？",
       "営業届の提出と、食品衛生責任者の設置が必要です。食品衛生責任者の資格は貴社にて取得いただき、営業届の申請は本部が行います。"],
   ];
@@ -1848,7 +1846,7 @@ pres.title = "セルフカフェ パートナー制度";
     ["LuFileCheck", "開業前サポート", "BEFORE OPENING",
       ["パートナー制度のご説明", "収益試算表の作成", "現地調査・工事業者手配", "店舗デザイン・設計", "運営研修"]],
     ["LuLifeBuoy", "開業後サポート", "AFTER OPENING",
-      ["店舗運営相談", "マシンの定期メンテナンス", "WEBサイト作成・更新", "SEO / MEO対策", "改修工事サポート"]],
+      ["店舗運営相談", "マシンの定期メンテナンス", "WEBサイト作成・更新", "SEO・MEO・AIO（LLMO）対策", "改修工事サポート"]],
   ];
   const w = (CW - 0.42) / 2, h = 3.5;
   cols.forEach(([ic, title, eb, list], i) => {

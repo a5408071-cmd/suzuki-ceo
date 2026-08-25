@@ -912,16 +912,16 @@ pres.title = "セルフカフェ パートナー制度";
   s.addText(
     [
       { text: "29歳までのユーザーが", options: { color: C.body } },
-      { text: "約50%", options: { color: C.green, bold: true } },
+      { text: "過半数（56%）", options: { color: C.green, bold: true } },
       { text: "。デジタルネイティブ世代にとって「無人」は心理的ハードルが低く、快適な空間です。", options: { color: C.body } },
     ],
     { x: M + 0.3, y: TOP + 0.72, w: cw - 0.6, h: 0.6, fontFace: F.jp, fontSize: 10.5, margin: 0, valign: "top", lineSpacingMultiple: 1.35 }
   );
   s.addChart(pres.ChartType.bar,
-    [{ name: "構成比", labels: ["〜14", "15〜19", "20〜29", "30〜39", "40〜49", "50〜59", "60〜"], values: [3, 24, 29, 16, 13, 4, 1] }],
+    [{ name: "構成比", labels: ["〜14", "15〜19", "20〜29", "30〜39", "40〜49", "50〜59", "60〜", "未回答"], values: [3, 24, 29, 16, 13, 4, 1, 10] }],
     {
       x: M + 0.2, y: TOP + 1.4, w: cw - 0.4, h: 3.06,
-      barDir: "col", chartColors: [C.midGreen, C.green, C.green, C.green, C.green, C.tintLine, C.tintLine],
+      barDir: "col", chartColors: [C.midGreen, C.green, C.green, C.green, C.green, C.tintLine, C.tintLine, "D8D2C6"],
       varyColors: true, barGapWidthPct: 45,
       showLegend: false, showTitle: false,
       showValue: true, dataLabelPosition: "outEnd", dataLabelColor: C.green,
@@ -935,6 +935,7 @@ pres.title = "セルフカフェ パートナー制度";
     x: M + cw - 1.0, y: TOP + 4.4, w: 0.66, h: 0.2,
     fontFace: F.jp, fontSize: 8.5, color: C.footer, align: "right", margin: 0, valign: "middle",
   });
+  note(s, 6.66, "出典：自社アンケート調査。年齢構成は未回答（10%）を含む構成比です。");
 
   const rx = M + cw + 0.42;
   card(s, rx, TOP, cw, 4.72);
@@ -1162,7 +1163,7 @@ pres.title = "セルフカフェ パートナー制度";
   const items = [
     ["LuVideo", "6台以上", "カメラモニタリング", "店内を多角的に常時監視。死角を作らない配置で異常を早期に把握します。"],
     ["LuMic", "双方向", "音声対応", "カメラはスタッフとお客様が直接やり取りできる双方向音声に対応。その場で声がけやサポートを行えます。"],
-    ["LuMessageCircle", "即時", "LINEチャット対応", "お客様からのお問い合わせに即時対応。質問対応・意見収集の窓口としても機能します。"],
+    ["LuMessageCircle", "即時", "LINEチャット対応", "お客様からのお問い合わせに即時対応。※パートナー店では営業サポートプラン（有料オプション）として提供します。"],
   ];
   const ch = (4.72 - 0.4) / 3;
   items.forEach((it, i) => {
@@ -1280,14 +1281,15 @@ pres.title = "セルフカフェ パートナー制度";
         th("C社", { fill: "8E8B84", align: "right" }), th("D社", { fill: "8E8B84", align: "right" })],
       [tl("加盟金"), mine("100万円"), oth("300万円〜"), oth("150万円〜")],
       [tl("店舗工事費用"), mine("400万円〜"), oth("8,000万円〜"), oth("2,000万円〜")],
+      [tl("出店準備金"), mine("100万円〜"), oth("—"), oth("—")],
       [tl("保証金"), mine("50万円〜"), oth("100万円〜"), oth("150万円〜")],
       [tl("研修費"), mine("なし"), oth("15万円"), oth("20万円／1名")],
-      [tl("開業資金"), mine("550万円〜", true), oth("8,400万円〜"), oth("3,000万円〜")],
+      [tl("開業資金"), mine("650万円〜", true), oth("8,400万円〜"), oth("3,000万円〜")],
       [tl("ロイヤリティ"), mine("月5万円（一律）"), oth("1席1,500円／月"), oth("売上の2%／月")],
     ],
     {
       x: M, y: TOP, w: CW, colW,
-      rowH: [0.42, 0.62, 0.62, 0.62, 0.62, 0.78, 0.72],
+      rowH: [0.4, 0.52, 0.52, 0.52, 0.52, 0.52, 0.66, 0.56],
       border: { type: "solid", color: C.warmLine, pt: 0.75 },
       autoPage: false,
     }
@@ -1300,12 +1302,12 @@ pres.title = "セルフカフェ パートナー制度";
   s.addText(
     [
       { text: "開業資金は他社カフェ業態の ", options: { color: C.white } },
-      { text: "1/5 〜 1/15", options: { color: C.cvPale, bold: true } },
+      { text: "1/4 〜 1/12", options: { color: C.cvPale, bold: true } },
       { text: "。ロイヤリティも売上連動ではなく月5万円の一律です。", options: { color: C.white } },
     ],
     { x: M + 0.3, y: 6.24, w: CW - 0.6, h: 0.56, fontFace: F.jp, fontSize: 12, bold: true, margin: 0, valign: "middle" }
   );
-  note(s, 6.9, "");
+  note(s, 6.92, "※ 出店準備金はカメラ・モニター・机・椅子等の備品類。他社の「—」は公表資料に区分の記載がない項目です。");
 }
 
 /* ===================================================== p18 初期費用・売上イメージ */
@@ -1604,7 +1606,7 @@ pres.title = "セルフカフェ パートナー制度";
   // 前提
   const byr = TOP + 4.14;
   tintCard(s, M, byr, CW, 0.56);
-  s.addText("前提：1杯420円／販売数 20坪=75杯・40坪=100杯／日（収益シミュレーションと同一）／ロイヤリティ 月5万円／減価償却費・税は含まない", {
+  s.addText("前提：初期費用は開業資金（650万〜／950万円〜）＋諸経費・予備費の保守的な想定／1杯420円・販売数は収益シミュレーションと同一／減価償却費・税を除く", {
     x: M + 0.26, y: byr, w: CW - 0.52, h: 0.56,
     fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle",
   });
@@ -1616,13 +1618,13 @@ pres.title = "セルフカフェ パートナー制度";
 {
   const s = pres.addSlide();
   shell(s,  "出店事例", "出店事例：岩手県 盛岡駅前店",
-    "地方都市の駅前立地。1日80杯ペースで稼働し、家賃を吸収して利益を確保しています。");
+    "地方都市の駅前立地。1日約80杯ペースで稼働し、家賃を吸収して利益を確保しています。");
 
   chipRow(s, TOP, [
     { v: "960,000", u: "円", l: "月間売上高（20坪／40席）" },
     { v: "280,000", u: "円", l: "家賃" },
     { v: "232,000", u: "円", l: "償却前営業利益" },
-    { v: "80", u: "杯／日", l: "1日あたりの販売杯数" },
+    { v: "約80", u: "杯／日", l: "1日あたりの販売杯数（概数）" },
   ], { vSize: 18 });
 
   const y2 = TOP + 0.92;
@@ -1648,7 +1650,7 @@ pres.title = "セルフカフェ パートナー制度";
   const rx = M + pw + 0.42, rw = R - rx;
   card(s, rx, y2, rw, 3.9);
   eyebrowIn(s, rx + 0.3, y2 + 0.26, 2.4, "CASE STUDY");
-  s.addText("1日80杯ペースでの稼働", {
+  s.addText("1日約80杯ペースでの稼働", {
     x: rx + 0.3, y: y2 + 0.5, w: rw - 0.6, h: 0.4,
     fontFace: F.jp, fontSize: 17, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
@@ -1666,7 +1668,7 @@ pres.title = "セルフカフェ パートナー制度";
     });
     if (i < 3) s.addShape("rect", { x: rx + 0.3, y: y + 0.5, w: rw - 0.6, h: 0.011, fill: { color: C.warmLine } });
   });
-  note(s, y2 + 4.04, "※ 実績値であり、他店舗での同等の売上・利益を保証するものではありません。");
+  note(s, y2 + 4.04, "※ 実績値。杯数は単価ミックスを含む概数です。他店舗での同等の売上・利益を保証するものではありません。");
 }
 /* ===================================================== p22 有料オプション */
 {
@@ -1886,7 +1888,7 @@ pres.title = "セルフカフェ パートナー制度";
   const steps = [
     ["LuUsers", "面談", "制度のご説明と、ご希望条件のヒアリング。"],
     ["LuFileSearch", "加盟審査", "立地・スペースの現地調査と収益試算。"],
-    ["LuPenLine", "加盟申込み", "契約締結。契約期間は最低3年〜。"],
+    ["LuPenLine", "契約締結", "審査通過後に契約を締結。契約期間は最低3年〜。"],
     ["LuHammer", "工事", "内装・機器設置。工事業者は本部が手配。"],
     ["LuStore", "運営開始", "運営研修を経て、オープン。"],
   ];

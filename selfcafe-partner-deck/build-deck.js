@@ -148,10 +148,20 @@ function chipRow(s, y, items, opts = {}) {
  *  ファイルが存在する場合は写真を挿入し、無ければ従来の点線プレースホルダを描く。
  *  写真の差し替えは assets/photos/ の同名ファイルを置き換えて再ビルドするだけでよい。 */
 const PHOTOS = path.join(A, "photos");
+const CROPDIR = path.join(PHOTOS, ".crops");
+fs.mkdirSync(CROPDIR, { recursive: true });
+/** 枠の縦横比に合わせて中央トリミングするジョブ一覧（書き出し前に sharp で処理） */
+const CROPS = new Map();
+function croppedPath(src, w, h, focus) {
+  const base = path.basename(src, path.extname(src));
+  const out = path.join(CROPDIR, `${base}-${Math.round(w * 100)}x${Math.round(h * 100)}.jpg`);
+  CROPS.set(out, { src, aspect: w / h, focus: focus == null ? 0.5 : focus });
+  return out;
+}
 function photoSlot(s, x, y, w, h, caption, opts = {}) {
   const img = opts.img ? path.join(PHOTOS, opts.img) : null;
   if (img && fs.existsSync(img)) {
-    s.addImage({ path: img, x, y, w, h, sizing: { type: "cover", w, h } });
+    s.addImage({ path: croppedPath(img, w, h, opts.focus), x, y, w, h });
     s.addShape("rect", { x, y, w, h, fill: { type: "none" }, line: { color: "D8D2C6", width: 1 } });
     if (caption) {
       const ch = 0.36;
@@ -459,7 +469,9 @@ pres.title = "セルフカフェ パートナー制度";
     });
   });
 
-  photoSlot(s, M, y2 + 2.66, CW, 1.62, "自社物件への設置イメージ／併設店舗の外観", { img: "p05-install.jpg", capSize: 10 });
+  const phw = (CW - 0.3) / 2;
+  photoSlot(s, M, y2 + 2.66, phw, 1.62, "自社物件への設置イメージ", { img: "p05-install.jpg", capSize: 10 });
+  photoSlot(s, M + phw + 0.3, y2 + 2.66, phw, 1.62, "店舗外観（盛岡駅前店）", { img: "p02-storefront.jpg", capSize: 10 });
 }
 
 /* ===================================================== 活用可能性（新規／佐藤提案） */
@@ -730,6 +742,7 @@ pres.title = "セルフカフェ パートナー制度";
 
   const labels = ["23.01", "23.07", "24.01", "24.07", "25.01", "25.07", "26.01", "26.07"];
   const values = [895, 1419, 9722, 26383, 46017, 74260, 80293, 101343];
+  const approx = ["約900人", "約1,400人", "約9,700人", "約26,000人", "約46,000人", "約74,000人", "約80,000人", "約10万人"];
   // 薄→濃のグラデーションで直近を強調（最終棒はブランド緑）
   const ramp = ["D8E8DE", "CCE0D4", "B8D4C2", "9CC3AA", "7BAE8F", "579970", "2E824F", "106838"];
 
@@ -743,33 +756,49 @@ pres.title = "セルフカフェ パートナー制度";
     x: M + 0.3, y: TOP + 0.46, w: bw - 0.6, h: 0.22,
     fontFace: F.jp, fontSize: 9, color: C.muted, margin: 0, valign: "middle",
   });
-  s.addChart(pres.ChartType.bar, [{ name: "月間利用者数", labels, values }], {
-    x: M + 0.16, y: TOP + 0.8, w: bw - 0.4, h: bh - 1.02,
-    barDir: "col", chartColors: ramp, barGapWidthPct: 38,
-    showLegend: false, showTitle: false,
-    showValue: true, dataLabelPosition: "outEnd", dataLabelColor: C.green,
-    dataLabelFontFace: F.num, dataLabelFontSize: 9, dataLabelFormatCode: "#,##0",
-    catAxisLabelColor: C.muted, catAxisLabelFontFace: F.num, catAxisLabelFontSize: 9.5,
-    catAxisLabelRotate: 0, catAxisLineShow: false, catGridLine: { style: "none" },
-    valAxisLabelColor: C.muted, valAxisLabelFontFace: F.num, valAxisLabelFontSize: 9,
-    valAxisLabelFormatCode: "#,##0", valAxisMinVal: 0, valAxisMaxVal: 105000, valAxisMajorUnit: 35000,
-    valAxisLineShow: false, valGridLine: { color: C.warmLine, size: 0.75 },
+  // 自前描画の棒グラフ：直近の伸びを強調するため高さは非線形（値^1.3）でスケール
+  const px0 = M + 0.42, pw2 = bw - 0.84;
+  const baseY = TOP + 3.5, Hmax = 2.42;
+  const slotW = pw2 / values.length, barW = 0.58;
+  s.addShape("rect", { x: px0 - 0.06, y: baseY, w: pw2 + 0.12, h: 0.014, fill: { color: C.warmLine } });
+  values.forEach((v, i) => {
+    const hgt = Math.max(0.035, Hmax * Math.pow(v / values[7], 1.3));
+    const x = px0 + i * slotW + (slotW - barW) / 2;
+    const last = i === values.length - 1;
+    s.addShape("rect", { x, y: baseY - hgt, w: barW, h: hgt, fill: { color: ramp[i] }, line: { type: "none" } });
+    if (last) {
+      s.addShape("roundRect", {
+        x: x + barW / 2 - 0.78, y: baseY - hgt - 0.48, w: 1.56, h: 0.4, rectRadius: 0.2,
+        fill: { color: C.gold }, line: { type: "none" },
+      });
+      s.addText(
+        [
+          { text: "現在 ", options: { fontFace: F.jp, fontSize: 9.5, color: C.white } },
+          { text: "約10万人", options: { fontFace: F.jp, fontSize: 13, bold: true, color: C.white } },
+        ],
+        { x: x + barW / 2 - 0.78, y: baseY - hgt - 0.48, w: 1.56, h: 0.4, align: "center", margin: 0, valign: "middle" }
+      );
+    } else if (hgt > 0.9) {
+      s.addText(approx[i], {
+        x: x + barW / 2 - 0.7, y: baseY - hgt + 0.07, w: 1.4, h: 0.22,
+        fontFace: F.jp, fontSize: 8.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+      });
+    } else {
+      s.addText(approx[i], {
+        x: x + barW / 2 - 0.7, y: baseY - hgt - 0.28, w: 1.4, h: 0.22,
+        fontFace: F.jp, fontSize: 8.5, bold: true, color: C.muted, align: "center", margin: 0, valign: "middle",
+      });
+    }
+    s.addText(labels[i], {
+      x: px0 + i * slotW, y: baseY + 0.08, w: slotW, h: 0.2,
+      fontFace: F.num, fontSize: 9.5, color: C.muted, align: "center", margin: 0, valign: "middle",
+    });
   });
 
-  // 成長を示す右上方向の矢印（棒の頂点に沿わせたオーバーレイ）
+  // 成長を示す右上方向の矢印
   s.addShape("line", {
-    x: M + 0.16 + (bw - 0.4) * 0.26, y: TOP + 1.30, w: (bw - 0.4) * 0.60, h: 2.24, flipV: true,
+    x: px0 + slotW * 1.6, y: baseY - Hmax * 0.92, w: slotW * 5.3, h: Hmax * 0.82, flipV: true,
     line: { color: C.gold, width: 4.5, endArrowType: "triangle" },
-  });
-  // 最終棒の上に「現在」バッジ
-  const lbx = M + 0.16 + 0.42 + (bw - 0.82) * (7.5 / 8) - 0.5;
-  s.addShape("roundRect", {
-    x: lbx + 0.1, y: TOP + 1.12, w: 0.8, h: 0.3, rectRadius: 0.15,
-    fill: { color: C.gold }, line: { type: "none" },
-  });
-  s.addText("現在", {
-    x: lbx + 0.1, y: TOP + 1.12, w: 0.8, h: 0.3,
-    fontFace: F.jp, fontSize: 10, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
   });
 
   const rx = M + bw + 0.42, rw = R - rx;
@@ -795,7 +824,7 @@ pres.title = "セルフカフェ パートナー制度";
     });
   });
 
-  note(s, 6.6, "出典：社内管理台帳（各月の全社利用者数）／2026年7月時点。");
+  note(s, 6.6, "出典：社内管理台帳（各月の全社利用者数）／2026年7月時点。数値は概数、棒の高さは成長イメージを強調した表現です。");
 }
 
 /* ===================================================== p9 利用システム */
@@ -1097,7 +1126,7 @@ pres.title = "セルフカフェ パートナー制度";
     fontFace: F.jp, fontSize: 10.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
   });
 
-  photoSlot(s, M, TOP + 3.22, pw, 1.5, "モニタリング画面／店内カメラの様子", { img: "p16-support.jpg", capSize: 10 });
+  photoSlot(s, M, TOP + 3.22, pw, 1.5, "モニタリング画面／店内カメラの様子", { capSize: 10 });
 
   const rx = M + pw + 0.42, rw = R - rx;
   const items = [
@@ -1330,19 +1359,19 @@ pres.title = "セルフカフェ パートナー制度";
     profit: "270,000円", annual: "3,240,000円",
   },
   {
-    label: "50坪（90席）", tag: "LARGE",
-    rev: ["売上高", "1杯420円 × 110杯 × 30日", "1,386,000円"],
+    label: "40坪（80席）", tag: "LARGE",
+    rev: ["売上高", "1杯420円 × 100杯 × 30日", "1,260,000円"],
     rows: [
-      ["ドリンク原料", "原料・カップ等（20%）", "-277,200円"],
-      ["家賃", "仮定坪単価：8,000円", "-400,000円"],
+      ["ドリンク原料", "原料・カップ等（20%）", "-252,000円"],
+      ["家賃", "仮定坪単価：8,000円", "-320,000円"],
       ["清掃費", "清掃パートナー様への報酬", "-35,000円"],
-      ["水道光熱費", "水道12,000円／光熱78,000円（24H営業想定）", "-90,000円"],
+      ["水道光熱費", "水道11,000円／光熱74,000円（24H営業想定）", "-85,000円"],
       ["機械使用料", "ドリンクマシン38,000円×2台、決済端末5,000円×2台", "-86,000円"],
       ["セキュリティ費", "警備会社への委託料", "-20,000円"],
       ["ロイヤリティ", "一律5万円", "-50,000円"],
       ["雑費", "ゴミ回収・防犯カメラ・クラウド利用料等", "-25,000円"],
     ],
-    profit: "402,800円", annual: "4,833,600円",
+    profit: "387,000円", annual: "4,644,000円",
   },
 ].forEach((sim) => {
   const s = pres.addSlide();
@@ -1433,104 +1462,112 @@ pres.title = "セルフカフェ パートナー制度";
   note(s, py + 0.78, "※ シミュレーションは目安であり、売上・利益を保証するものではありません。");
 });
 
-/* ===================================================== 投資回収シミュレーション 75坪（追加） */
+/* ===================================================== 投資回収シミュレーション（20坪・50坪） */
 {
   const s = pres.addSlide();
-  shell(s,  "収益", "投資回収シミュレーション ／ 75坪",
-    "初期費用1,000万円を想定し、家賃あり（賃借）と家賃なし（自社物件）の2パターンで回収期間を試算しました。");
+  shell(s,  "収益", "投資回収シミュレーション",
+    "20坪（初期費用800万円）と50坪（同1,200万円）について、家賃あり／家賃なし（自社物件）の回収期間を試算しました。");
 
-  chipRow(s, TOP, [
-    { v: "1,000", u: "万円", l: "想定初期費用", gold: true },
-    { v: "75", u: "坪（130席）", l: "想定規模" },
-    { v: "1,638,000", u: "円", l: "月間売上（420円×130杯×30日）" },
-    { v: "648,600", u: "円", l: "月間経費（家賃を除く）" },
-  ], { vSize: 17 });
-
-  const y2 = TOP + 0.92, ch2 = 3.06;
-  const cw2 = (CW - 0.42) / 2;
-  const pats = [
+  const cases = [
     {
-      name: "① 家賃あり（賃借物件）", dark: false,
-      rent: "-600,000円", rentNote: "仮定坪単価 8,000円 × 75坪",
-      profit: "389,400", annual: "4,672,800円", payback: "約2年2ヶ月", pbNote: "1,000万円 ÷ 38.9万円 ≒ 26ヶ月",
+      no: "CASE 01", size: "20坪（40席）", invest: "800", investNote: "初期費用",
+      sales: "945,000円", salesNote: "420円 × 75杯 × 30日",
+      cost: "-475,000円", rent: "-200,000円", rentNote: "坪単価 10,000円",
+      pats: [
+        { name: "家賃あり（賃借）", profit: "27.0万円", pb: "約2年6ヶ月", pbS: "30ヶ月", dark: false },
+        { name: "家賃なし（自社物件）", profit: "47.0万円", pb: "約1年5ヶ月", pbS: "17ヶ月", dark: true },
+      ],
     },
     {
-      name: "② 家賃なし（自社物件）", dark: true,
-      rent: "0円", rentNote: "自社物件のため家賃負担なし",
-      profit: "989,400", annual: "11,872,800円", payback: "約10ヶ月", pbNote: "1,000万円 ÷ 98.9万円 ≒ 10ヶ月",
+      no: "CASE 02", size: "50坪（90席）", invest: "1,200", investNote: "初期費用",
+      sales: "1,386,000円", salesNote: "420円 × 110杯 × 30日",
+      cost: "-583,200円", rent: "-400,000円", rentNote: "坪単価 8,000円",
+      pats: [
+        { name: "家賃あり（賃借）", profit: "40.3万円", pb: "約2年6ヶ月", pbS: "30ヶ月", dark: false },
+        { name: "家賃なし（自社物件）", profit: "100.3万円", pb: "約1年", pbS: "12ヶ月", dark: true },
+      ],
     },
   ];
-  pats.forEach((pt, i) => {
-    const x = M + i * (cw2 + 0.42);
-    if (pt.dark) panel(s, x, y2, cw2, ch2); else card(s, x, y2, cw2, ch2);
-    const fg = pt.dark ? C.white : C.ink;
-    const sub = pt.dark ? C.cvBody : C.muted;
-    const acc = pt.dark ? C.cvPale : C.green;
-    s.addText(pt.name, {
-      x: x + 0.3, y: y2 + 0.24, w: cw2 - 0.6, h: 0.32,
-      fontFace: F.jp, fontSize: 14, bold: true, color: acc, margin: 0, valign: "middle",
+
+  const cw2 = (CW - 0.42) / 2;
+  cases.forEach((cs, ci) => {
+    const x = M + ci * (cw2 + 0.42), y = TOP, ch2 = 3.94;
+    card(s, x, y, cw2, ch2);
+    eyebrowIn(s, x + 0.3, y + 0.22, 1.4, cs.no);
+    s.addText(cs.size, {
+      x: x + 0.3, y: y + 0.4, w: 3.0, h: 0.36,
+      fontFace: F.jp, fontSize: 16, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
+    s.addText(
+      [
+        { text: cs.investNote + " ", options: { fontFace: F.jp, fontSize: 9.5, color: C.muted } },
+        { text: cs.invest, options: { fontFace: F.num, fontSize: 20, bold: true, color: C.gold } },
+        { text: " 万円", options: { fontFace: F.jp, fontSize: 11, bold: true, color: C.gold } },
+      ],
+      { x: x + cw2 - 3.0, y: y + 0.36, w: 2.7, h: 0.4, align: "right", margin: 0, valign: "middle" }
+    );
     const rows = [
-      ["家賃", pt.rent, pt.rentNote],
-      ["月間 償却前営業利益", pt.profit + "円", "年間換算 " + pt.annual],
+      ["月間売上", cs.sales, cs.salesNote],
+      ["月間経費（家賃除く）", cs.cost, "原料・清掃・光熱・機械・警備・ロイヤリティ等"],
+      ["家賃", cs.rent, cs.rentNote],
     ];
-    rows.forEach((r, j) => {
-      const y = y2 + 0.66 + j * 0.62;
+    rows.forEach((r, i) => {
+      const ry = y + 0.9 + i * 0.36;
       s.addText(r[0], {
-        x: x + 0.3, y, w: 2.3, h: 0.56,
-        fontFace: F.jp, fontSize: 10.5, bold: true, color: fg, margin: 0, valign: "middle",
+        x: x + 0.3, y: ry, w: 2.1, h: 0.3,
+        fontFace: F.jp, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
       });
       s.addText(r[2], {
-        x: x + 2.4, y: y + 0.30, w: cw2 - 2.7, h: 0.24,
-        fontFace: F.jp, fontSize: 8.5, color: sub, align: "right", margin: 0, valign: "middle",
+        x: x + 2.1, y: ry, w: cw2 - 3.9, h: 0.3,
+        fontFace: F.jp, fontSize: 7.5, color: C.muted, margin: 0, valign: "middle",
       });
       s.addText(r[1], {
-        x: x + 2.4, y, w: cw2 - 2.7, h: 0.34,
-        fontFace: F.num, fontSize: 15, bold: true, color: fg, align: "right", margin: 0, valign: "middle",
+        x: x + cw2 - 1.9, y: ry, w: 1.6, h: 0.3,
+        fontFace: F.num, fontSize: 12, bold: true, color: C.body, align: "right", margin: 0, valign: "middle",
       });
-      s.addShape("rect", { x: x + 0.3, y: y + 0.56, w: cw2 - 0.6, h: 0.011, fill: { color: pt.dark ? "1E6A44" : C.warmLine } });
+      s.addShape("rect", { x: x + 0.3, y: ry + 0.3, w: cw2 - 0.6, h: 0.011, fill: { color: C.warmLine } });
     });
-    // 回収期間（大きく）
-    s.addText("初期費用の回収期間", {
-      x: x + 0.3, y: y2 + 2.02, w: cw2 - 0.6, h: 0.22,
-      fontFace: F.jp, fontSize: 9.5, color: sub, margin: 0, valign: "middle",
-    });
-    s.addText(pt.payback, {
-      x: x + 0.3, y: y2 + 2.24, w: cw2 - 0.6, h: 0.52,
-      fontFace: F.jp, fontSize: 27, bold: true, color: pt.dark ? C.white : C.green, margin: 0, valign: "middle",
-    });
-    s.addText(pt.pbNote, {
-      x: x + 0.3, y: y2 + 2.74, w: cw2 - 0.6, h: 0.22,
-      fontFace: F.num, fontSize: 8.5, color: sub, margin: 0, valign: "middle",
-    });
-  });
-
-  // 回収スピードの比較バー（36ヶ月スケール）
-  const byr = y2 + ch2 + 0.18, bhr = 0.76;
-  tintCard(s, M, byr, CW, bhr);
-  s.addText("回収スピード比較（月数）", {
-    x: M + 0.26, y: byr, w: 2.4, h: bhr,
-    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.muted, margin: 0, valign: "middle",
-  });
-  const sx = M + 4.3, scaleW = CW - 4.3 - 1.2;
-  [["① 家賃あり", 26, C.gold], ["② 家賃なし", 10, C.green]].forEach((b, i) => {
-    const y = byr + 0.11 + i * 0.3;
-    s.addText(b[0], {
-      x: M + 2.8, y, w: 1.4, h: 0.24,
-      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
-    });
-    const w2 = (b[1] / 36) * scaleW;
-    s.addShape("roundRect", {
-      x: sx, y: y + 0.03, w: w2, h: 0.18, rectRadius: 0.05,
-      fill: { color: b[2] }, line: { type: "none" },
-    });
-    s.addText(b[1] + "ヶ月", {
-      x: sx + w2 + 0.1, y, w: 1.1, h: 0.24,
-      fontFace: F.num, fontSize: 10.5, bold: true, color: b[2], margin: 0, valign: "middle",
+    // 家賃あり／なしの回収ミニパネル
+    const pw3 = (cw2 - 0.6 - 0.2) / 2;
+    cs.pats.forEach((pt, pi) => {
+      const px = x + 0.3 + pi * (pw3 + 0.2), py = y + 2.14, ph = 1.56;
+      if (pt.dark) panel(s, px, py, pw3, ph); else tintCard(s, px, py, pw3, ph);
+      const fg = pt.dark ? C.white : C.ink;
+      const sub = pt.dark ? C.cvBody : C.muted;
+      s.addText(pt.name, {
+        x: px + 0.2, y: py + 0.14, w: pw3 - 0.4, h: 0.24,
+        fontFace: F.jp, fontSize: 9.5, bold: true, color: pt.dark ? C.cvPale : C.green, margin: 0, valign: "middle",
+      });
+      s.addText(
+        [
+          { text: "月間利益 ", options: { fontFace: F.jp, fontSize: 8.5, color: sub } },
+          { text: pt.profit, options: { fontFace: F.num, fontSize: 12, bold: true, color: fg } },
+        ],
+        { x: px + 0.2, y: py + 0.4, w: pw3 - 0.4, h: 0.26, margin: 0, valign: "middle" }
+      );
+      s.addText("回収期間", {
+        x: px + 0.2, y: py + 0.7, w: pw3 - 0.4, h: 0.2,
+        fontFace: F.jp, fontSize: 8.5, color: sub, margin: 0, valign: "middle",
+      });
+      s.addText(
+        [
+          { text: pt.pb, options: { fontFace: F.jp, fontSize: 14.5, bold: true, color: pt.dark ? C.white : C.green } },
+          { text: "（" + pt.pbS + "）", options: { fontFace: F.num, fontSize: 8.5, color: sub } },
+        ],
+        { x: px + 0.14, y: py + 0.9, w: pw3 - 0.26, h: 0.44, margin: 0, valign: "middle" }
+      );
     });
   });
 
-  note(s, byr + bhr + 0.12, "※ 売上・経費は収益シミュレーション（1杯420円）を基にした75坪換算の目安です。減価償却費・税は含みません。回収期間・利益を保証するものではありません。");
+  // 前提
+  const byr = TOP + 4.14;
+  tintCard(s, M, byr, CW, 0.56);
+  s.addText("前提：1杯420円／販売数 20坪=75杯・50坪=110杯／日／ロイヤリティ 月5万円／減価償却費・税は含まない", {
+    x: M + 0.26, y: byr, w: CW - 0.52, h: 0.56,
+    fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle",
+  });
+
+  note(s, byr + 0.72, "※ 収益シミュレーション（p20〜p21）と同一の前提による目安です。回収期間・利益を保証するものではありません。");
 }
 
 /* ===================================================== p21 出店事例（FC固有） */
@@ -1548,7 +1585,7 @@ pres.title = "セルフカフェ パートナー制度";
 
   const y2 = TOP + 0.92;
   const pw = 6.6;
-  photoSlot(s, M, y2, pw, 3.9, "盛岡駅前店の店内の様子（店内カメラ）", { img: "store-morioka.jpg", capSize: 10.5 });
+  photoSlot(s, M, y2, pw, 3.9, "盛岡駅前店の外観", { img: "p02-storefront.jpg", capSize: 10.5, focus: 0.31 });
 
   const rx = M + pw + 0.42, rw = R - rx;
   card(s, rx, y2, rw, 3.9);
@@ -1581,7 +1618,7 @@ pres.title = "セルフカフェ パートナー制度";
 {
   const s = pres.addSlide();
   shell(s,  "オプション", "有料オプション一覧",
-    "必要に応じて追加できるオプションです（金額は税抜き）。SEO・MEO対策は費用なしで標準提供します。");
+    "必要に応じて追加できるオプションです（金額は税抜き）。");
 
   const colW = [2.5, 1.5, 1.5, 6.389];
   const yen = (t, free) => ({
@@ -1602,32 +1639,31 @@ pres.title = "セルフカフェ パートナー制度";
     [
       [th("項目", { fill: C.grayBand, color: C.ink }), th("初期費用", { align: "right" }),
         th("月額費用", { align: "right" }), th("内容・備考")],
-      [tl("SEO対策"), yen("0円", true), yen("0円", true), rem([b("標準提供（費用なし）"), p("HP作成／定期更新、プレスリリース 等", true)])],
-      [tl("MEO対策"), yen("0円", true), yen("0円", true), rem([b("標準提供（費用なし）"), p("Google MAP設置、定期投稿／更新 等", true)])],
       [tl("公式LINE作成"), yen("15,000円"), yen("0円", true), rem([
         b("FC店の公式LINEを新規作成できます。"),
         p("メリット：独自の発信や告知、広告が打てます。"),
-        p("デメリット：セルフカフェ公式LINEから切り離されるため問い合わせが直に届き、本部情報の発信も都度パートナー様側で行う必要があります。", true),
+        p("デメリット：セルフカフェ公式LINEから切り離されるため問い合わせが直に届き、本部情報の発信も都度パートナー様側で行う必要があります。"),
+        p("※ 貴社にて契約（配信数によって別途費用が発生します）", true),
       ])],
-      [tl("顧客用コピー機"), yen("50,000円"), yen("20,000円"), rem([
+      [tl("顧客用コピー機\n（A3対応）"), yen("50,000円"), yen("30,000円"), rem([
         b("PayPay決済のみ"), p("※ 本体代は別途"), p("※ グローバルIPの取得が必要です", true),
       ])],
-      [tl("営業サポートプラン\n（フルサポート）"), yen("0円", true), yen("55,000円"), rem([
+      [tl("営業サポートプラン\n（フルサポート）"), yen("0円", true), yen("50,000円"), rem([
         b("顧客チャット対応"), p("セルフカフェ公式LINEやHPからの問い合わせに対応"),
-        b("現地対応"), p("エリア限定", true),
+        b("マシンメンテナンス"), p("マシン清掃・原料補充等。店内清掃は含まれず、マシンのみの対応です。", true),
       ])],
       [tl("営業サポートプラン\n（ミニマムサポート）"), yen("0円", true), yen("15,000円"), rem([
         b("顧客チャット対応"), p("セルフカフェ公式LINEやHPからの問い合わせに対応", true),
       ])],
-      [tl("PayPayポイント"), yen("0円", true), yen("0円", true), rem([b("標準提供（費用なし）"), p("PayPayポイントの付与に対応します。", true)])],
     ],
     {
       x: M, y: TOP, w: CW, colW,
-      rowH: [0.4, 0.58, 0.58, 1.02, 0.7, 0.82, 0.6, 0.52],
+      rowH: [0.44, 1.3, 0.86, 1.0, 0.72],
       border: { type: "solid", color: C.warmLine, pt: 0.75 },
       autoPage: false,
     }
   );
+  note(s, TOP + 4.6, "※ SEO対策・MEO対策・PayPayポイント付与は費用なしの標準提供のため、本表からは除いています。");
 }
 
 /* ===================================================== p23 ドリンクマシン */
@@ -1901,4 +1937,18 @@ pres.title = "セルフカフェ パートナー制度";
 }
 
 const out = path.join(__dirname, "selfcafe-partner-deck.pptx");
-pres.writeFile({ fileName: out }).then(() => console.log("written:", out, fs.statSync(out).size, "bytes"));
+const sharp = require("sharp");
+(async () => {
+  for (const [dst, { src, aspect, focus }] of CROPS) {
+    const meta = await sharp(src).metadata();
+    let cw = meta.width, ch = Math.round(cw / aspect);
+    if (ch > meta.height) { ch = meta.height; cw = Math.round(ch * aspect); }
+    const left = Math.max(0, Math.min(meta.width - cw, Math.round(meta.width * focus - cw / 2)));
+    await sharp(src)
+      .extract({ left, top: Math.round((meta.height - ch) / 2), width: cw, height: ch })
+      .jpeg({ quality: 88 })
+      .toFile(dst);
+  }
+  await pres.writeFile({ fileName: out });
+  console.log("written:", out, fs.statSync(out).size, "bytes");
+})();

@@ -23,7 +23,7 @@ const C = {
   goldTint: "FBF4E4",
   body: "4B5550",
   muted: "7E8882",
-  grayText: "8E8B84", // 比較列
+  grayText: "6E6A61", // 比較列（可読性のため濃いめ）
   footer: "A8B0AA",
   tint: "F1F8F3", // 薄緑面
   tintLine: "D2E7DA",
@@ -220,14 +220,14 @@ const th = (t, opts = {}) => ({
   text: t,
   options: {
     fill: { color: opts.fill || C.greenDeep }, color: opts.color || C.white, bold: true,
-    fontSize: 10.5, fontFace: F.jp, align: opts.align || "left", valign: "middle",
+    fontSize: 11.5, fontFace: F.jp, align: opts.align || "left", valign: "middle",
     margin: [0.05, 0.14, 0.05, 0.14],
   },
 });
 const tl = (t) => ({
   text: t,
   options: {
-    fill: { color: C.grayBand }, color: C.ink, bold: true, fontSize: 10.5, fontFace: F.jp,
+    fill: { color: C.grayBand }, color: C.ink, bold: true, fontSize: 12, fontFace: F.jp,
     valign: "middle", margin: [0.05, 0.14, 0.05, 0.14],
   },
 });
@@ -235,7 +235,7 @@ const td = (t, opts = {}) => ({
   text: t,
   options: {
     fill: { color: opts.fill || C.white }, color: opts.color || C.body,
-    bold: !!opts.bold, fontSize: opts.size || 10.5, fontFace: opts.face || F.jp,
+    bold: !!opts.bold, fontSize: opts.size || 11.5, fontFace: opts.face || F.jp,
     align: opts.align || "left", valign: "middle", margin: [0.05, 0.14, 0.05, 0.14],
   },
 });
@@ -471,7 +471,7 @@ pres.title = "セルフカフェ パートナー制度";
 
   const phw = (CW - 0.3) / 2;
   photoSlot(s, M, y2 + 2.66, phw, 1.62, "自社物件への設置イメージ", { img: "p05-install.jpg", capSize: 10 });
-  photoSlot(s, M + phw + 0.3, y2 + 2.66, phw, 1.62, "店舗外観（盛岡駅前店）", { img: "p02-storefront.jpg", capSize: 10 });
+  photoSlot(s, M + phw + 0.3, y2 + 2.66, phw, 1.62, "店内利用の様子", { img: "p05-woman.jpg", capSize: 10 });
 }
 
 /* ===================================================== 活用可能性（新規／佐藤提案） */
@@ -679,21 +679,6 @@ pres.title = "セルフカフェ パートナー制度";
     line: { color: C.gold, width: 4.5, endArrowType: "triangle" },
   });
   // 現在地の強調：最終点マーカー＋コールアウト
-  const cxp = bx + 0.16 + (bw - 0.4) - 0.47;
-  const cyp = by + 0.78 + 0.10 + (1 - 71 / 75) * (bh - 1.0 - 0.42);
-  s.addShape("ellipse", { x: cxp - 0.09, y: cyp - 0.09, w: 0.18, h: 0.18, fill: { color: C.gold }, line: { color: C.white, width: 1.75 } });
-  s.addShape("roundRect", {
-    x: cxp - 1.82, y: cyp + 0.18, w: 1.68, h: 0.4, rectRadius: 0.05,
-    fill: { color: C.greenDeep }, line: { type: "none" },
-  });
-  s.addText(
-    [
-      { text: "現在 ", options: { fontFace: F.jp, fontSize: 9, color: C.cvPale } },
-      { text: "71", options: { fontFace: F.num, fontSize: 14, bold: true, color: C.white } },
-      { text: " 店舗", options: { fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white } },
-    ],
-    { x: cxp - 1.82, y: cyp + 0.18, w: 1.68, h: 0.4, align: "center", margin: 0, valign: "middle" }
-  );
 
   const ms = [["2022.09", "1", "店舗"], ["2023.09", "2", "店舗"], ["2024.09", "23", "店舗"],
     ["2025.09", "48", "店舗"], ["2026.07", "71", "店舗"], ["年内", "＋10", "店舗以上"]];
@@ -855,35 +840,37 @@ pres.title = "セルフカフェ パートナー制度";
 
   const items = [
     ["LuCoffee", "420円〜", "1杯あたり", "ドリンク一杯で入店",
-      "ドリンク購入だけで、Wi-Fi・電源が完備された空間を自由にご利用いただけます。"],
+      "ドリンク購入だけで、Wi-Fi・電源完備の空間を自由に利用できます。"],
+    ["LuBadgeCheck", "不要", "会員登録・月会費", "会員登録不要",
+      "面倒な登録手続きなし。誰でも来店してすぐに利用できます。"],
     ["LuClock", "0円", "延長・追加料金", "滞在時間無制限",
-      "追加料金や延長料金を気にせず、仕事や勉強に没頭できる環境を提供します。"],
+      "追加料金を気にせず、仕事や勉強に没頭できる環境です。"],
     ["LuSmartphone", "147円〜", "サブスク1杯換算", "サブスクプラン",
-      "ヘビーユーザー向けに、月額定額で通い放題のプランも用意。継続利用を促しやすい仕組みです。"],
+      "月額定額で通い放題のプランも用意。継続利用を促します。"],
   ];
-  const w = (CW - 2 * 0.28) / 3, h = 2.7;
+  const w = (CW - 3 * 0.26) / 4, h = 2.7;
   items.forEach((it, i) => {
-    const x = M + i * (w + 0.28), y = TOP;
+    const x = M + i * (w + 0.26), y = TOP;
     card(s, x, y, w, h);
-    icon(s, it[0], "green", x + 0.3, y + 0.3, 0.44);
+    icon(s, it[0], "green", x + 0.26, y + 0.28, 0.4);
     s.addText(
       [
-        { text: it[1], options: { fontFace: F.num, fontSize: 24, bold: true, color: C.green } },
+        { text: it[1], options: { fontFace: F.num, fontSize: 20, bold: true, color: C.green } },
       ],
-      { x: x + w - 2.3, y: y + 0.26, w: 2.0, h: 0.42, align: "right", margin: 0, valign: "middle" }
+      { x: x + w - 1.9, y: y + 0.26, w: 1.64, h: 0.38, align: "right", margin: 0, valign: "middle" }
     );
     s.addText(it[2], {
-      x: x + w - 2.3, y: y + 0.68, w: 2.0, h: 0.2,
-      fontFace: F.jp, fontSize: 8.5, color: C.muted, align: "right", margin: 0, valign: "middle",
+      x: x + w - 1.9, y: y + 0.64, w: 1.64, h: 0.2,
+      fontFace: F.jp, fontSize: 8, color: C.muted, align: "right", margin: 0, valign: "middle",
     });
     s.addText(it[3], {
-      x: x + 0.3, y: y + 1.06, w: w - 0.6, h: 0.4,
-      fontFace: F.jp, fontSize: 16, bold: true, color: C.ink, margin: 0, valign: "middle",
+      x: x + 0.26, y: y + 1.02, w: w - 0.52, h: 0.4,
+      fontFace: F.jp, fontSize: 13.5, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
-    s.addShape("rect", { x: x + 0.3, y: y + 1.54, w: w - 0.6, h: 0.011, fill: { color: C.warmLine } });
+    s.addShape("rect", { x: x + 0.26, y: y + 1.5, w: w - 0.52, h: 0.011, fill: { color: C.warmLine } });
     s.addText(it[4], {
-      x: x + 0.3, y: y + 1.68, w: w - 0.6, h: 0.86,
-      fontFace: F.jp, fontSize: 10.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.42,
+      x: x + 0.26, y: y + 1.64, w: w - 0.52, h: 0.94,
+      fontFace: F.jp, fontSize: 10, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.4,
     });
   });
 
@@ -1275,14 +1262,14 @@ pres.title = "セルフカフェ パートナー制度";
   const mine = (t, big) => ({
     text: t,
     options: {
-      fill: { color: C.tint }, color: C.green, bold: true, fontSize: big ? 13 : 11,
+      fill: { color: C.tint }, color: C.green, bold: true, fontSize: big ? 15 : 12.5,
       fontFace: F.num, align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16],
     },
   });
   const oth = (t) => ({
     text: t,
     options: {
-      fill: { color: C.white }, color: C.grayText, fontSize: 10.5, fontFace: F.jp,
+      fill: { color: C.white }, color: C.grayText, fontSize: 12, fontFace: F.jp,
       align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16],
     },
   });
@@ -1639,39 +1626,48 @@ pres.title = "セルフカフェ パートナー制度";
   ], { vSize: 18 });
 
   const y2 = TOP + 0.92;
-  const pw = 6.6;
-  // 外観を全幅の1枚で大きく（元画像比率 4.15 ≒ 枠比率のため、ほぼトリミングなしの引き）
-  photoSlot(s, M, y2, CW, 2.82, "盛岡駅前店の外観", { img: "p02-storefront.jpg", capSize: 10 });
+  // 左半分：引きの外観1枚（元画像の縦横比のまま全体を見せる）＋実績ハイライト
+  const pw = 6.5;
+  photoSlot(s, M, y2, pw, 1.57, "盛岡駅前店の外観", { img: "p02-storefront.jpg", capSize: 9.5 });
+  s.addText("1回の利用で2〜3時間、2杯程度購入する傾向があります。地方都市の駅前立地で、学生からビジネスマンまで幅広い層を獲得しています。", {
+    x: M + 0.04, y: y2 + 1.77, w: pw - 0.08, h: 0.7,
+    fontFace: F.jp, fontSize: 11, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
+  });
+  tintCard(s, M, y2 + 2.66, pw, 1.24);
+  icon(s, "LuTrendingUp", "green", M + 0.28, y2 + 2.94, 0.44);
+  s.addText("家賃を吸収して、利益を確保。", {
+    x: M + 0.92, y: y2 + 2.86, w: pw - 1.2, h: 0.3,
+    fontFace: F.jp, fontSize: 13, bold: true, color: C.ink, margin: 0, valign: "middle",
+  });
+  s.addText("月の家賃280,000円を支払った上で、232,000円の償却前営業利益を確保しています。", {
+    x: M + 0.92, y: y2 + 3.18, w: pw - 1.2, h: 0.56,
+    fontFace: F.jp, fontSize: 10.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.4,
+  });
 
-  // 下段：CASE STUDY 横帯
-  const y3 = y2 + 2.98, bh3 = 1.06;
-  card(s, M, y3, CW, bh3);
-  eyebrowIn(s, M + 0.3, y3 + 0.16, 2.0, "CASE STUDY");
+  // 右半分：CASE STUDY カード
+  const rx = M + pw + 0.42, rw = R - rx;
+  card(s, rx, y2, rw, 3.9);
+  eyebrowIn(s, rx + 0.3, y2 + 0.26, 2.4, "CASE STUDY");
   s.addText("1日80杯ペースでの稼働", {
-    x: M + 0.3, y: y3 + 0.36, w: 3.4, h: 0.34,
-    fontFace: F.jp, fontSize: 15, bold: true, color: C.ink, margin: 0, valign: "middle",
+    x: rx + 0.3, y: y2 + 0.5, w: rw - 0.6, h: 0.4,
+    fontFace: F.jp, fontSize: 17, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
-  s.addText("1回の利用で2〜3時間、2杯程度購入。学生からビジネスマンまで幅広い層を獲得。", {
-    x: M + 0.3, y: y3 + 0.72, w: 4.3, h: 0.26,
-    fontFace: F.jp, fontSize: 8.5, color: C.muted, margin: 0, valign: "middle",
-  });
-  s.addShape("rect", { x: M + 4.8, y: y3 + 0.18, w: 0.011, h: bh3 - 0.36, fill: { color: C.warmLine } });
+  s.addShape("rect", { x: rx + 0.3, y: y2 + 1.02, w: rw - 0.6, h: 0.011, fill: { color: C.warmLine } });
   const facts = [["開業", "2025年4月"], ["面積・席数", "20坪／40席"], ["立地", "岩手県盛岡市・駅前"], ["営業時間", "24時間"]];
-  const fw = (CW - 5.2) / 4;
   facts.forEach((f, i) => {
-    const fx = M + 5.1 + i * fw;
+    const y = y2 + 1.22 + i * 0.62;
     s.addText(f[0], {
-      x: fx, y: y3 + 0.2, w: fw - 0.1, h: 0.24,
-      fontFace: F.jp, fontSize: 9, color: C.muted, margin: 0, valign: "middle",
+      x: rx + 0.3, y, w: 1.7, h: 0.4,
+      fontFace: F.jp, fontSize: 10, color: C.muted, margin: 0, valign: "middle",
     });
     s.addText(f[1], {
-      x: fx, y: y3 + 0.48, w: fw - 0.1, h: 0.36,
-      fontFace: F.jp, fontSize: 12.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+      x: rx + 2.0, y, w: rw - 2.3, h: 0.4,
+      fontFace: F.jp, fontSize: 13, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
+    if (i < 3) s.addShape("rect", { x: rx + 0.3, y: y + 0.5, w: rw - 0.6, h: 0.011, fill: { color: C.warmLine } });
   });
-  note(s, y3 + bh3 + 0.14, "※ 実績値であり、他店舗での同等の売上・利益を保証するものではありません。");
+  note(s, y2 + 4.04, "※ 実績値であり、他店舗での同等の売上・利益を保証するものではありません。");
 }
-
 /* ===================================================== p22 有料オプション */
 {
   const s = pres.addSlide();
@@ -1797,7 +1793,7 @@ pres.title = "セルフカフェ パートナー制度";
     ["許認可", "許認可の申請は必要ですか？",
       "営業届の提出と、食品衛生責任者の設置が必要です。食品衛生責任者の資格は貴社にて取得いただき、営業届の申請は本部が行います。"],
   ];
-  const w = (CW - 0.42) / 2, h = 1.5, gy = 0.22;
+  const w = (CW - 0.42) / 2, h = 1.56, gy = 0.18;
   qa.forEach(([cat, q, a], i) => {
     const x = M + (i % 2) * (w + 0.42);
     const y = TOP + Math.floor(i / 2) * (h + gy);
@@ -1817,8 +1813,8 @@ pres.title = "セルフカフェ パートナー制度";
       fontFace: F.num, fontSize: 11.5, bold: true, color: C.green, margin: 0, valign: "middle",
     });
     s.addText(a, {
-      x: x + 0.7, y: y + 0.9, w: w - 1.0, h: 0.56,
-      fontFace: F.jp, fontSize: 10, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.36,
+      x: x + 0.7, y: y + 0.9, w: w - 1.0, h: 0.62,
+      fontFace: F.jp, fontSize: 9.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
     });
   });
 
@@ -1969,8 +1965,8 @@ pres.title = "セルフカフェ パートナー制度";
   });
 
   [
-    ["LuPhone", "TEL", "XXX-XXXX-XXXX", "担当：XXX"],
-    ["LuMail", "E-MAIL", "aaaaa@aaaa.aaa", ""],
+    ["LuPhone", "TEL", "090-6386-5493", "担当：佐藤"],
+    ["LuMail", "E-MAIL", "selfcafe001@gmail.com", ""],
     ["LuGlobe", "WEB", "https://selfcafe.jp/", ""],
   ].forEach(([ic, label, value, sub], i) => {
     const y = 4.3 + i * 0.78;

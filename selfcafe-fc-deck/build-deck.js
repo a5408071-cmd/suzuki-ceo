@@ -114,8 +114,29 @@ function chip(slide, x, y, label, opts = {}) {
   });
 }
 
-/** 写真枠（お客様が写真を差し込む場所）*/
+/** 写真枠。opts.img に assets/photos/ 内のファイル名を渡すと、
+ *  ファイルが存在する場合は写真を挿入し、無ければ点線プレースホルダを描く。 */
+const PHOTOS = path.join(ASSETS, "photos");
 function photoSlot(slide, x, y, w, h, caption, opts = {}) {
+  const img = opts.img ? path.join(PHOTOS, opts.img) : null;
+  if (img && fs.existsSync(img)) {
+    slide.addImage({ path: img, x, y, w, h, sizing: { type: "cover", w, h } });
+    slide.addShape("rect", { x, y, w, h, fill: { type: "none" }, line: { color: "D8CFBB", width: 1 } });
+    if (caption) {
+      const ch = 0.36;
+      const cw2 = Math.min(w - 0.24, 0.4 + caption.length * ((opts.captionSize || 10) / 72) * 1.06);
+      slide.addShape("roundRect", {
+        x: x + 0.12, y: y + h - ch - 0.12, w: cw2, h: ch, rectRadius: 0.05,
+        fill: { color: C.white, transparency: 10 }, line: { type: "none" },
+      });
+      slide.addText(caption, {
+        x: x + 0.28, y: y + h - ch - 0.12, w: cw2 - 0.28, h: ch,
+        fontFace: F.jp, fontSize: opts.captionSize || 10, bold: true, color: C.ink,
+        margin: 0, valign: "middle",
+      });
+    }
+    return;
+  }
   slide.addShape("roundRect", {
     x, y, w, h, rectRadius: 0.06,
     fill: { color: opts.fill || C.cream },
@@ -345,8 +366,8 @@ pres.title = "セルフカフェ 業務委託型制度";
     x: px + 0.52, y: py + 2.40, w: pw - 1.04, h: 0.72,
     fontFace: F.jp, fontSize: 12, color: C.greenPale, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
   });
-  photoSlot(s, px + 0.52, py + 3.26, pw - 1.04, 1.62, "代表写真 または 本社・店舗写真", {
-    fill: "1D5624", line: "3E7A45", captionSize: 10, captionColor: "C6DCC8",
+  photoSlot(s, px + 0.52, py + 3.26, pw - 1.04, 1.62, "セルフカフェ 盛岡駅前店", {
+    fill: "1D5624", line: "3E7A45", captionSize: 9.5, captionColor: "C6DCC8", img: "p02-storefront.jpg",
   });
 
   const lx = 5.75, lw = RIGHT - lx;
@@ -606,25 +627,46 @@ pres.title = "セルフカフェ 業務委託型制度";
     [{ name: "累計店舗数", labels, values: series }],
     {
       x: M, y: 1.80, w: 8.52, h: 4.52,
-      chartColors: [C.greenMid], chartColorsOpacity: 22,
+      chartColors: [C.greenMid], chartColorsOpacity: 34,
       showLegend: false, showTitle: false, showValue: false,
-      lineSize: 2.5, lineSmooth: false,
+      lineSize: 3.5, lineSmooth: false,
       catAxisLabelColor: C.inkSub, catAxisLabelFontFace: F.num, catAxisLabelFontSize: 10,
       catAxisLabelFrequency: 1, catAxisLabelRotate: 0, catAxisMultiLevelLabels: false,
       catAxisLineShow: true, catAxisLineColor: C.creamDk,
       catGridLine: { style: "none" },
       valAxisLabelColor: C.muted, valAxisLabelFontFace: F.num, valAxisLabelFontSize: 10,
-      valAxisMinVal: 0, valAxisMaxVal: 80, valAxisMajorUnit: 20,
+      valAxisMinVal: 0, valAxisMaxVal: 75, valAxisMajorUnit: 25,
       valAxisLineShow: false,
       valGridLine: { color: C.line, size: 0.75 },
       dataBorder: { pt: 0, color: C.greenMid },
     }
   );
 
+  // 成長を示す右上方向の矢印＋現在地の強調
+  s.addShape("line", {
+    x: M + 8.52 * 0.28, y: 2.98, w: 8.52 * 0.58, h: 2.52, flipV: true,
+    line: { color: C.gold, width: 4.5, endArrowType: "triangle" },
+  });
+  const cxp = M + 8.52 - 0.62;
+  const cyp = 1.80 + 0.10 + (1 - 71 / 75) * (4.52 - 0.52);
+  s.addShape("ellipse", { x: cxp - 0.09, y: cyp - 0.09, w: 0.18, h: 0.18, fill: { color: C.gold }, line: { color: C.white, width: 1.75 } });
+  s.addShape("roundRect", {
+    x: cxp - 2.02, y: cyp + 0.20, w: 1.84, h: 0.44, rectRadius: 0.06,
+    fill: { color: C.greenDeep }, line: { type: "none" },
+  });
+  s.addText(
+    [
+      { text: "現在 ", options: { fontFace: F.jp, fontSize: 10, color: C.greenPale } },
+      { text: "71", options: { fontFace: F.num, fontSize: 15, bold: true, color: C.white } },
+      { text: " 店舗", options: { fontFace: F.jp, fontSize: 10.5, bold: true, color: C.white } },
+    ],
+    { x: cxp - 2.02, y: cyp + 0.20, w: 1.84, h: 0.44, align: "center", margin: 0, valign: "middle" }
+  );
+
   const tx = 9.55, tw = RIGHT - tx;
   statTile(s, tx, 1.80, tw, 1.42, "71", "店舗", "2026年7月時点の営業中店舗数", { dark: true, valueSize: 34 });
   statTile(s, tx, 3.36, tw, 1.42, "11", "都府県", "東北〜中国地方に広がる展開エリア");
-  statTile(s, tx, 4.92, tw, 1.42, "46", "ヶ月", "1号店OPENからの経過期間");
+  statTile(s, tx, 4.92, tw, 1.42, "47", "ヶ月", "サービス開始からの営業月数");
 
   s.addText("2022年9月の1号店OPENから、驚異的なスピードで出店エリアを拡大。店舗ネットワークは着実に成長を続けています。", {
     x: M, y: 6.42, w: 8.52, h: 0.46,
@@ -648,7 +690,7 @@ pres.title = "セルフカフェ 業務委託型制度";
         type: pres.ChartType.bar,
         data: [{ name: "月間利用者数（人・左軸）", labels, values: users }],
         options: {
-          chartColors: [C.greenMid], barGapWidthPct: 52,
+          chartColors: [C.greenMid], barGapWidthPct: 36,
           showValue: true, dataLabelPosition: "outEnd",
           dataLabelColor: C.green, dataLabelFontFace: F.num, dataLabelFontSize: 9,
           dataLabelFormatCode: "#,##0",
@@ -677,17 +719,32 @@ pres.title = "セルフカフェ 業務委託型制度";
         {
           valAxisLabelColor: C.muted, valAxisLabelFontFace: F.num, valAxisLabelFontSize: 10,
           valAxisLabelFormatCode: "#,##0",
-          valAxisMinVal: 0, valAxisMaxVal: 150000, valAxisMajorUnit: 50000,
+          valAxisMinVal: 0, valAxisMaxVal: 110000, valAxisMajorUnit: 55000,
           valAxisLineShow: false, valGridLine: { color: C.line, size: 0.75 },
         },
         {
           valAxisLabelColor: C.muted, valAxisLabelFontFace: F.num, valAxisLabelFontSize: 10,
-          valAxisMinVal: 0, valAxisMaxVal: 80, valAxisMajorUnit: 20,
+          valAxisMinVal: 0, valAxisMaxVal: 75, valAxisMajorUnit: 25,
           valAxisLineShow: false, valGridLine: { style: "none" },
         },
       ],
     }
   );
+
+  // 成長を示す右上方向の矢印＋現在バッジ
+  s.addShape("line", {
+    x: M + 8.52 * 0.24, y: 3.30, w: 8.52 * 0.60, h: 2.30, flipV: true,
+    line: { color: C.gold, width: 4.5, endArrowType: "triangle" },
+  });
+  const lbx = M + 0.5 + (8.52 - 0.9) * (7.5 / 8) - 0.52;
+  s.addShape("roundRect", {
+    x: lbx, y: 1.92, w: 1.04, h: 0.32, rectRadius: 0.16,
+    fill: { color: C.gold }, line: { type: "none" },
+  });
+  s.addText("現在", {
+    x: lbx, y: 1.92, w: 1.04, h: 0.32,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
 
   const tx = 9.55, tw = RIGHT - tx;
   statTile(s, tx, 1.80, tw, 1.42, "101,343", "人", "2026年7月の月間利用者数", { dark: true, valueSize: 26 });
@@ -826,8 +883,8 @@ pres.title = "セルフカフェ 業務委託型制度";
 
 /* =============================================================== p.13 / p.14 店舗毎の利用状況 */
 [
-  { page: 13, suffix: "①", stores: ["ささしまライブ店（愛知県名古屋市）", "新瑞橋店（愛知県名古屋市）", "名駅西口店（愛知県名古屋市）", "印西牧の原店（千葉県印西市）", "栄店（愛知県名古屋市）", "御器所店（愛知県名古屋市）"] },
-  { page: 14, suffix: "②", stores: ["盛岡駅前店（岩手県盛岡市）", "天満店（大阪府大阪市）", "浜松新橋店（静岡県浜松市）", "谷町九丁目店（大阪府大阪市）", "相川駅前店（大阪府大阪市）", "あべの南店（大阪府大阪市）"] },
+  { page: 13, suffix: "①", stores: [["ささしまライブ店（愛知県名古屋市）", "store-sasashima.jpg"], ["新瑞橋店（愛知県名古屋市）", "store-aratama.jpg"], ["名駅西口店（愛知県名古屋市）", "store-meieki.jpg"], ["印西牧の原店（千葉県印西市）", "store-inzai.jpg"], ["栄店（愛知県名古屋市）", "store-sakae.jpg"], ["御器所店（愛知県名古屋市）", "store-gokiso.jpg"]] },
+  { page: 14, suffix: "②", stores: [["盛岡駅前店（岩手県盛岡市）", "store-morioka.jpg"], ["天満店（大阪府大阪市）", "store-tenma.jpg"], ["浜松新橋店（静岡県浜松市）", "store-hamamatsu.jpg"], ["谷町九丁目店（大阪府大阪市）", "store-tanimachi.jpg"], ["相川駅前店（大阪府大阪市）", "store-aikawa.jpg"], ["あべの南店（大阪府大阪市）", "store-abeno.jpg"]] },
 ].forEach(({ page, suffix, stores }) => {
   const s = pres.addSlide();
   shell(s, `店舗毎の利用状況 ${suffix}`, page);
@@ -835,10 +892,10 @@ pres.title = "セルフカフェ 業務委託型制度";
 
   const gx = 0.26, gy = 0.24;
   const cw = (CW - 2 * gx) / 3, chh = (6.86 - 1.82 - gy) / 2;
-  stores.forEach((name, i) => {
+  stores.forEach(([name, img], i) => {
     const x = M + (i % 3) * (cw + gx);
     const y = 1.82 + Math.floor(i / 3) * (chh + gy);
-    photoSlot(s, x, y, cw, chh, name, { captionSize: 10 });
+    photoSlot(s, x, y, cw, chh, name, { captionSize: 10, img });
   });
 });
 
@@ -988,7 +1045,7 @@ pres.title = "セルフカフェ 業務委託型制度";
     });
   });
 
-  photoSlot(s, M, 4.78, 5.55, 2.06, "モニタリング画面／店内カメラの様子", { captionSize: 10.5 });
+  photoSlot(s, M, 4.78, 5.55, 2.06, "モニタリング画面／店内カメラの様子", { captionSize: 10.5, img: "p16-support.jpg" });
 
   const rx = M + 5.55 + 0.32, rw = RIGHT - rx;
   panel(s, rx, 4.78, rw, 2.06);
@@ -1205,14 +1262,14 @@ pres.title = "セルフカフェ 業務委託型制度";
     });
     s.addShape("rect", { x: M + 0.30, y: y + 0.40, w: lw2 - 0.60, h: 0.011, fill: { color: C.line } });
   });
-  photoSlot(s, M + 0.30, 4.42, lw2 - 0.60, 2.16, "ドリンクマシン本体（100RS）", { captionSize: 10.5 });
+  photoSlot(s, M + 0.30, 4.42, lw2 - 0.60, 2.16, "ドリンクマシン本体（100RS）", { captionSize: 10.5, img: "p24-machine.jpg" });
 
   const rx = M + lw2 + 0.32, rw = RIGHT - rx;
   s.addText("＜設置イメージ＞", {
     x: rx, y: 1.50, w: rw, h: 0.34,
     fontFace: F.jp, fontSize: 13, bold: true, color: C.brown, margin: 0, valign: "middle",
   });
-  photoSlot(s, rx, 1.94, rw, 4.91, "店内に設置したドリンクマシン", { captionSize: 11 });
+  photoSlot(s, rx, 1.94, rw, 4.91, "店内に設置したドリンクマシン", { captionSize: 11, img: "p24-install.jpg" });
 }
 
 /* =============================================================== p.22 FAQ */
@@ -1390,8 +1447,8 @@ pres.title = "セルフカフェ 業務委託型制度";
     });
   });
 
-  photoSlot(s, M + 8.30, 1.14, 2.80, 5.02, "店舗写真／代表写真", {
-    fill: "1D5624", line: "3E7A45", captionSize: 10.5, captionColor: "C6DCC8",
+  photoSlot(s, M + 8.30, 1.14, 2.80, 5.02, "セルフカフェ 店内", {
+    fill: "1D5624", line: "3E7A45", captionSize: 10, captionColor: "C6DCC8", img: "store-morioka.jpg",
   });
 }
 

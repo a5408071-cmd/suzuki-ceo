@@ -639,40 +639,40 @@ pres.title = "セルフカフェ パートナー制度";
     fontFace: F.jp, fontSize: 9, color: C.muted, margin: 0, valign: "middle",
   });
   s.addShape("roundRect", {
-    x: bx + bw - 2.72, y: by + 0.22, w: 2.42, h: 0.42, rectRadius: 0.21,
+    x: bx + bw - 4.06, y: by + 0.22, w: 3.76, h: 0.46, rectRadius: 0.23,
     fill: { color: C.gold }, line: { type: "none" },
   });
   s.addText(
     [
-      { text: "46", options: { fontFace: F.num, fontSize: 13, bold: true, color: C.white } },
-      { text: " ヶ月で ", options: { fontFace: F.jp, fontSize: 10.5, color: C.white } },
-      { text: "71", options: { fontFace: F.num, fontSize: 13, bold: true, color: C.white } },
-      { text: " 倍  ", options: { fontFace: F.jp, fontSize: 10.5, color: C.white } },
-      { text: "GROWTH", options: { fontFace: F.num, fontSize: 8.5, bold: true, color: "F3E3C2" } },
+      { text: "サービス開始以来、", options: { fontFace: F.jp, fontSize: 11, bold: true, color: C.white } },
+      { text: "47", options: { fontFace: F.num, fontSize: 15, bold: true, color: C.white } },
+      { text: " ヶ月で ", options: { fontFace: F.jp, fontSize: 11, bold: true, color: C.white } },
+      { text: "71", options: { fontFace: F.num, fontSize: 15, bold: true, color: C.white } },
+      { text: " 店舗", options: { fontFace: F.jp, fontSize: 11, bold: true, color: C.white } },
     ],
-    { x: bx + bw - 2.72, y: by + 0.22, w: 2.42, h: 0.42, align: "center", margin: 0, valign: "middle" }
+    { x: bx + bw - 4.06, y: by + 0.22, w: 3.76, h: 0.46, align: "center", margin: 0, valign: "middle" }
   );
   s.addChart(pres.ChartType.area, [{ name: "店舗数", labels, values: series }], {
     x: bx + 0.16, y: by + 0.78, w: bw - 0.4, h: bh - 1.0,
-    chartColors: [C.green], chartColorsOpacity: 18, lineSize: 2.75, lineSmooth: false,
+    chartColors: [C.green], chartColorsOpacity: 32, lineSize: 3.5, lineSmooth: false,
     showLegend: false, showTitle: false, showValue: false,
     catAxisLabelColor: C.muted, catAxisLabelFontFace: F.num, catAxisLabelFontSize: 9,
     catAxisLabelFrequency: 1, catAxisLabelRotate: 0, catAxisMultiLevelLabels: false,
     catAxisLineShow: false, catGridLine: { style: "none" },
     valAxisLabelColor: C.muted, valAxisLabelFontFace: F.num, valAxisLabelFontSize: 9,
-    valAxisMinVal: 0, valAxisMaxVal: 80, valAxisMajorUnit: 20,
+    valAxisMinVal: 0, valAxisMaxVal: 75, valAxisMajorUnit: 25,
     valAxisLineShow: false, valGridLine: { color: C.warmLine, size: 0.75 },
   });
 
   // 成長を示す右上方向の矢印（グラフ上のオーバーレイ）
   s.addShape("line", {
-    x: bx + bw * 0.42, y: by + 1.18, w: bw * 0.44, h: 1.14, flipV: true,
-    line: { color: C.gold, width: 3, endArrowType: "triangle" },
+    x: bx + bw * 0.30, y: by + 1.06, w: bw * 0.56, h: 1.36, flipV: true,
+    line: { color: C.gold, width: 4.5, endArrowType: "triangle" },
   });
   // 現在地の強調：最終点マーカー＋コールアウト
   const cxp = bx + 0.16 + (bw - 0.4) - 0.47;
-  const cyp = by + 0.78 + 0.10 + (1 - 71 / 80) * (bh - 1.0 - 0.42);
-  s.addShape("ellipse", { x: cxp - 0.075, y: cyp - 0.075, w: 0.15, h: 0.15, fill: { color: C.gold }, line: { color: C.white, width: 1.5 } });
+  const cyp = by + 0.78 + 0.10 + (1 - 71 / 75) * (bh - 1.0 - 0.42);
+  s.addShape("ellipse", { x: cxp - 0.09, y: cyp - 0.09, w: 0.18, h: 0.18, fill: { color: C.gold }, line: { color: C.white, width: 1.75 } });
   s.addShape("roundRect", {
     x: cxp - 1.82, y: cyp + 0.18, w: 1.68, h: 0.4, rectRadius: 0.05,
     fill: { color: C.greenDeep }, line: { type: "none" },
@@ -731,7 +731,7 @@ pres.title = "セルフカフェ パートナー制度";
   const labels = ["23.01", "23.07", "24.01", "24.07", "25.01", "25.07", "26.01", "26.07"];
   const values = [895, 1419, 9722, 26383, 46017, 74260, 80293, 101343];
   // 薄→濃のグラデーションで直近を強調（最終棒はブランド緑）
-  const ramp = ["C9DFD2", "BBD6C6", "A9C9B7", "93BBA4", "79A98D", "5C9573", "348055", "106838"];
+  const ramp = ["D8E8DE", "CCE0D4", "B8D4C2", "9CC3AA", "7BAE8F", "579970", "2E824F", "106838"];
 
   const bw = 8.4, bh = 4.06;
   card(s, M, TOP, bw, bh);
@@ -745,30 +745,30 @@ pres.title = "セルフカフェ パートナー制度";
   });
   s.addChart(pres.ChartType.bar, [{ name: "月間利用者数", labels, values }], {
     x: M + 0.16, y: TOP + 0.8, w: bw - 0.4, h: bh - 1.02,
-    barDir: "col", chartColors: ramp, barGapWidthPct: 55,
+    barDir: "col", chartColors: ramp, barGapWidthPct: 38,
     showLegend: false, showTitle: false,
     showValue: true, dataLabelPosition: "outEnd", dataLabelColor: C.green,
     dataLabelFontFace: F.num, dataLabelFontSize: 9, dataLabelFormatCode: "#,##0",
     catAxisLabelColor: C.muted, catAxisLabelFontFace: F.num, catAxisLabelFontSize: 9.5,
     catAxisLabelRotate: 0, catAxisLineShow: false, catGridLine: { style: "none" },
     valAxisLabelColor: C.muted, valAxisLabelFontFace: F.num, valAxisLabelFontSize: 9,
-    valAxisLabelFormatCode: "#,##0", valAxisMinVal: 0, valAxisMaxVal: 120000, valAxisMajorUnit: 40000,
+    valAxisLabelFormatCode: "#,##0", valAxisMinVal: 0, valAxisMaxVal: 105000, valAxisMajorUnit: 35000,
     valAxisLineShow: false, valGridLine: { color: C.warmLine, size: 0.75 },
   });
 
   // 成長を示す右上方向の矢印（棒の頂点に沿わせたオーバーレイ）
   s.addShape("line", {
-    x: M + 0.16 + (bw - 0.4) * 0.30, y: TOP + 1.28, w: (bw - 0.4) * 0.56, h: 2.0, flipV: true,
-    line: { color: C.gold, width: 3, endArrowType: "triangle" },
+    x: M + 0.16 + (bw - 0.4) * 0.26, y: TOP + 1.30, w: (bw - 0.4) * 0.60, h: 2.24, flipV: true,
+    line: { color: C.gold, width: 4.5, endArrowType: "triangle" },
   });
   // 最終棒の上に「現在」バッジ
   const lbx = M + 0.16 + 0.42 + (bw - 0.82) * (7.5 / 8) - 0.5;
   s.addShape("roundRect", {
-    x: lbx, y: TOP + 0.84, w: 1.0, h: 0.32, rectRadius: 0.16,
+    x: lbx + 0.1, y: TOP + 1.12, w: 0.8, h: 0.3, rectRadius: 0.15,
     fill: { color: C.gold }, line: { type: "none" },
   });
   s.addText("現在", {
-    x: lbx, y: TOP + 0.84, w: 1.0, h: 0.32,
+    x: lbx + 0.1, y: TOP + 1.12, w: 0.8, h: 0.3,
     fontFace: F.jp, fontSize: 10, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
   });
 
@@ -1316,9 +1316,9 @@ pres.title = "セルフカフェ パートナー制度";
 [
   {
     label: "20坪（40席）", tag: "STANDARD",
-    rev: ["売上高", "1杯400円 × 67杯 × 30日", "800,000円"],
+    rev: ["売上高", "1杯420円 × 75杯 × 30日", "945,000円"],
     rows: [
-      ["ドリンク原料", "原料・カップ等（20%）", "-160,000円"],
+      ["ドリンク原料", "原料・カップ等（20%）", "-189,000円"],
       ["家賃", "仮定坪単価：10,000円", "-200,000円"],
       ["清掃費", "清掃パートナー様への報酬", "-30,000円"],
       ["水道光熱費", "水道9,000円／光熱71,000円（24H営業想定）", "-80,000円"],
@@ -1327,22 +1327,22 @@ pres.title = "セルフカフェ パートナー制度";
       ["ロイヤリティ", "一律5万円", "-50,000円"],
       ["雑費", "ゴミ回収・防犯カメラ・クラウド利用料等", "-20,000円"],
     ],
-    profit: "154,000円", annual: "1,848,000円",
+    profit: "270,000円", annual: "3,240,000円",
   },
   {
-    label: "70坪（120席）", tag: "LARGE",
-    rev: ["売上高", "1杯400円 × 125杯 × 30日", "1,500,000円"],
+    label: "50坪（90席）", tag: "LARGE",
+    rev: ["売上高", "1杯420円 × 110杯 × 30日", "1,386,000円"],
     rows: [
-      ["ドリンク原料", "原料・カップ等（20%）", "-300,000円"],
-      ["家賃", "仮定坪単価：8,000円", "-560,000円"],
-      ["清掃費", "清掃パートナー様への報酬", "-40,000円"],
-      ["水道光熱費", "水道15,000円／光熱85,000円（24H営業想定）", "-100,000円"],
+      ["ドリンク原料", "原料・カップ等（20%）", "-277,200円"],
+      ["家賃", "仮定坪単価：8,000円", "-400,000円"],
+      ["清掃費", "清掃パートナー様への報酬", "-35,000円"],
+      ["水道光熱費", "水道12,000円／光熱78,000円（24H営業想定）", "-90,000円"],
       ["機械使用料", "ドリンクマシン38,000円×2台、決済端末5,000円×2台", "-86,000円"],
       ["セキュリティ費", "警備会社への委託料", "-20,000円"],
       ["ロイヤリティ", "一律5万円", "-50,000円"],
       ["雑費", "ゴミ回収・防犯カメラ・クラウド利用料等", "-25,000円"],
     ],
-    profit: "319,000円", annual: "3,828,000円",
+    profit: "402,800円", annual: "4,833,600円",
   },
 ].forEach((sim) => {
   const s = pres.addSlide();
@@ -1421,7 +1421,7 @@ pres.title = "セルフカフェ パートナー制度";
     x: rx + 0.26, y: TOP + 2.3, w: rw - 0.52, h: 0.24,
     fontFace: F.jp, fontSize: 10, bold: true, color: C.muted, margin: 0, valign: "middle",
   });
-  ["売上は1杯400円で算出", "家賃は仮定坪単価による試算", "ロイヤリティは月5万円の一律", "減価償却費は含まない"].forEach((t, i) => {
+  ["売上は1杯420円で算出", "家賃は仮定坪単価による試算", "ロイヤリティは月5万円の一律", "減価償却費は含まない"].forEach((t, i) => {
     const y = TOP + 2.62 + i * 0.42;
     icon(s, "LuCheck", "green", rx + 0.28, y + 0.05, 0.18);
     s.addText(t, {
@@ -1442,8 +1442,8 @@ pres.title = "セルフカフェ パートナー制度";
   chipRow(s, TOP, [
     { v: "1,000", u: "万円", l: "想定初期費用", gold: true },
     { v: "75", u: "坪（130席）", l: "想定規模" },
-    { v: "1,560,000", u: "円", l: "月間売上（400円×130杯×30日）" },
-    { v: "633,000", u: "円", l: "月間経費（家賃を除く）" },
+    { v: "1,638,000", u: "円", l: "月間売上（420円×130杯×30日）" },
+    { v: "648,600", u: "円", l: "月間経費（家賃を除く）" },
   ], { vSize: 17 });
 
   const y2 = TOP + 0.92, ch2 = 3.06;
@@ -1452,12 +1452,12 @@ pres.title = "セルフカフェ パートナー制度";
     {
       name: "① 家賃あり（賃借物件）", dark: false,
       rent: "-600,000円", rentNote: "仮定坪単価 8,000円 × 75坪",
-      profit: "327,000", annual: "3,924,000円", payback: "約2年7ヶ月", pbNote: "1,000万円 ÷ 32.7万円 ≒ 31ヶ月",
+      profit: "389,400", annual: "4,672,800円", payback: "約2年2ヶ月", pbNote: "1,000万円 ÷ 38.9万円 ≒ 26ヶ月",
     },
     {
       name: "② 家賃なし（自社物件）", dark: true,
       rent: "0円", rentNote: "自社物件のため家賃負担なし",
-      profit: "927,000", annual: "11,124,000円", payback: "約11ヶ月", pbNote: "1,000万円 ÷ 92.7万円 ≒ 11ヶ月",
+      profit: "989,400", annual: "11,872,800円", payback: "約10ヶ月", pbNote: "1,000万円 ÷ 98.9万円 ≒ 10ヶ月",
     },
   ];
   pats.forEach((pt, i) => {
@@ -1513,7 +1513,7 @@ pres.title = "セルフカフェ パートナー制度";
     fontFace: F.jp, fontSize: 9.5, bold: true, color: C.muted, margin: 0, valign: "middle",
   });
   const sx = M + 4.3, scaleW = CW - 4.3 - 1.2;
-  [["① 家賃あり", 31, C.gold], ["② 家賃なし", 11, C.green]].forEach((b, i) => {
+  [["① 家賃あり", 26, C.gold], ["② 家賃なし", 10, C.green]].forEach((b, i) => {
     const y = byr + 0.11 + i * 0.3;
     s.addText(b[0], {
       x: M + 2.8, y, w: 1.4, h: 0.24,
@@ -1530,7 +1530,7 @@ pres.title = "セルフカフェ パートナー制度";
     });
   });
 
-  note(s, byr + bhr + 0.12, "※ 売上・経費は70坪シミュレーションを基にした75坪換算の目安です。減価償却費・税は含みません。回収期間・利益を保証するものではありません。");
+  note(s, byr + bhr + 0.12, "※ 売上・経費は収益シミュレーション（1杯420円）を基にした75坪換算の目安です。減価償却費・税は含みません。回収期間・利益を保証するものではありません。");
 }
 
 /* ===================================================== p21 出店事例（FC固有） */

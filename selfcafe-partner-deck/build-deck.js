@@ -337,141 +337,184 @@ pres.title = "セルフカフェ パートナー制度";
   });
 }
 
-/* ===================================================== p3 社会背景と市場性 */
+/* ===================================================== p3 セルフカフェFCとは（省人型テナント） */
 {
   const s = pres.addSlide();
-  shell(s,  "市場背景", "社会背景と市場性", "現代社会が抱える3つの課題が、無人カフェの需要をつくっています。");
+  shell(s,  "セルフカフェFCとは", "貸すのではなく、自分で持つ「省人型テナント」",
+    "セルフカフェは、ドリンク1杯で時間制限なく使える無人のカフェ型ワークスペースです。");
 
-  const items = [
-    ["LuUsers", "深刻な労働力不足",
-      "少子高齢化と働き手の価値観の変化でサービス業の人手確保が難しくなり、人件費が上昇して経営負担が増している。",
-      "人に依存しない店舗フォーマットが必要"],
-    ["LuLaptop", "サードプレイスの枯渇",
-      "リモートワークの普及で自宅以外の手頃な作業場所が不足し、カフェやコワーキングは価格や混雑の課題が残り、学習スペースも制限が多く気軽に利用できない。",
-      "手頃で気軽に使える作業場所への需要"],
-    ["LuBuilding2", "遊休資産の有効活用",
-      "ビル空室やデッドスペースが増え、従来のテナント誘致だけでは埋まらず、新たな活用モデルの開発が求められている。",
-      "空きスペースを収益化する新しいモデル"],
+  const lw = 6.9;
+  s.addText("空きテナントに入居者を探すのではなく、オーナー自身が低投資で運営する「収益事業」として、遊休スペースを稼働資産に変えます。", {
+    x: M, y: TOP + 0.04, w: lw, h: 0.72,
+    fontFace: F.jp, fontSize: 12, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.5,
+  });
+  s.addText("労働力不足 ／ 手頃な作業場所の不足 ／ 遊休不動産の増加 —— 3つの社会課題が需要をつくっています。", {
+    x: M, y: TOP + 0.86, w: lw, h: 0.3,
+    fontFace: F.jp, fontSize: 10, color: C.muted, margin: 0, valign: "middle",
+  });
+
+  const stats = [
+    ["必要面積", "20", "坪〜", "既存施設の一角でも可"],
+    ["利用料", "420", "円〜", "1杯で滞在無制限・登録不要"],
+    ["営業時間", "24", "時間可", "無人・年中無休も設定可能"],
+    ["新規採用", "0", "人", "既存スタッフの稼働内で運営"],
   ];
-  const w = (CW - 2 * 0.28) / 3, h = 4.0;
-  items.forEach((it, i) => {
-    const x = M + i * (w + 0.28), y = TOP;
-    card(s, x, y, w, h);
-    eyebrowIn(s, x + 0.28, y + 0.3, 2.0, `ISSUE ${pad2(i + 1)}`);
-    icon(s, it[0], "green", x + w - 0.86, y + 0.26, 0.44);
-    s.addText(it[1], {
-      x: x + 0.28, y: y + 0.62, w: w - 0.56, h: 0.42,
-      fontFace: F.jp, fontSize: 16, bold: true, color: C.ink, margin: 0, valign: "middle",
+  const cw = (lw - 0.3) / 2, chh = 1.62;
+  stats.forEach((st, i) => {
+    const x = M + (i % 2) * (cw + 0.3);
+    const y = TOP + 1.34 + Math.floor(i / 2) * (chh + 0.24);
+    card(s, x, y, cw, chh);
+    s.addText(st[0], {
+      x: x + 0.28, y: y + 0.18, w: cw - 0.56, h: 0.26,
+      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.muted, margin: 0, valign: "middle",
     });
-    s.addShape("rect", { x: x + 0.28, y: y + 1.14, w: w - 0.56, h: 0.011, fill: { color: C.warmLine } });
-    s.addText(it[2], {
-      x: x + 0.28, y: y + 1.28, w: w - 0.56, h: 1.7,
-      fontFace: F.jp, fontSize: 10.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
-    });
-    s.addShape("roundRect", {
-      x: x + 0.28, y: y + h - 0.86, w: w - 0.56, h: 0.56, rectRadius: 0.05,
-      fill: { color: C.tint }, line: { type: "none" },
-    });
-    icon(s, "LuTrendingUp", "green", x + 0.44, y + h - 0.71, 0.26);
-    s.addText(it[3], {
-      x: x + 0.78, y: y + h - 0.86, w: w - 1.06, h: 0.56,
-      fontFace: F.jp, fontSize: 10, bold: true, color: C.green, margin: 0, valign: "middle",
+    s.addText(
+      [
+        { text: st[1], options: { fontFace: F.num, fontSize: 32, bold: true, color: C.green } },
+        { text: " " + st[2], options: { fontFace: F.jp, fontSize: 15, bold: true, color: C.green } },
+      ],
+      { x: x + 0.28, y: y + 0.46, w: cw - 0.56, h: 0.62, margin: 0, valign: "middle" }
+    );
+    s.addText(st[3], {
+      x: x + 0.28, y: y + 1.14, w: cw - 0.56, h: 0.3,
+      fontFace: F.jp, fontSize: 9.5, color: C.muted, margin: 0, valign: "middle",
     });
   });
 
-  note(s, 6.62, "※ 課題認識は当社の市場理解に基づく整理です。");
+  const rx = M + lw + 0.42, rw = R - rx;
+  photoSlot(s, rx, TOP, rw, 4.5, "店内利用の様子（実店舗）", { img: "p16-support.jpg", capSize: 9.5 });
+
+  note(s, 6.72, "※ 予約不要・会員登録不要。二次利用（貸しスペース・物販等）の可否は立地・契約条件により異なります。");
 }
 
-/* ===================================================== p4 人手不足対策 */
+/* ===================================================== p4 まず、数字から */
 {
   const s = pres.addSlide();
-  shell(s,  "優位性", "人手不足対策：無人管理の優位性", "運営から「人」の変数を外すと、コスト・品質・安定性が同時に改善します。");
+  shell(s,  "まず、数字から", "650万円から、月47万円・回収約17ヶ月へ",
+    "詳細の前に、要点となる4つの数字です（20坪・1杯420円モデルの試算）。");
 
-  const pw = 4.6;
-  panel(s, M, TOP, pw, 4.72);
-  eyebrowIn(s, M + 0.44, TOP + 0.44, 2.4, "CORE CONCEPT", C.cvPale);
-  s.addText("「人」に\n頼らない経営へ", {
-    x: M + 0.44, y: TOP + 0.86, w: pw - 0.88, h: 1.5,
-    fontFace: F.jp, fontSize: 28, bold: true, color: C.white, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
-  });
-  s.addShape("rect", { x: M + 0.44, y: TOP + 2.5, w: 0.78, h: 0.028, fill: { color: C.goldLine } });
-  s.addText("スタッフの採用・教育・シフト管理という、店舗運営でもっとも重い変動要素を仕組みで置き換えます。", {
-    x: M + 0.44, y: TOP + 2.72, w: pw - 0.88, h: 1.3,
-    fontFace: F.jp, fontSize: 11.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.5,
-  });
-  icon(s, "LuUsers", "pale", M + pw - 1.14, TOP + 3.72, 0.62);
-
-  const cx = M + pw + 0.42, cw = R - cx, ch = 1.44;
-  const items = [
-    ["LuClipboardList", "管理・教育コストの大幅削減", "スタッフ管理に伴う工数や人的リスクを抑え、運営にかかる負担を軽減します。"],
-    ["LuPiggyBank", "省人力運営で、無駄な人件費をカット", "必要最小限の作業で回る仕組みにより、人件費を抑えながら安定した収益を確保できます。"],
-    ["LuBadgeCheck", "安定した収益と品質", "属人性を排除することで、常に均一したサービス品質を維持し、運営の安定性を高めます。"],
+  const kpis = [
+    { dark: false, label: "初期投資", v: "650", u: "万円〜",
+      sub: "最低開業費（居抜き・20坪）\n標準総投資予算：800万円程度〜" },
+    { dark: true, label: "月間利益モデル（75杯／日）", v: "自社物件 47", u: "万円",
+      sub: "賃貸物件の場合：27万円\n（償却前営業利益・月）" },
+    { dark: false, label: "オーナーの運営時間", v: "1日 約15", u: "分",
+      sub: "清掃・原料補充のみ\n委託運営も可能" },
+    { dark: true, label: "投資回収期間モデル", v: "約17", u: "ヶ月",
+      sub: "自社物件・75杯／日・投資800万円\n賃貸の場合：約30ヶ月" },
   ];
-  items.forEach((it, i) => {
-    const y = TOP + i * (ch + 0.20);
-    card(s, cx, y, cw, ch);
+  const cw = (CW - 0.42) / 2, chh = 2.2;
+  kpis.forEach((k, i) => {
+    const x = M + (i % 2) * (cw + 0.42);
+    const y = TOP + Math.floor(i / 2) * (chh + 0.3);
+    if (k.dark) panel(s, x, y, cw, chh); else tintCard(s, x, y, cw, chh);
+    s.addText(k.label, {
+      x: x + 0.34, y: y + 0.24, w: cw - 0.68, h: 0.3,
+      fontFace: F.jp, fontSize: 12, bold: true, color: k.dark ? C.cvPale : C.green, margin: 0, valign: "middle",
+    });
+    s.addText(
+      [
+        { text: k.v, options: { fontFace: F.jp, fontSize: 34, bold: true, color: k.dark ? C.white : C.green } },
+        { text: " " + k.u, options: { fontFace: F.jp, fontSize: 17, bold: true, color: k.dark ? C.white : C.green } },
+      ],
+      { x: x + 0.34, y: y + 0.6, w: cw - 0.68, h: 0.78, margin: 0, valign: "middle" }
+    );
+    s.addText(k.sub, {
+      x: x + 0.34, y: y + 1.48, w: cw - 0.68, h: 0.62,
+      fontFace: F.jp, fontSize: 10, color: k.dark ? C.cvBody : C.muted, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
+    });
+  });
+
+  note(s, 6.72, "※ 利益・回収は1杯420円・原価20%・20坪モデルの試算（償却前・税引前）。収益・回収期間を保証するものではありません。詳細は収益シミュレーションのページ参照。");
+}
+
+/* ===================================================== p5 自社物件の優位性 */
+{
+  const s = pres.addSlide();
+  shell(s,  "自社物件の優位性", "「家賃」がゼロ。利益は1.7倍、回収は約半分。",
+    "持ち物件・遊休スペースをお持ちの方ほど、この制度のメリットが大きくなります。");
+
+  // 左：賃貸 vs 自社物件の比較カード
+  const cw = 3.44, chh = 3.7;
+  tintCard(s, M, TOP, cw, chh);
+  s.addText("賃貸物件で開業", {
+    x: M + 0.3, y: TOP + 0.28, w: cw - 0.6, h: 0.3,
+    fontFace: F.jp, fontSize: 12, bold: true, color: C.muted, margin: 0, valign: "middle",
+  });
+  s.addText(
+    [
+      { text: "27", options: { fontFace: F.num, fontSize: 40, bold: true, color: C.green } },
+      { text: " 万円", options: { fontFace: F.jp, fontSize: 16, bold: true, color: C.green } },
+    ],
+    { x: M + 0.3, y: TOP + 0.7, w: cw - 0.6, h: 0.8, margin: 0, valign: "middle" }
+  );
+  s.addText("月間利益（75杯／日・償却前）", {
+    x: M + 0.3, y: TOP + 1.56, w: cw - 0.6, h: 0.26,
+    fontFace: F.jp, fontSize: 9.5, color: C.muted, margin: 0, valign: "middle",
+  });
+  s.addShape("rect", { x: M + 0.3, y: TOP + 2.02, w: cw - 0.6, h: 0.011, fill: { color: C.tintLine } });
+  s.addText("回収期間 約30ヶ月", {
+    x: M + 0.3, y: TOP + 2.2, w: cw - 0.6, h: 0.4,
+    fontFace: F.jp, fontSize: 14, bold: true, color: C.ink, margin: 0, valign: "middle",
+  });
+
+  const x2 = M + cw + 0.3;
+  panel(s, x2, TOP, cw, chh);
+  s.addText("自社物件で開業", {
+    x: x2 + 0.3, y: TOP + 0.28, w: cw - 0.6, h: 0.3,
+    fontFace: F.jp, fontSize: 12, bold: true, color: C.cvPale, margin: 0, valign: "middle",
+  });
+  s.addText(
+    [
+      { text: "47", options: { fontFace: F.num, fontSize: 40, bold: true, color: "F0C05A" } },
+      { text: " 万円", options: { fontFace: F.jp, fontSize: 16, bold: true, color: "F0C05A" } },
+    ],
+    { x: x2 + 0.3, y: TOP + 0.7, w: cw - 0.6, h: 0.8, margin: 0, valign: "middle" }
+  );
+  s.addText("月間利益（75杯／日・償却前）", {
+    x: x2 + 0.3, y: TOP + 1.56, w: cw - 0.6, h: 0.26,
+    fontFace: F.jp, fontSize: 9.5, color: C.cvBody, margin: 0, valign: "middle",
+  });
+  s.addShape("rect", { x: x2 + 0.3, y: TOP + 2.02, w: cw - 0.6, h: 0.011, fill: { color: "2A7A4E" } });
+  s.addText("回収期間 約17ヶ月", {
+    x: x2 + 0.3, y: TOP + 2.2, w: cw - 0.6, h: 0.4,
+    fontFace: F.jp, fontSize: 14, bold: true, color: C.white, margin: 0, valign: "middle",
+  });
+
+  s.addText(
+    [
+      { text: "＋20万円／月", options: { fontFace: F.num, fontSize: 16, bold: true, color: C.green } },
+      { text: "（+74%）", options: { fontFace: F.jp, fontSize: 12, bold: true, color: C.green } },
+    ],
+    { x: M, y: TOP + chh + 0.16, w: cw * 2 + 0.3, h: 0.4, align: "center", margin: 0, valign: "middle" }
+  );
+
+  // 右：4つのポイント
+  const rx = M + cw * 2 + 0.72, rw = R - rx;
+  const pts = [
+    ["家賃という最大の固定費が不要", "売上がそのまま利益層に乗る構造。"],
+    ["空室の機会損失を収益に転換", "テナント誘致を待たず、自社で稼働させる。"],
+    ["人件費の追加もゼロ", "既存スタッフの稼働内で運営。新規採用不要。"],
+    ["実績（参考値）", "既存店から家賃を除くと48店すべてが営業黒字・平均45.5万円。"],
+  ];
+  pts.forEach((pt, i) => {
+    const y = TOP + i * 1.18;
+    s.addShape("ellipse", { x: rx, y: y + 0.02, w: 0.34, h: 0.34, fill: { color: C.greenDeep }, line: { type: "none" } });
     s.addText(String(i + 1), {
-      x: cx + 0.3, y: y + 0.3, w: 0.4, h: 0.4,
-      fontFace: F.num, fontSize: 22, bold: true, color: C.midGreen, margin: 0, valign: "middle",
+      x: rx, y: y + 0.02, w: 0.34, h: 0.34,
+      fontFace: F.num, fontSize: 12, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
     });
-    s.addText(it[1], {
-      x: cx + 0.82, y: y + 0.28, w: cw - 1.6, h: 0.4,
-      fontFace: F.jp, fontSize: 15, bold: true, color: C.ink, margin: 0, valign: "middle",
+    s.addText(pt[0], {
+      x: rx + 0.48, y, w: rw - 0.48, h: 0.36,
+      fontFace: F.jp, fontSize: 13, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
-    s.addText(it[2], {
-      x: cx + 0.82, y: y + 0.72, w: cw - 1.2, h: 0.52,
-      fontFace: F.jp, fontSize: 10.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
-    });
-    icon(s, it[0], "green", cx + cw - 0.72, y + 0.3, 0.36);
-  });
-}
-
-/* ===================================================== p5 不動産活用（FC固有） */
-{
-  const s = pres.addSlide();
-  shell(s,  "不動産活用", "持ち物件オーナー様へ", "自社物件なら家賃コストがゼロ。売上をダイレクトに利益へ繋げられます。");
-
-  chipRow(s, TOP, [
-    { v: "0", u: "円", l: "自社物件なら新規の家賃負担なし" },
-    { v: "20", u: "坪〜", l: "必要面積の目安（40席想定）" },
-    { v: "650", u: "万円〜", l: "初期費用（居抜き・20坪想定）" },
-    { v: "15", u: "分／日", l: "日常のオーナー業務（清掃・補充）" },
-  ]);
-
-  const y2 = TOP + 0.92;
-  const cw = (CW - 0.42) / 2;
-  const items = [
-    ["LuCoins", "高い営業利益率", "自社物件なら「家賃コスト」がゼロ。固定費を抑え、売上をダイレクトに利益へ繋げます。",
-      ["家賃という最大の固定費が不要", "空室期間の機会損失を収益に転換", "テナント誘致に頼らない自社運用"]],
-    ["LuShoppingBag", "相乗効果", "既存事業の「待ち時間」解消や、新規集客のフックとして、カフェは最適の組み合わせです。",
-      ["書店・美容室・整体院・病院の待合と好相性", "「カフェ」で検索されて新規客に見つかる", "滞在時間が伸び、ついで買いが生まれる"]],
-  ];
-  items.forEach((it, i) => {
-    const x = M + i * (cw + 0.42);
-    card(s, x, y2, cw, 2.44);
-    icon(s, it[0], "green", x + 0.3, y2 + 0.3, 0.42);
-    s.addText(it[1], {
-      x: x + 0.88, y: y2 + 0.28, w: cw - 1.18, h: 0.44,
-      fontFace: F.jp, fontSize: 17, bold: true, color: C.ink, margin: 0, valign: "middle",
-    });
-    s.addText(it[2], {
-      x: x + 0.3, y: y2 + 0.82, w: cw - 0.6, h: 0.6,
-      fontFace: F.jp, fontSize: 11, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.4,
-    });
-    s.addShape("rect", { x: x + 0.3, y: y2 + 1.48, w: cw - 0.6, h: 0.011, fill: { color: C.warmLine } });
-    it[3].forEach((b, j) => {
-      const by = y2 + 1.6 + j * 0.26;
-      icon(s, "LuCheck", "green", x + 0.32, by + 0.03, 0.18);
-      s.addText(b, {
-        x: x + 0.6, y: by, w: cw - 0.9, h: 0.24,
-        fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle",
-      });
+    s.addText(pt[1], {
+      x: rx + 0.48, y: y + 0.4, w: rw - 0.48, h: 0.56,
+      fontFace: F.jp, fontSize: 10, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.32,
     });
   });
 
-  const phw = (CW - 0.3) / 2;
-  photoSlot(s, M, y2 + 2.66, phw, 1.62, "自社物件への設置イメージ", { img: "p05-install.jpg", capSize: 10 });
-  photoSlot(s, M + phw + 0.3, y2 + 2.66, phw, 1.62, "店内利用の様子", { img: "p05-woman.jpg", capSize: 10 });
+  note(s, 6.72, "※ 利益・回収は1杯420円・20坪モデル（総投資800万円）の試算。実績参考値は2026年7月速報の家賃控除前営業利益（開業6ヶ月以上・48店）。収益を保証するものではありません。");
 }
 
 /* ===================================================== 遊休スペース訴求（追加） */
@@ -661,12 +704,15 @@ pres.title = "セルフカフェ パートナー制度";
   eyebrowIn(s, rx + 0.3, TOP + 0.28, 2.0, "NETWORK");
   s.addText(
     [
-      { text: "71", options: { fontFace: F.num, fontSize: 40, bold: true, color: C.green } },
-      { text: " 店舗", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.green } },
+      { text: "71", options: { fontFace: F.num, fontSize: 36, bold: true, color: C.green } },
+      { text: " 店舗", options: { fontFace: F.jp, fontSize: 13, bold: true, color: C.green } },
+      { text: "  ×  ", options: { fontFace: F.num, fontSize: 14, bold: true, color: C.gold } },
+      { text: "11", options: { fontFace: F.num, fontSize: 36, bold: true, color: C.green } },
+      { text: " 都府県", options: { fontFace: F.jp, fontSize: 13, bold: true, color: C.green } },
     ],
     { x: rx + 0.3, y: TOP + 0.54, w: rw - 0.6, h: 0.6, margin: 0, valign: "middle" }
   );
-  s.addText("2026年7月時点／11都府県で展開中", {
+  s.addText("2026年7月時点／東北から中国地方まで展開中", {
     x: rx + 0.3, y: TOP + 1.16, w: rw - 0.6, h: 0.22,
     fontFace: F.jp, fontSize: 9, color: C.muted, margin: 0, valign: "middle",
   });
@@ -946,10 +992,9 @@ pres.title = "セルフカフェ パートナー制度";
   const rx = M + pw2 + 0.42, rw = R - rx;
   const tiles2 = [
     ["20.8", "万円", "平均営業利益（月）"],
-    ["12.4", "万円", "中央値（月）"],
     ["3", "店舗", "赤字店舗"],
   ];
-  const tw2 = (rw - 2 * 0.24) / 3;
+  const tw2 = (rw - 0.24) / 2;
   tiles2.forEach((tl2, i) => {
     const x = rx + i * (tw2 + 0.24);
     tintCard(s, x, TOP, tw2, 1.5);
@@ -1342,6 +1387,63 @@ pres.title = "セルフカフェ パートナー制度";
   });
 }
 
+/* ===================================================== オーナー様の業務（追加） */
+{
+  const s = pres.addSlide();
+  shell(s,  "オーナー様の業務", "やることは清掃と補充だけ。1日約15分。",
+    "既存スタッフの稼働内で完結し、それすら委託することもできます。");
+
+  const lw = 6.9;
+  s.addText(
+    [
+      { text: "約15分", options: { fontFace: F.jp, fontSize: 40, bold: true, color: C.green } },
+      { text: " ／日", options: { fontFace: F.jp, fontSize: 18, bold: true, color: C.green } },
+    ],
+    { x: M, y: TOP, w: lw, h: 0.72, margin: 0, valign: "middle" }
+  );
+
+  const tasks = [
+    ["① 店内清掃", "テーブル・床・トイレの清掃、ゴミ回収。営業前後の都合の良い時間でOK。"],
+    ["② 原料・備品の補充", "コーヒー豆・カップ等の補充。在庫は本部から定期配送。"],
+    ["③ 発注・棚卸（月1〜2回程度）", "定期配送に合わせた発注と在庫の棚卸のみ。"],
+  ];
+  tasks.forEach((tk, i) => {
+    const y = TOP + 0.9 + i * 0.98;
+    tintCard(s, M, y, lw, 0.86);
+    s.addText(tk[0], {
+      x: M + 0.3, y: y + 0.12, w: lw - 0.6, h: 0.3,
+      fontFace: F.jp, fontSize: 12.5, bold: true, color: C.green, margin: 0, valign: "middle",
+    });
+    s.addText(tk[1], {
+      x: M + 0.3, y: y + 0.44, w: lw - 0.6, h: 0.32,
+      fontFace: F.jp, fontSize: 10.5, color: C.body, margin: 0, valign: "middle",
+    });
+  });
+
+  panel(s, M, TOP + 3.9, lw, 0.94);
+  icon(s, "LuLifeBuoy", "pale", M + 0.3, TOP + 4.2, 0.36);
+  s.addText("自分でやらない選択肢も。清掃パートナーへの委託 月3万円程度（収支モデルに計上済み）。営業サポートプランを選べば、お客様からの問い合わせもすべて本部が対応します。", {
+    x: M + 0.84, y: TOP + 4.04, w: lw - 1.14, h: 0.72,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.white, margin: 0, valign: "middle", lineSpacingMultiple: 1.35,
+  });
+
+  // 右：写真＋許認可まわり
+  const rx = M + lw + 0.42, rw = R - rx;
+  photoSlot(s, rx, TOP, rw, 1.84, "店内利用の様子", { img: "p05-woman.jpg", capSize: 9.5 });
+  card(s, rx, TOP + 2.04, rw, 2.8);
+  eyebrowIn(s, rx + 0.3, TOP + 2.3, 2.6, "GOOD TO KNOW");
+  [["LuFileCheck", "営業届の申請は本部が代行"], ["LuGraduationCap", "食品衛生責任者は貴社にて取得"], ["LuTimer", "所要時間は店舗規模・営業時間で変動"]].forEach((g2, i) => {
+    const y = TOP + 2.62 + i * 0.68;
+    icon(s, g2[0], "green", rx + 0.3, y + 0.03, 0.3);
+    s.addText(g2[1], {
+      x: rx + 0.74, y, w: rw - 1.0, h: 0.56,
+      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+    });
+  });
+
+  note(s, 6.92, "※ 委託費用・サポートプランの料金は有料オプション一覧のページをご参照ください。");
+}
+
 /* ===================================================== p16 パートナー制度の3つの特徴 */
 {
   const s = pres.addSlide();
@@ -1468,79 +1570,78 @@ pres.title = "セルフカフェ パートナー制度";
   note(s, 6.92, "※ 出店準備金はカメラ・モニター・机・椅子等の備品類。他社の「—」は公表資料に区分の記載がない項目です。");
 }
 
-/* ===================================================== p18 初期費用・売上イメージ */
+/* ===================================================== 初期投資の詳細 */
 {
   const s = pres.addSlide();
-  shell(s,  "初期費用", "初期費用・売上イメージ",
-    "出店方法は2パターン。居抜き・既存店併設なら初期費用を大きく抑えられます。");
+  shell(s,  "初期費用", "開業費650万円〜・標準予算800万円程度",
+    "内訳を1本のバーで示しています。居抜き・既存店併設なら工事範囲を最小化できます。");
 
-  const cw = (CW - 0.42) / 2;
-  const pats = [
-    ["① 既存店併設 / 居抜き", "650万円〜", "内装が残る区画や自社店舗の一角を活用。工事範囲を最小化できます。", true],
-    ["② スケルトン工事", "950万円〜", "内装のない状態からの造作。レイアウトを自由に設計できます。", false],
+  // 積み上げバー（合計800万円）
+  const segs = [
+    ["加盟金", 100, C.greenDeep, true],
+    ["出店工事費用", 400, "1B7A47", false],
+    ["出店準備金（備品類）", 100, "5FA57C", true],
+    ["保証金（預り金）", 50, "9CC3AA", false],
+    ["諸経費・予備費", 150, C.gold, true],
   ];
-  pats.forEach((p, i) => {
-    const x = M + i * (cw + 0.42), y = TOP;
-    if (p[3]) panel(s, x, y, cw, 1.86); else card(s, x, y, cw, 1.86);
-    const fg = p[3] ? C.white : C.ink;
-    s.addText(p[0], {
-      x: x + 0.3, y: y + 0.24, w: cw - 0.6, h: 0.32,
-      fontFace: F.jp, fontSize: 13, bold: true, color: p[3] ? C.cvPale : C.green, margin: 0, valign: "middle",
+  const total = 800;
+  const bx = M, bw2 = CW - 2.3, by = TOP + 0.62, bh2 = 0.94;
+  let cx2 = bx;
+  segs.forEach((sg) => {
+    const w2 = (sg[1] / total) * bw2;
+    s.addShape("rect", { x: cx2, y: by, w: w2, h: bh2, fill: { color: sg[2] }, line: { color: C.white, width: 1 } });
+    s.addText(sg[1] + "万", {
+      x: cx2, y: by, w: w2, h: bh2,
+      fontFace: F.num, fontSize: sg[1] >= 100 ? 14 : 10.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
     });
-    s.addText("初期費用目安", {
-      x: x + 0.3, y: y + 0.6, w: cw - 0.6, h: 0.2,
-      fontFace: F.jp, fontSize: 9, color: p[3] ? C.cvBody : C.muted, margin: 0, valign: "middle",
+    // ラベルは上下交互に
+    s.addText(sg[0], {
+      x: cx2 - 0.3, y: sg[3] ? by - 0.34 : by + bh2 + 0.1, w: w2 + 0.6, h: 0.24,
+      fontFace: F.jp, fontSize: 9.5, color: C.muted, align: "center", margin: 0, valign: "middle",
     });
-    s.addText(p[1], {
-      x: x + 0.3, y: y + 0.8, w: cw - 0.6, h: 0.5,
-      fontFace: F.num, fontSize: 30, bold: true, color: fg, margin: 0, valign: "middle",
-    });
-    s.addText(p[2], {
-      x: x + 0.3, y: y + 1.34, w: cw - 0.6, h: 0.42,
-      fontFace: F.jp, fontSize: 10, color: p[3] ? C.cvBody : C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
-    });
+    cx2 += w2;
   });
-
-  const by = TOP + 2.06;
-  card(s, M, by, CW, 2.7);
-  s.addText("パートナー制度 初期費用内訳（20坪想定・居抜きパターン）", {
-    x: M + 0.3, y: by + 0.22, w: 7.0, h: 0.28,
-    fontFace: F.jp, fontSize: 11.5, bold: true, color: C.ink, margin: 0, valign: "middle",
-  });
+  // 右の合計表記
+  s.addShape("rect", { x: bx + bw2 + 0.14, y: by, w: 0.014, h: bh2, fill: { color: C.ink } });
   s.addText(
     [
-      { text: "合計 ", options: { fontFace: F.jp, fontSize: 10, color: C.muted } },
-      { text: "650万円〜", options: { fontFace: F.num, fontSize: 15, bold: true, color: C.green } },
+      { text: "標準総投資予算\n", options: { fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink } },
+      { text: "800万円程度", options: { fontFace: F.jp, fontSize: 15, bold: true, color: C.green } },
     ],
-    { x: M + CW - 2.6, y: by + 0.18, w: 2.3, h: 0.36, align: "right", margin: 0, valign: "middle" }
+    { x: bx + bw2 + 0.26, y: by - 0.06, w: 2.0, h: 1.06, margin: 0, valign: "middle", lineSpacingMultiple: 1.25 }
   );
-  const bd = [
-    ["LuHandCoins", "加盟金", "100万円", ""],
-    ["LuHammer", "出店工事費用", "400万円〜", "設備・電気・大工・内装工事等"],
-    ["LuStore", "出店準備金", "100万円〜", "カメラ・モニター・机・椅子等の備品類"],
-    ["LuReceipt", "別途保証金", "50万円〜", "預り金。原料やロイヤリティの支払い確認が取れない場合に差し引き"],
+  s.addText(
+    [
+      { text: "最低開業費 ", options: { fontFace: F.jp, fontSize: 12.5, bold: true, color: C.ink } },
+      { text: "650万円〜", options: { fontFace: F.num, fontSize: 15, bold: true, color: C.green } },
+      { text: "（居抜き・20坪／諸経費・予備費を除く）", options: { fontFace: F.jp, fontSize: 10.5, color: C.muted } },
+    ],
+    { x: M, y: by + bh2 + 0.42, w: CW, h: 0.34, margin: 0, valign: "middle" }
+  );
+
+  // 下段：補足カード 2×2
+  const infos = [
+    ["ロイヤリティ", "月5万円 一律（売上連動なし）"],
+    ["研修費", "なし"],
+    ["スケルトン物件の場合", "工事費が増え950万円〜（標準総投資予算1,200万円程度）"],
+    ["保証金 50万円", "預り金。原料・ロイヤリティの支払確認後、契約条件に基づき精算"],
   ];
-  const bw = (CW - 0.6 - 3 * 0.2) / 4;
-  bd.forEach((b, i) => {
-    const x = M + 0.3 + i * (bw + 0.2), y = by + 0.66;
-    tintCard(s, x, y, bw, 1.82);
-    icon(s, b[0], "green", x + 0.22, y + 0.2, 0.32);
-    s.addText(b[1], {
-      x: x + 0.22, y: y + 0.6, w: bw - 0.44, h: 0.26,
-      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+  const cw2 = (CW - 0.42) / 2, ih = 0.9;
+  infos.forEach((inf, i) => {
+    const x = M + (i % 2) * (cw2 + 0.42);
+    const y = TOP + 2.94 + Math.floor(i / 2) * (ih + 0.2);
+    card(s, x, y, cw2, ih);
+    s.addText(inf[0], {
+      x: x + 0.3, y: y + 0.14, w: cw2 - 0.6, h: 0.28,
+      fontFace: F.jp, fontSize: 11.5, bold: true, color: C.green, margin: 0, valign: "middle",
     });
-    s.addText(b[2], {
-      x: x + 0.22, y: y + 0.86, w: bw - 0.44, h: 0.36,
-      fontFace: F.num, fontSize: 17, bold: true, color: C.green, margin: 0, valign: "middle",
+    s.addText(inf[1], {
+      x: x + 0.3, y: y + 0.46, w: cw2 - 0.6, h: 0.38,
+      fontFace: F.jp, fontSize: 10.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
     });
-    if (b[3]) {
-      s.addText(b[3], {
-        x: x + 0.22, y: y + 1.24, w: bw - 0.44, h: 0.5,
-        fontFace: F.jp, fontSize: 8.5, color: C.muted, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
-      });
-    }
   });
-  note(s, 6.68, "※ 金額は目安です。物件条件・工事範囲により変動します。");
+
+  note(s, TOP + 5.14, "※ 金額はすべて税抜・目安。物件条件・工事範囲により変動します。他社カフェ業態（開業資金3,000万〜8,400万円）の1/4〜1/12の水準です。");
 }
 
 /* ===================================================== p19 / p20 収益シミュレーション */
@@ -1869,7 +1970,7 @@ pres.title = "セルフカフェ パートナー制度";
   // 前提
   const byr = TOP + 4.14;
   tintCard(s, M, byr, CW, 0.56);
-  s.addText("前提：初期費用は開業資金（650万〜／950万円〜）＋諸経費・予備費の保守的な想定／1杯420円・販売数は収益シミュレーションと同一／減価償却費・税を除く", {
+  s.addText("前提：初期費用は標準総投資予算（居抜き800万円／スケルトン1,200万円程度）／1杯420円・販売数は収益シミュレーションと同一／減価償却費・税を除く", {
     x: M + 0.26, y: byr, w: CW - 0.52, h: 0.56,
     fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle",
   });

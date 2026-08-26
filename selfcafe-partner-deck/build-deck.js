@@ -1662,82 +1662,6 @@ pres.title = "セルフカフェ パートナー制度";
   note(s, 6.78, "※ 金額はすべて税抜。減価償却費・法人税等は含みません。家賃は仮定坪単価による試算。目安であり売上・利益を保証するものではありません。");
 });
 
-/* ===================================================== 損益分岐点（1目で分かる図解） */
-{
-  const s = pres.addSlide();
-  shell(s,  "損益分岐点", "自社物件なら、1日29杯で黒字。",
-    "40席のお店で「1席あたり1杯以下」。この杯数を超えた分が、そのまま利益になります。");
-
-  // ── 上段：40席のうち何席分売れれば黒字か、を席のマスで直感的に見せる
-  const CELL = 0.3, GAP = 0.075, COLS = 20;
-  const gridW = COLS * CELL + (COLS - 1) * GAP;
-  const gx0 = M + 0.34;
-
-  const rows2 = [
-    { label: "自社物件（家賃0円）", need: 29, dark: true,  accent: "F0C05A" },
-    { label: "賃貸物件（家賃20万円）", need: 49, dark: false, accent: C.green },
-  ];
-  rows2.forEach((rw2, ri) => {
-    const y0 = TOP + ri * 2.06;
-    if (rw2.dark) panel(s, M, y0, CW, 1.9); else card(s, M, y0, CW, 1.9);
-    const fg = rw2.dark ? C.white : C.ink;
-    const sub = rw2.dark ? C.cvBody : C.muted;
-
-    s.addText(rw2.label, {
-      x: gx0, y: y0 + 0.18, w: 3.4, h: 0.28,
-      fontFace: F.jp, fontSize: 11.5, bold: true, color: rw2.dark ? C.cvPale : C.muted, margin: 0, valign: "middle",
-    });
-    // 40席ぶんのマス（2段×20列）。黒字に必要な杯数ぶんを塗る
-    for (let i = 0; i < 40; i++) {
-      const cxx = gx0 + (i % COLS) * (CELL + GAP);
-      const cyy = y0 + 0.56 + Math.floor(i / COLS) * (CELL + GAP);
-      const filled = i < Math.min(rw2.need, 40);
-      s.addShape("roundRect", {
-        x: cxx, y: cyy, w: CELL, h: CELL, rectRadius: 0.06,
-        fill: { color: filled ? rw2.accent : (rw2.dark ? "1E5C3C" : C.tint) },
-        line: { color: filled ? rw2.accent : (rw2.dark ? "2A7A4E" : C.tintLine), width: 0.75 },
-      });
-    }
-    s.addText("＝ 40席（1席1杯とした場合の目安）", {
-      x: gx0, y: y0 + 1.32, w: gridW, h: 0.24,
-      fontFace: F.jp, fontSize: 8.5, color: sub, margin: 0, valign: "middle",
-    });
-
-    // 右側：必要杯数を大きく
-    const nx = gx0 + gridW + 0.42;
-    s.addText(
-      [
-        { text: "1日 ", options: { fontFace: F.jp, fontSize: 12, color: sub } },
-        { text: "" + rw2.need, options: { fontFace: F.num, fontSize: 40, bold: true, color: rw2.accent } },
-        { text: " 杯", options: { fontFace: F.jp, fontSize: 15, bold: true, color: rw2.accent } },
-        { text: " で黒字", options: { fontFace: F.jp, fontSize: 12.5, bold: true, color: fg } },
-      ],
-      { x: nx, y: y0 + 0.42, w: R - nx - 0.3, h: 0.72, margin: 0, valign: "middle" }
-    );
-    s.addText(rw2.need === 29
-      ? "固定費28.6万円 ÷ 1杯の利益336円 ≒ 月851杯"
-      : "固定費48.6万円 ÷ 1杯の利益336円 ≒ 月1,447杯", {
-      x: nx, y: y0 + 1.16, w: R - nx - 0.3, h: 0.28,
-      fontFace: F.jp, fontSize: 9, color: sub, margin: 0, valign: "middle",
-    });
-  });
-
-  // ── 下段：実績との比較（既存店は分岐点を大きく上回っている）
-  const byr = TOP + 4.2;
-  tintCard(s, M, byr, CW, 0.9);
-  icon(s, "LuTrendingUp", "green", M + 0.32, byr + 0.25, 0.4);
-  s.addText(
-    [
-      { text: "実績：既存店（開業6ヶ月以上）の中央値は ", options: { fontFace: F.jp, fontSize: 12, color: C.ink } },
-      { text: "1日 約53杯", options: { fontFace: F.jp, fontSize: 15, bold: true, color: C.green } },
-      { text: "。分岐点を上回って稼働しています。", options: { fontFace: F.jp, fontSize: 12, color: C.ink } },
-    ],
-    { x: M + 0.92, y: byr, w: CW - 1.24, h: 0.9, margin: 0, valign: "middle" }
-  );
-
-  note(s, byr + 1.0, "※ 20坪モデルの前提（1杯420円・原価20%・固定費28.6万円／月＋家賃）による試算。1席1杯は目安で、実際は同じ席が1日に何度も回転します。");
-}
-
 /* ===================================================== 投資回収シミュレーション（20坪・50坪） */
 {
   const s = pres.addSlide();
@@ -1928,36 +1852,62 @@ pres.title = "セルフカフェ パートナー制度";
   ], { vSize: 18 });
 
   const y2 = TOP + 0.92;
-  // 外観写真を全幅で大きく（元画像の比率のまま／店内カットは使わない）
-  photoSlot(s, M, y2, CW, 2.87, "盛岡駅前店の外観", { img: "p02-storefront.jpg", capSize: 10 });
+  // 左半分：外観写真（トリミングせず元の比率のまま）＋利益パネル
+  const lw = (CW - 0.42) / 2;
+  const HERO = path.join(PHOTOS, "p26-morioka.jpg");
+  if (fs.existsSync(HERO)) {
+    // 縦のある元写真が用意された場合は左半分いっぱいに大きく使う
+    photoSlot(s, M, y2, lw, 3.9, "盛岡駅前店の外観", { img: "p26-morioka.jpg", capSize: 10 });
+  } else {
+    photoSlot(s, M, y2, lw, lw / 4.155, "盛岡駅前店の外観", { img: "p02-storefront.jpg", capSize: 10 });
+    const py2 = y2 + lw / 4.155 + 0.22;
+    panel(s, M, py2, lw, 3.9 - (lw / 4.155) - 0.22);
+    eyebrowIn(s, M + 0.34, py2 + 0.3, 2.6, "PERFORMANCE", C.cvPale);
+    s.addText(
+      [
+        { text: "232,000", options: { fontFace: F.num, fontSize: 34, bold: true, color: "F0C05A" } },
+        { text: " 円／月", options: { fontFace: F.jp, fontSize: 14, bold: true, color: "F0C05A" } },
+      ],
+      { x: M + 0.34, y: py2 + 0.62, w: lw - 0.68, h: 0.72, margin: 0, valign: "middle" }
+    );
+    s.addText("償却前営業利益", {
+      x: M + 0.34, y: py2 + 1.34, w: lw - 0.68, h: 0.28,
+      fontFace: F.jp, fontSize: 12, bold: true, color: C.white, margin: 0, valign: "middle",
+    });
+    s.addText("月の家賃280,000円を支払った上で確保しています。地方都市の駅前立地で、学生からビジネスマンまで幅広い層を獲得。", {
+      x: M + 0.34, y: py2 + 1.7, w: lw - 0.68, h: 0.8,
+      fontFace: F.jp, fontSize: 10.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
+    });
+  }
 
-  // 下段：CASE STUDY を横並びで
-  const y3 = y2 + 3.03, bh3 = 1.06;
-  card(s, M, y3, CW, bh3);
-  eyebrowIn(s, M + 0.3, y3 + 0.16, 2.0, "CASE STUDY");
+  // 右半分：CASE STUDY
+  const rx = M + lw + 0.42, rw = R - rx;
+  card(s, rx, y2, rw, 3.9);
+  eyebrowIn(s, rx + 0.3, y2 + 0.28, 2.4, "CASE STUDY");
   s.addText("1日約80杯ペースでの稼働", {
-    x: M + 0.3, y: y3 + 0.36, w: 3.6, h: 0.34,
-    fontFace: F.jp, fontSize: 14.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+    x: rx + 0.3, y: y2 + 0.54, w: rw - 0.6, h: 0.42,
+    fontFace: F.jp, fontSize: 18, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
-  s.addText("1回の利用で2〜3時間、2杯程度購入。学生からビジネスマンまで幅広い層を獲得。", {
-    x: M + 0.3, y: y3 + 0.72, w: 4.4, h: 0.26,
-    fontFace: F.jp, fontSize: 8.5, color: C.muted, margin: 0, valign: "middle",
+  s.addText("1回の利用で2〜3時間、2杯程度購入する傾向があります。", {
+    x: rx + 0.3, y: y2 + 1.02, w: rw - 0.6, h: 0.3,
+    fontFace: F.jp, fontSize: 10.5, color: C.body, margin: 0, valign: "middle",
   });
-  s.addShape("rect", { x: M + 4.9, y: y3 + 0.18, w: 0.011, h: bh3 - 0.36, fill: { color: C.warmLine } });
-  const facts = [["開業", "2025年4月"], ["面積・席数", "20坪／40席"], ["立地", "岩手県盛岡市・駅前"], ["営業時間", "24時間"]];
-  const fw = (CW - 5.3) / 4;
+  s.addShape("rect", { x: rx + 0.3, y: y2 + 1.44, w: rw - 0.6, h: 0.011, fill: { color: C.warmLine } });
+  const facts = [["開業", "2025年4月"], ["面積・席数", "20坪／40席"], ["立地", "岩手県盛岡市・駅前"], ["営業時間", "24時間"], ["月間売上高", "960,000円"]];
   facts.forEach((f, i) => {
-    const fx = M + 5.2 + i * fw;
+    const y = y2 + 1.62 + i * 0.44;
     s.addText(f[0], {
-      x: fx, y: y3 + 0.2, w: fw - 0.1, h: 0.24,
-      fontFace: F.jp, fontSize: 9, color: C.muted, margin: 0, valign: "middle",
+      x: rx + 0.3, y, w: 1.9, h: 0.34,
+      fontFace: F.jp, fontSize: 10, color: C.muted, margin: 0, valign: "middle",
     });
     s.addText(f[1], {
-      x: fx, y: y3 + 0.48, w: fw - 0.1, h: 0.36,
-      fontFace: F.jp, fontSize: 12, bold: true, color: C.ink, margin: 0, valign: "middle",
+      x: rx + 2.2, y, w: rw - 2.5, h: 0.34,
+      fontFace: F.jp, fontSize: 12.5, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
+    if (i < facts.length - 1) s.addShape("rect", { x: rx + 0.3, y: y + 0.38, w: rw - 0.6, h: 0.011, fill: { color: C.warmLine } });
   });
-  note(s, y3 + bh3 + 0.14, "※ 実績値。杯数は単価ミックスを含む概数です。他店舗での同等の売上・利益を保証するものではありません。");
+
+  note(s, y2 + 4.04, "※ 実績値。杯数は単価ミックスを含む概数です。他店舗での同等の売上・利益を保証するものではありません。");
 }
 
 /* ===================================================== p22 有料オプション */

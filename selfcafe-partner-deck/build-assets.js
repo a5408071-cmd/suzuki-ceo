@@ -74,7 +74,7 @@ async function coverBg() {
   const base = await sharp(Buffer.from(svg)).png().toBuffer();
 
   // ロゴ透かし（右側に大きく、ごく薄く）
-  const markW = Math.round(W * 0.66);
+  const markW = Math.round(W * 0.52);
   const mark = await sharp(SRC_LOGO).resize({ width: markW }).png().toBuffer();
   const mm = await sharp(mark).metadata();
   const faded = await sharp(mark).composite([{
@@ -83,7 +83,7 @@ async function coverBg() {
   }]).png().toBuffer();
 
   await sharp(base)
-    .composite([{ input: faded, left: Math.round(W * 0.52), top: Math.round(H * 0.30) }])
+    .composite([{ input: faded, left: Math.round(W * 0.44), top: Math.round(H * 0.30) }])
     .png()
     .toFile(path.join(OUT, "cover-bg.png"));
 }
@@ -109,7 +109,7 @@ const ICON_NAMES = [
   "LuPhone", "LuMail", "LuGlobe", "LuGraduationCap", "LuCalculator", "LuTrendingUp", "LuSparkles",
   "LuCheck", "LuX", "LuMinus", "LuImage", "LuClock", "LuBadgeCheck", "LuSearch", "LuShoppingBag",
   "LuHourglass", "LuPiggyBank", "LuClipboardList", "LuSmartphone", "LuZap", "LuRuler", "LuLandPlot",
-  "LuHandCoins", "LuReceipt", "LuChartColumn",
+  "LuHandCoins", "LuReceipt", "LuChartColumn", "LuJapaneseYen", "LuBadgeJapaneseYen", "LuReceiptJapaneseYen",
 ];
 const ICON_COLORS = { green: C.green, white: C.white, gold: C.gold, pale: C.pale, muted: "#B9B2A4", ink: C.ink };
 

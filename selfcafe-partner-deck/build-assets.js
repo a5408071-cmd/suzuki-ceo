@@ -73,17 +73,18 @@ async function coverBg() {
   </svg>`;
   const base = await sharp(Buffer.from(svg)).png().toBuffer();
 
-  // ロゴ透かし（右側に大きく、ごく薄く）
-  const markW = Math.round(W * 0.52);
-  const mark = await sharp(SRC_LOGO).resize({ width: markW }).png().toBuffer();
+  // 丸ロゴの透かし（右側に大きく、ごく薄く／キャンバス内に収める）
+  const ROUND = path.join(OUT, "logo-round-mask.png");
+  const markH = Math.round(H * 0.86);
+  const mark = await sharp(ROUND).resize({ height: markH }).png().toBuffer();
   const mm = await sharp(mark).metadata();
   const faded = await sharp(mark).composite([{
-    input: Buffer.from([255, 255, 255, 12]),
+    input: Buffer.from([255, 255, 255, 16]),
     raw: { width: 1, height: 1, channels: 4 }, tile: true, blend: "dest-in",
   }]).png().toBuffer();
 
   await sharp(base)
-    .composite([{ input: faded, left: Math.round(W * 0.44), top: Math.round(H * 0.30) }])
+    .composite([{ input: faded, left: W - mm.width - Math.round(W * 0.05), top: Math.round((H - mm.height) / 2) }])
     .png()
     .toFile(path.join(OUT, "cover-bg.png"));
 }

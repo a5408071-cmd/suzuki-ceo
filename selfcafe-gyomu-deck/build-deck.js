@@ -1403,8 +1403,8 @@ pres.title = "セルフカフェ 業務委託型制度";
 /* ===================================================== 収益シミュレーション（業務委託） */
 {
   const s = pres.addSlide();
-  shell(s,  "収益", "貴社の受取イメージ：月22万〜35万円",
-    "既存店の営業総利益（売上−原価）をもとに、25坪・70坪の2パターンで試算しました。");
+  shell(s,  "収益", "貴社の受取イメージ：月20万〜35万円",
+    "1杯420円・原価20%の前提で、25坪・70坪の2パターンを試算しました（FC資料と同一の前提）。");
 
   const lw = 8.1;
   const yen2 = (t2, big) => ({
@@ -1415,33 +1415,57 @@ pres.title = "セルフカフェ 業務委託型制度";
       margin: [0.05, 0.16, 0.05, 0.16],
     },
   });
+  const cell = (t2, red) => ({
+    text: red ? "▲" + t2 : t2,
+    options: {
+      fill: { color: C.white }, color: red ? "B0483A" : C.body, fontSize: 11.5, fontFace: F.num,
+      align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16],
+    },
+  });
+  const hi = (t2, size) => ({
+    text: t2,
+    options: {
+      fill: { color: C.tint }, color: C.green, bold: true, fontSize: size, fontFace: F.num,
+      align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16],
+    },
+  });
+  const hl = (t2, size) => ({
+    text: t2,
+    options: {
+      fill: { color: C.tint }, color: C.ink, bold: true, fontSize: size, fontFace: F.jp,
+      valign: "middle", margin: [0.05, 0.16, 0.05, 0.16],
+    },
+  });
   s.addTable(
     [
       [th("項目（月次・円／税抜）"), th("25坪パターン", { align: "right" }), th("70坪パターン", { align: "right" })],
-      [tl("営業総利益（売上−原価）"), yen2("888,100"), yen2("1,387,600")],
+      [tl("1日あたりの販売杯数"), cell("81杯"), cell("138杯")],
+      [tl("売上高（1杯420円 × 30日）"), cell("1,020,600"), cell("1,738,800")],
+      [tl("ドリンク原価（20%）"), cell("204,120", true), cell("347,760", true)],
+      [hl("営業総利益（売上−原価）", 11.5), hi("816,480", 12.5), hi("1,391,040", 12.5)],
       [
-        { text: "業務委託料（25％）", options: { fill: { color: C.tint }, color: C.ink, bold: true, fontSize: 12, fontFace: F.jp, valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
-        { text: "222,025", options: { fill: { color: C.tint }, color: C.green, bold: true, fontSize: 15, fontFace: F.num, align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
-        { text: "346,900", options: { fill: { color: C.tint }, color: C.green, bold: true, fontSize: 15, fontFace: F.num, align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
+        { text: "業務委託料（25％）", options: { fill: { color: C.goldTint }, color: C.gold, bold: true, fontSize: 12, fontFace: F.jp, valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
+        { text: "204,120", options: { fill: { color: C.goldTint }, color: C.gold, bold: true, fontSize: 15, fontFace: F.num, align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
+        { text: "347,760", options: { fill: { color: C.goldTint }, color: C.gold, bold: true, fontSize: 15, fontFace: F.num, align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
       ],
-      [tl("年間換算"), yen2("2,664,300", true), yen2("4,162,800", true)],
+      [tl("年間換算"), cell("2,449,440"), cell("4,173,120")],
     ],
     {
       x: M, y: TOP, w: lw, colW: [4.1, 2.0, 2.0],
-      rowH: [0.42, 0.62, 0.74, 0.62],
+      rowH: [0.4, 0.46, 0.46, 0.46, 0.54, 0.6, 0.46],
       border: { type: "solid", color: C.warmLine, pt: 0.75 },
       autoPage: false,
     }
   );
 
   // 前提
-  card(s, M, TOP + 2.62, lw, 2.1);
+  card(s, M, TOP + 3.44, lw, 1.5);
   s.addText("計算の前提", {
-    x: M + 0.3, y: TOP + 2.82, w: lw - 0.6, h: 0.28,
+    x: M + 0.3, y: TOP + 3.56, w: lw - 0.6, h: 0.26,
     fontFace: F.jp, fontSize: 11.5, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
-  ["営業総利益（売上−原価）の25％を業務委託料としてお支払い", "売上金の管理は本部が実施", "上記は既存店の実績をもとにした試算値です"].forEach((t2, i) => {
-    const y = TOP + 3.18 + i * 0.42;
+  ["1杯420円・原価20%（FC資料の収益シミュレーションと同一の前提）", "販売杯数は坪数から算出（20坪=75杯・40坪=100杯の関係で換算）", "営業総利益の25％を業務委託料としてお支払い。売上金の管理は本部が実施"].forEach((t2, i) => {
+    const y = TOP + 3.86 + i * 0.36;
     icon(s, "LuCheck", "green", M + 0.32, y + 0.05, 0.2);
     s.addText(t2, {
       x: M + 0.64, y, w: lw - 0.94, h: 0.32,
@@ -1460,13 +1484,13 @@ pres.title = "セルフカフェ 業務委託型制度";
   s.addText(
     [
       { text: "月 ", options: { fontFace: F.jp, fontSize: 13, color: C.white } },
-      { text: "22〜35", options: { fontFace: F.num, fontSize: 32, bold: true, color: "F0C05A" } },
+      { text: "20〜35", options: { fontFace: F.num, fontSize: 32, bold: true, color: "F0C05A" } },
       { text: " 万円", options: { fontFace: F.jp, fontSize: 14, bold: true, color: "F0C05A" } },
     ],
     { x: rx + 0.28, y: TOP + 0.84, w: rw - 0.56, h: 0.7, margin: 0, valign: "middle" }
   );
   s.addShape("rect", { x: rx + 0.28, y: TOP + 1.62, w: rw - 0.56, h: 0.011, fill: { color: "2A7A4E" } });
-  s.addText("年 266万〜416万円", {
+  s.addText("年 245万〜417万円", {
     x: rx + 0.28, y: TOP + 1.74, w: rw - 0.56, h: 0.4,
     fontFace: F.jp, fontSize: 14, bold: true, color: C.white, margin: 0, valign: "middle",
   });
@@ -1489,7 +1513,7 @@ pres.title = "セルフカフェ 業務委託型制度";
     fontFace: F.jp, fontSize: 8.5, color: C.muted, margin: 0, valign: "middle",
   });
 
-  note(s, 6.78, "※ 既存店の実績に基づく試算であり、売上・利益を保証するものではありません。金額はすべて税抜です。");
+  note(s, 6.78, "※ 目安の試算であり、売上・利益を保証するものではありません。金額はすべて税抜。杯数・単価は店舗条件により変動します。");
 }
 
 /* ===================================================== p22 有料オプション */

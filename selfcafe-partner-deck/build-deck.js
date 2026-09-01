@@ -279,7 +279,7 @@ pres.title = "セルフカフェ パートナー制度";
   const stats = [
     { x: 0.889, w: 3.472, v: "71", u: "店舗", l: "全国展開（年内10店舗以上 出店予定）" },
     { x: 4.833, w: 2.083, v: "約10", u: "万人", l: "月間利用者数" },
-    { x: 7.389, w: 2.5, v: "650", u: "万円〜", l: "初期費用（居抜き・20坪想定）" },
+    { x: 7.389, w: 2.5, v: "750", u: "万円〜", l: "初期費用（居抜き・20坪想定）" },
   ];
   stats.forEach((st) => {
     s.addText(
@@ -947,7 +947,7 @@ pres.title = "セルフカフェ パートナー制度";
   const items = [
     ["LuCoffee", "420円〜", "1杯あたり", "ドリンク一杯で入店",
       "ドリンク購入だけで、Wi-Fi・電源完備の空間を自由に利用できます。"],
-    ["LuBadgeCheck", "不要", "会員登録・月会費", "会員登録不要",
+    ["LuBadgeCheck", "誰でも利用可 手間無し", "会員登録・月会費", "会員登録不要",
       "面倒な登録手続きなし。誰でも来店してすぐに利用できます。"],
     ["LuClock", "0円", "延長・追加料金", "滞在時間無制限",
       "追加料金を気にせず、仕事や勉強に没頭できる環境です。"],
@@ -1444,10 +1444,10 @@ pres.title = "セルフカフェ パートナー制度";
         th("C社", { fill: "8E8B84", align: "right" }), th("D社", { fill: "8E8B84", align: "right" })],
       [tl("加盟金"), mine("100万円"), oth("300万円〜"), oth("150万円〜")],
       [tl("店舗工事費用"), mine("400万円〜"), oth("8,000万円〜"), oth("2,000万円〜")],
-      [tl("出店準備金"), mine("100万円〜"), oth("—"), oth("—")],
+      [tl("出店準備金"), mine("200万円〜"), oth("—"), oth("—")],
       [tl("保証金"), mine("50万円〜"), oth("100万円〜"), oth("150万円〜")],
       [tl("研修費"), mine("なし"), oth("15万円"), oth("20万円／1名")],
-      [tl("開業資金"), mine("650万円〜", true), oth("8,400万円〜"), oth("3,000万円〜")],
+      [tl("開業資金"), mine("750万円〜", true), oth("8,400万円〜"), oth("3,000万円〜")],
       [tl("ロイヤリティ"), mine("月5万円（一律）"), oth("1席1,500円／月"), oth("売上の2%／月")],
     ],
     {
@@ -1476,18 +1476,18 @@ pres.title = "セルフカフェ パートナー制度";
 /* ===================================================== 初期投資の詳細 */
 {
   const s = pres.addSlide();
-  shell(s,  "初期費用", "開業費650万円〜・標準予算800万円程度",
+  shell(s,  "初期費用", "開業費750万円〜・標準予算900万円程度",
     "内訳を1本のバーで示しています。居抜き・既存店併設なら工事範囲を最小化できます。");
 
   // 積み上げバー（合計800万円）
   const segs = [
     ["加盟金", 100, C.greenDeep, true],
     ["出店工事費用", 400, "1B7A47", false],
-    ["出店準備金", 100, "5FA57C", true],
+    ["開業準備金\n出店準備金", 200, "5FA57C", true],
     ["保証金（預り金）", 50, "9CC3AA", false],
     ["諸経費・予備費", 150, C.gold, true],
   ];
-  const total = 800;
+  const total = 900;
   const bx = M, bw2 = CW - 2.3, by = TOP + 0.62, bh2 = 0.94;
   let cx2 = bx;
   segs.forEach((sg) => {
@@ -1509,11 +1509,11 @@ pres.title = "セルフカフェ パートナー制度";
   s.addText(
     [
       { text: "標準総投資予算\n", options: { fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink } },
-      { text: "800万円程度", options: { fontFace: F.jp, fontSize: 15, bold: true, color: C.green } },
+      { text: "900万円程度", options: { fontFace: F.jp, fontSize: 15, bold: true, color: C.green } },
     ],
     { x: bx + bw2 + 0.26, y: by - 0.06, w: 2.0, h: 1.06, margin: 0, valign: "middle", lineSpacingMultiple: 1.25 }
   );
-  s.addText("出店準備金の内訳：設計費・デザイン費・開業サポート費", {
+  s.addText("開業準備金の内訳：設計費・デザイン費・開業サポート費", {
     x: M, y: by + bh2 + 0.72, w: CW, h: 0.26,
     fontFace: F.jp, fontSize: 10, color: C.muted, margin: 0, valign: "middle",
   });
@@ -1528,10 +1528,10 @@ pres.title = "セルフカフェ パートナー制度";
 
   // 下段：補足カード 2×2
   const infos = [
-    ["LuJapaneseYen", "出店準備金 100万円", "設計費・デザイン費・開業サポート費（見積書の項目と対応）"],
+    ["LuJapaneseYen", "準備金 200万円", "出店準備金：カメラ・机・椅子・モニターなど店内で使用する備品類\n開業準備金：設計費・デザイン費・開業サポート費"],
     ["LuReceiptJapaneseYen", "保証金 50万円", "預り金。原料・ロイヤリティの支払確認後、契約条件に基づき精算"],
     ["LuHandCoins", "ロイヤリティ／研修費", "ロイヤリティは月5万円 一律（売上連動なし）。研修費はなし"],
-    ["LuHammer", "スケルトン物件の場合", "工事費が増え950万円〜（標準総投資予算1,200万円程度）"],
+    ["LuHammer", "スケルトン物件の場合", "工事費が増え1050万円〜（標準総投資予算1,300万円程度）"],
   ];
   const cw2 = (CW - 0.42) / 2, ih = 0.9;
   infos.forEach((inf, i) => {
@@ -1666,27 +1666,27 @@ pres.title = "セルフカフェ パートナー制度";
 {
   const s = pres.addSlide();
   shell(s,  "収益", "投資回収シミュレーション",
-    "20坪（初期費用800万円）と40坪（同1,200万円）について、家賃あり／家賃なし（自社物件）の回収期間を試算しました。");
+    "20坪（初期費用900万円）と40坪（同1,300万円）について、家賃あり／家賃なし（自社物件）の回収期間を試算しました。");
 
   const cases = [
     {
-      no: "CASE 01", size: "20坪（40席）", invest: "800", investNote: "初期費用",
-      investBreak: "開業費650万円（加盟金100＋工事400＋準備金100＋保証金50）＋諸経費・予備費150万円",
+      no: "CASE 01", size: "20坪（40席）", invest: "900", investNote: "初期費用",
+      investBreak: "開業費750万円（加盟金100＋工事400＋準備金200＋保証金50）＋諸経費・予備費150万円",
       sales: "945,000円", salesNote: "420円 × 75杯 × 30日",
       cost: "-475,000円", rent: "-200,000円", rentNote: "坪単価 10,000円",
       pats: [
-        { name: "家賃あり（賃借）", profit: "27.0万円", pb: "約2年6ヶ月", pbS: "30ヶ月", dark: false },
-        { name: "家賃なし（自社物件）", profit: "47.0万円", pb: "約1年5ヶ月", pbS: "17ヶ月", dark: true },
+        { name: "家賃あり（賃借）", profit: "27.0万円", pb: "約2年9ヶ月", pbS: "33ヶ月", dark: false },
+        { name: "家賃なし（自社物件）", profit: "47.0万円", pb: "約1年7ヶ月", pbS: "19ヶ月", dark: true },
       ],
     },
     {
-      no: "CASE 02", size: "40坪（80席）", invest: "1,200", investNote: "初期費用",
-      investBreak: "スケルトン工事の開業費950万円＋諸経費・予備費250万円",
+      no: "CASE 02", size: "40坪（80席）", invest: "1,300", investNote: "初期費用",
+      investBreak: "スケルトン工事の開業費1050万円＋諸経費・予備費250万円",
       sales: "1,260,000円", salesNote: "420円 × 100杯 × 30日",
       cost: "-553,000円", rent: "-320,000円", rentNote: "坪単価 8,000円",
       pats: [
-        { name: "家賃あり（賃借）", profit: "38.7万円", pb: "約2年7ヶ月", pbS: "31ヶ月", dark: false },
-        { name: "家賃なし（自社物件）", profit: "70.7万円", pb: "約1年5ヶ月", pbS: "17ヶ月", dark: true },
+        { name: "家賃あり（賃借）", profit: "38.7万円", pb: "約2年10ヶ月", pbS: "34ヶ月", dark: false },
+        { name: "家賃なし（自社物件）", profit: "70.7万円", pb: "約1年6ヶ月", pbS: "18ヶ月", dark: true },
       ],
     },
   ];
@@ -1765,7 +1765,7 @@ pres.title = "セルフカフェ パートナー制度";
   // 前提
   const byr = TOP + 4.44;
   tintCard(s, M, byr, CW, 0.5);
-  s.addText("前提：初期費用は標準総投資予算（居抜き800万円／スケルトン1,200万円程度）／1杯420円・販売数は収益シミュレーションと同一／減価償却費・税を除く", {
+  s.addText("前提：初期費用は標準総投資予算（居抜き900万円／スケルトン1,300万円程度）／1杯420円・販売数は収益シミュレーションと同一／減価償却費・税を除く", {
     x: M + 0.26, y: byr, w: CW - 0.52, h: 0.5,
     fontFace: F.jp, fontSize: 9.5, color: C.ink, margin: 0, valign: "middle",
   });
@@ -1959,7 +1959,6 @@ pres.title = "セルフカフェ パートナー制度";
       autoPage: false,
     }
   );
-  note(s, TOP + 4.6, "※ SEO対策・MEO対策・PayPayポイント付与は費用なしの標準提供のため、本表からは除いています。");
 }
 
 /* ===================================================== p23 ドリンクマシン */
@@ -2201,7 +2200,7 @@ pres.title = "セルフカフェ パートナー制度";
     x: 0.889, y: 2.28, w: 8.0, h: 0.86,
     fontFace: F.jp, fontSize: 42, bold: true, color: C.white, margin: 0, valign: "middle",
   });
-  s.addText("会社名・氏名・連絡先をご記入の上ご連絡ください。\nスペースの写真や図面をお持ちいただけると、初回面談で収益試算までご案内できます。", {
+  s.addText("会社名・氏名・連絡先をご記入の上ご連絡ください。", {
     x: 0.889, y: 3.24, w: 7.6, h: 0.72,
     fontFace: F.jp, fontSize: 12.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
   });
@@ -2230,10 +2229,6 @@ pres.title = "セルフカフェ パートナー制度";
     }
   });
 
-  s.addText("お気軽にご連絡ください", {
-    x: 0.889, y: 6.8, w: 5.0, h: 0.26,
-    fontFace: F.jp, fontSize: 11, color: C.cvSmall, margin: 0, valign: "middle",
-  });
   s.addText("セルフカフェ株式会社", {
     x: 9.0, y: 6.8, w: 3.611, h: 0.26,
     fontFace: F.jp, fontSize: 10.5, color: C.cvSmall, align: "right", margin: 0, valign: "middle",

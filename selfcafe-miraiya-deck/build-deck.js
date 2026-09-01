@@ -376,333 +376,6 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   note(s, byr + 0.9, "※ お受取額は本資料の想定販売杯数に基づく試算です（税抜）。売上を保証するものではありません。");
 }
 
-/* ===================================================== スキーム比較（業務委託型とFC） */
-{
-  const s = pres.addSlide();
-  shell(s, "スキーム", "場所をご提供いただくだけ。運営主体は本部です。",
-    "通常のFC加盟とは異なり、貴社が独立オーナーとして運営する必要はありません。");
-
-  const colW = [2.1, 4.5, 5.289];
-  const mine2 = (t2) => ({
-    text: t2,
-    options: {
-      fill: { color: C.tint }, color: C.ink, bold: true, fontSize: 11, fontFace: F.jp,
-      valign: "middle", margin: [0.06, 0.16, 0.06, 0.16],
-    },
-  });
-  const oth2 = (t2) => ({
-    text: t2,
-    options: {
-      fill: { color: C.white }, color: C.grayText, fontSize: 10.5, fontFace: F.jp,
-      valign: "middle", margin: [0.06, 0.16, 0.06, 0.16],
-    },
-  });
-  s.addShape("roundRect", {
-    x: M + colW[0] + colW[1], y: TOP + 0.08, w: colW[2], h: 0.3, rectRadius: 0.05,
-    fill: { color: C.gold }, line: { type: "none" },
-  });
-  s.addText("貴社にご提案するのはこちら", {
-    x: M + colW[0] + colW[1], y: TOP + 0.08, w: colW[2], h: 0.3,
-    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
-  });
-  s.addTable(
-    [
-      [th("項目", { fill: C.grayBand, color: C.ink }), th("通常のFC加盟", { fill: "8E8B84" }), th("業務委託型")],
-      [tl("運営主体"), oth2("加盟者様が独立オーナーとして運営"), mine2("本部が運営を主導。貴社は場所のご提供のみ")],
-      [tl("初期費用"), oth2("加盟金100万円＋工事費用等\n（開業資金の目安：居抜き750万円〜／スケルトン1,050万円〜）"), mine2("30万〜50万円程度（機器設置費のみ）")],
-      [tl("出店スペース"), oth2("独立した店舗区画（20坪〜）が必要"), mine2("既存スペースの一角に間借り設置が可能")],
-      [tl("日常業務"), oth2("加盟者様が運営全般を担当"), mine2("清掃・補充のみ、1日15分程度（既存スタッフで対応可）")],
-      [tl("売上金の流れ"), oth2("本部が売上金を管理し、ロイヤリティ等を控除した残額を加盟者様へ振込"), mine2("本部が売上金を管理し、売上の25％を業務委託料として貴社へお支払い")],
-      [tl("契約・撤退"), oth2("独立出店が前提の長期契約"), mine2("契約期間の縛りあり（最低3年〜）／本部審査あり。原状回復の負担も小さい")],
-    ],
-    {
-      x: M, y: TOP + 0.5, w: CW, colW,
-      rowH: [0.4, 0.5, 0.72, 0.5, 0.56, 0.72, 0.66],
-      border: { type: "solid", color: C.warmLine, pt: 0.75 },
-      autoPage: false,
-    }
-  );
-  note(s, TOP + 4.84, "※ 金額はすべて税抜・目安です。物件条件により変動します。今回は業務委託型でのご提案です。");
-}
-
-/* ===================================================== p3 セルフカフェとは */
-{
-  const s = pres.addSlide();
-  shell(s, "セルフカフェとは", "スタッフのいない、ドリンク1杯のワークスペース。",
-    "Wi-Fi・電源完備。1杯のご購入で時間制限なくご利用いただける無人カフェです。");
-
-  const lw = 6.6;
-  const stats = [
-    ["利用料", "420", "円〜", "1杯で滞在時間の制限なし"],
-    ["会員登録", "不要", "", "登録手続き・月会費なし"],
-    ["運営人員", "0", "人", "無人運営。開閉店も自動"],
-    ["日常業務", "15", "分／日", "清掃・原料補充のみ"],
-  ];
-  const cw = (lw - 0.3) / 2, chh = 1.52;
-  stats.forEach((st, i) => {
-    const x = M + (i % 2) * (cw + 0.3);
-    const y = TOP + Math.floor(i / 2) * (chh + 0.24);
-    card(s, x, y, cw, chh);
-    s.addText(st[0], {
-      x: x + 0.28, y: y + 0.16, w: cw - 0.56, h: 0.26,
-      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.muted, margin: 0, valign: "middle",
-    });
-    s.addText(
-      [
-        { text: st[1], options: { fontFace: numFace(st[1]), fontSize: 30, bold: true, color: C.green } },
-        { text: st[2] ? " " + st[2] : "", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.green } },
-      ],
-      { x: x + 0.28, y: y + 0.44, w: cw - 0.56, h: 0.58, margin: 0, valign: "middle" }
-    );
-    s.addText(st[3], {
-      x: x + 0.28, y: y + 1.06, w: cw - 0.56, h: 0.3,
-      fontFace: F.jp, fontSize: 9.5, color: C.muted, margin: 0, valign: "middle",
-    });
-  });
-
-  const fy = TOP + 2 * (chh + 0.24) + 0.06;
-  const feats = [["LuWifi", "高速Wi-Fi"], ["LuPlug", "電源完備"], ["LuClock", "席時間無制限"], ["LuCalendarCheck", "年中無休"]];
-  const fw = (lw - 3 * 0.2) / 4;
-  feats.forEach(([ic, label], i) => {
-    const x = M + i * (fw + 0.2);
-    tintCard(s, x, fy, fw, 1.0);
-    icon(s, ic, "green", x + fw / 2 - 0.19, fy + 0.18, 0.38);
-    s.addText(label, {
-      x: x + 0.04, y: fy + 0.62, w: fw - 0.08, h: 0.28,
-      fontFace: F.jp, fontSize: 10, bold: true, color: C.green, align: "center", margin: 0, valign: "middle",
-    });
-  });
-
-  const rx = M + lw + 0.42, rw = R - rx;
-  photoSlot(s, rx, TOP, rw, 3.3, null, { img: "sasashima-interior.jpg" });
-  tintCard(s, rx, TOP + 3.48, rw, 1.04);
-  s.addText("ささしまライブ店（名古屋）。商業施設の1階路面で、朝8時から22時まで無人運営しています。", {
-    x: rx + 0.26, y: TOP + 3.48, w: rw - 0.52, h: 1.04,
-    fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.35,
-  });
-
-  note(s, 6.78, "※ ドリンクは1杯420円〜（税抜）。サブスクプランをご利用の場合は1杯あたり147円〜となります。");
-}
-
-/* ===================================================== p4 立地適性 */
-{
-  const s = pres.addSlide();
-  shell(s, "立地適性", "映画館のとなり。待ち時間が、そのまま需要になる。",
-    "両店とも同一フロアに映画館があり、上映前後の待ち時間需要を取り込める立地です。");
-
-  const cw = (CW - 0.42) / 2;
-  const stores = [
-    { name: "秋田店", floor: "2F", img: "map-akita-floor.png", cine: "TOHOシネマズ", h: 2.3,
-      facts: [["面積・席数", "62.97坪／73席"], ["月間来客数", "3,760人"], ["営業時間", "10:00〜21:00"]] },
-    { name: "土浦店", floor: "3F", img: "map-tsuchiura-floor.png", cine: "シネマサンシャイン土浦", h: 2.3,
-      facts: [["面積・席数", "30坪／59席"], ["月間来客数", "4,027人"], ["営業時間", "10:00〜21:00"]] },
-  ];
-  stores.forEach((st, i) => {
-    const x = M + i * (cw + 0.42);
-    card(s, x, TOP, cw, 4.16);
-    s.addText(
-      [
-        { text: st.name, options: { fontFace: F.jp, fontSize: 17, bold: true, color: C.ink } },
-        { text: "   " + st.floor + " ／ " + st.cine + " と同一フロア", options: { fontFace: F.jp, fontSize: 9.5, color: C.muted } },
-      ],
-      { x: x + 0.3, y: TOP + 0.18, w: cw - 0.6, h: 0.36, margin: 0, valign: "middle" }
-    );
-    photoSlot(s, x + 0.3, TOP + 0.58, cw - 0.6, st.h, null, { img: st.img, fit: "contain" });
-    const fy = TOP + 0.58 + st.h + 0.1;
-    st.facts.forEach((f, j) => {
-      const y = fy + j * 0.4;
-      s.addText(f[0], {
-        x: x + 0.3, y, w: 1.9, h: 0.32,
-        fontFace: F.jp, fontSize: 10, color: C.muted, margin: 0, valign: "middle",
-      });
-      s.addText(f[1], {
-        x: x + 2.2, y, w: cw - 2.5, h: 0.32,
-        fontFace: F.jp, fontSize: 12, bold: true, color: C.ink, margin: 0, valign: "middle",
-      });
-      if (j < st.facts.length - 1) s.addShape("rect", { x: x + 0.3, y: y + 0.36, w: cw - 0.6, h: 0.011, fill: { color: C.warmLine } });
-    });
-  });
-
-  panel(s, M, TOP + 4.34, CW, 0.72);
-  icon(s, "LuHourglass", "pale", M + 0.32, TOP + 4.52, 0.36);
-  s.addText("上映前後の待ち時間や、書店で本を選んだあとの休憩など「少しだけ座りたい」需要が館内で自然に発生します。1杯で時間制限がないため、その受け皿として機能します。", {
-    x: M + 0.88, y: TOP + 4.34, w: CW - 1.18, h: 0.72,
-    fontFace: F.jp, fontSize: 10, color: C.white, margin: 0, valign: "middle", lineSpacingMultiple: 1.3,
-  });
-
-  note(s, 6.92, "出典：面積・席数・月間来客数は貴社ご提供資料（2025年平均）。フロアマップは各館の館内図より。");
-}
-
-/* ===================================================== p5 参考モデル（書店併設型の実績） */
-{
-  const s = pres.addSlide();
-  shell(s, "参考モデル", "書店併設型は、すでに2店舗で稼働しています。",
-    "同じ「書店の中のセルフカフェ」として運営している2店舗の実績です。");
-
-  const cw = (CW - 2 * 0.3) / 3;
-  const refs = [
-    { name: "印西牧の原店", sub: "千葉県印西市／書店併設", img: "inzai-hall.jpg", cups: "40.6", dark: false },
-    { name: "新守山店", sub: "愛知県名古屋市／書店併設", img: "shinmoriyama-hall.jpg", cups: "45.2", dark: false },
-    { name: "ささしまライブ店", sub: "愛知県名古屋市／商業施設内", img: "sasashima-exterior.jpg", cups: "122.7", dark: true },
-  ];
-  refs.forEach((r, i) => {
-    const x = M + i * (cw + 0.3);
-    if (r.dark) panel(s, x, TOP, cw, 4.2); else card(s, x, TOP, cw, 4.2);
-    photoSlot(s, x + 0.24, TOP + 0.24, cw - 0.48, 1.72, null, { img: r.img });
-    s.addText(r.name, {
-      x: x + 0.24, y: TOP + 2.02, w: cw - 0.48, h: 0.34,
-      fontFace: F.jp, fontSize: 15, bold: true, color: r.dark ? C.white : C.ink, margin: 0, valign: "middle",
-    });
-    s.addText(r.sub, {
-      x: x + 0.24, y: TOP + 2.36, w: cw - 0.48, h: 0.26,
-      fontFace: F.jp, fontSize: 9.5, color: r.dark ? C.cvBody : C.muted, margin: 0, valign: "middle",
-    });
-    s.addShape("rect", { x: x + 0.24, y: TOP + 2.74, w: cw - 0.48, h: 0.011, fill: { color: r.dark ? "2A7A4E" : C.warmLine } });
-    s.addText("1日あたりの販売杯数", {
-      x: x + 0.24, y: TOP + 2.88, w: cw - 0.48, h: 0.26,
-      fontFace: F.jp, fontSize: 9.5, color: r.dark ? C.cvBody : C.muted, margin: 0, valign: "middle",
-    });
-    s.addText(
-      [
-        { text: r.cups, options: { fontFace: F.num, fontSize: 30, bold: true, color: r.dark ? "F0C05A" : C.green } },
-        { text: " 杯", options: { fontFace: F.jp, fontSize: 14, bold: true, color: r.dark ? "F0C05A" : C.green } },
-      ],
-      { x: x + 0.24, y: TOP + 3.14, w: cw - 0.48, h: 0.66, margin: 0, valign: "middle" }
-    );
-    s.addText(r.dark ? "商業施設内の大型店。上限の目安" : "書店併設の標準的な水準", {
-      x: x + 0.24, y: TOP + 3.82, w: cw - 0.48, h: 0.26,
-      fontFace: F.jp, fontSize: 9, color: r.dark ? C.cvPale : C.muted, margin: 0, valign: "middle",
-    });
-  });
-
-  tintCard(s, M, TOP + 4.38, CW, 0.8);
-  icon(s, "LuChartColumn", "green", M + 0.32, TOP + 4.59, 0.38);
-  s.addText(
-    [
-      { text: "書店併設2店の平均は ", options: { fontFace: F.jp, fontSize: 11.5, color: C.ink } },
-      { text: "1日42.9杯", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.green } },
-      { text: "。商業施設内のささしまライブ店は ", options: { fontFace: F.jp, fontSize: 11.5, color: C.ink } },
-      { text: "1日122.7杯", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.green } },
-      { text: " で稼働しています。", options: { fontFace: F.jp, fontSize: 11.5, color: C.ink } },
-    ],
-    { x: M + 0.9, y: TOP + 4.38, w: CW - 1.2, h: 0.8, margin: 0, valign: "middle" }
-  );
-
-  note(s, 6.94, "出典：社内管理台帳（2026年5月〜8月の月間実杯数の平均）。");
-}
-
-/* ===================================================== 書店併設の実例（印西牧の原店） */
-{
-  const s = pres.addSlide();
-  shell(s, "導入イメージ", "書店の中に、こう入ります。",
-    "印西牧の原店の実際の様子です。書架のとなりに席を並べ、書店の動線をそのまま活かしています。");
-
-  const bigW = 7.5, bigH = 3.9;
-  photoSlot(s, M, TOP, bigW, bigH, null, { img: "inzai-hall.jpg" });
-
-  const rx = M + bigW + 0.3, rw = R - rx, sh = (bigH - 0.3) / 2;
-  photoSlot(s, rx, TOP, rw, sh, null, { img: "inzai-books.jpg" });
-  photoSlot(s, rx, TOP + sh + 0.3, rw, sh, null, { img: "inzai-counter.jpg" });
-
-  const pts = [
-    ["LuRuler", "書架の間・壁面沿いに設置", "独立区画は不要。既存の什器配置を大きく変えずに席をつくれます。"],
-    ["LuPlug", "各席に電源とWi-Fi", "長時間の滞在に耐える設えで、書店の滞在時間もあわせて伸びます。"],
-    ["LuUsers", "レジ・接客は発生しない", "ドリンクはセルフのマシン。書店スタッフの手は一切かかりません。"],
-  ];
-  const by = TOP + bigH + 0.24, pw = (CW - 2 * 0.24) / 3;
-  pts.forEach((p2, i) => {
-    const x = M + i * (pw + 0.24);
-    tintCard(s, x, by, pw, 0.94);
-    icon(s, p2[0], "green", x + 0.24, by + 0.28, 0.34);
-    s.addText(p2[1], {
-      x: x + 0.68, y: by + 0.12, w: pw - 0.92, h: 0.28,
-      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
-    });
-    s.addText(p2[2], {
-      x: x + 0.68, y: by + 0.4, w: pw - 0.92, h: 0.44,
-      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
-    });
-  });
-
-  note(s, by + 1.04, "写真：セルフカフェ 印西牧の原店（千葉県印西市／未来屋書店様 併設）。");
-}
-
-/* ===================================================== p6 想定販売杯数の考え方 */
-{
-  const s = pres.addSlide();
-  shell(s, "前提の考え方", "実績を基準に、控えめに置いた想定です。",
-    "商業施設内・映画館隣接・館内の通行量を踏まえ、実績平均の約1.9倍を想定しました。");
-
-  // 杯数の比較バー
-  const bx = M, bw = 8.1, bh = 3.5;
-  card(s, bx, TOP, bw, bh);
-  s.addText("1日あたりの販売杯数の比較", {
-    x: bx + 0.3, y: TOP + 0.2, w: bw - 0.6, h: 0.28,
-    fontFace: F.jp, fontSize: 11, bold: true, color: C.ink, margin: 0, valign: "middle",
-  });
-  const bars = [
-    { label: "印西牧の原店（実績）", v: 40.6, c: "9CC3AA", tag: "実績" },
-    { label: "新守山店（実績）", v: 45.2, c: "9CC3AA", tag: "実績" },
-    { label: "土浦店（想定）", v: 75, c: C.gold, tag: "想定" },
-    { label: "秋田店（想定）", v: 85, c: C.gold, tag: "想定" },
-    { label: "ささしまライブ店（実績）", v: 122.7, c: "5FA57C", tag: "実績" },
-  ];
-  const maxV = 130, lx = bx + 2.7, lw2 = bw - 3.5;
-  bars.forEach((b, i) => {
-    const y = TOP + 0.66 + i * 0.55;
-    s.addText(b.label, {
-      x: bx + 0.3, y, w: 2.36, h: 0.34,
-      fontFace: F.jp, fontSize: 9.5, bold: b.tag === "想定", color: b.tag === "想定" ? C.ink : C.muted, margin: 0, valign: "middle",
-    });
-    const w2 = (b.v / maxV) * lw2;
-    s.addShape("roundRect", {
-      x: lx, y: y + 0.05, w: w2, h: 0.24, rectRadius: 0.05,
-      fill: { color: b.c }, line: { type: "none" },
-    });
-    s.addText(b.v + " 杯", {
-      x: lx + w2 + 0.1, y, w: 1.0, h: 0.34,
-      fontFace: F.jp, fontSize: 10, bold: true, color: b.tag === "想定" ? C.gold : C.muted, margin: 0, valign: "middle",
-    });
-  });
-  s.addText("※ 帯の色：金＝今回の想定／緑＝既存店の実績", {
-    x: bx + 0.3, y: TOP + 3.14, w: bw - 0.6, h: 0.26,
-    fontFace: F.jp, fontSize: 8.5, color: C.footer, margin: 0, valign: "middle",
-  });
-
-  // 右：根拠
-  const rx = M + bw + 0.42, rw = R - rx;
-  const pts = [
-    ["LuChartColumn", "基準", "書店併設2店の実績平均 1日42.9杯"],
-    ["LuTrendingUp", "係数", "館内の通行量・映画館隣接を踏まえ 約1.9倍"],
-    ["LuUsers", "席数で配分", "秋田73席＝85杯／土浦59席＝75杯"],
-    ["LuShieldCheck", "妥当性", "ささしまライブ店の実績の6〜7割の水準"],
-  ];
-  pts.forEach((p2, i) => {
-    const y = TOP + i * 0.9;
-    tintCard(s, rx, y, rw, 0.8);
-    icon(s, p2[0], "green", rx + 0.24, y + 0.22, 0.34);
-    s.addText(p2[1], {
-      x: rx + 0.7, y: y + 0.1, w: rw - 0.94, h: 0.26,
-      fontFace: F.jp, fontSize: 10, bold: true, color: C.green, margin: 0, valign: "middle",
-    });
-    s.addText(p2[2], {
-      x: rx + 0.7, y: y + 0.36, w: rw - 0.94, h: 0.36,
-      fontFace: F.jp, fontSize: 9.5, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
-    });
-  });
-
-  panel(s, M, TOP + 3.72, CW, 0.84);
-  s.addText(
-    [
-      { text: "来客に対する購入率でみると、秋田店は約68％・土浦店は約56％。", options: { fontFace: F.jp, fontSize: 11.5, bold: true, color: C.white } },
-      { text: "  ご来店の半数以上が1杯ご購入いただく水準です。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
-    ],
-    { x: M + 0.34, y: TOP + 3.72, w: CW - 0.68, h: 0.84, margin: 0, valign: "middle" }
-  );
-
-  note(s, 6.86, "※ 想定値であり、売上を保証するものではありません。実際の販売杯数は立地・季節・館内の動線により変動します。");
-}
-
 /* ===================================================== p7 / p8 収益シミュレーション */
 [
   {
@@ -809,6 +482,225 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   note(s, 6.78, "※ 想定値であり、売上・お受取額を保証するものではありません。金額はすべて税抜。実際の販売杯数により変動します。");
 });
 
+/* ===================================================== p6 想定販売杯数の考え方 */
+{
+  const s = pres.addSlide();
+  shell(s, "前提の考え方", "実績を基準に、控えめに置いた想定です。",
+    "商業施設内・映画館隣接・館内の通行量を踏まえ、実績平均の約1.9倍を想定しました。");
+
+  // 杯数の比較バー
+  const bx = M, bw = 8.1, bh = 3.5;
+  card(s, bx, TOP, bw, bh);
+  s.addText("1日あたりの販売杯数の比較", {
+    x: bx + 0.3, y: TOP + 0.2, w: bw - 0.6, h: 0.28,
+    fontFace: F.jp, fontSize: 11, bold: true, color: C.ink, margin: 0, valign: "middle",
+  });
+  const bars = [
+    { label: "印西牧の原店（実績）", v: 40.6, c: "9CC3AA", tag: "実績" },
+    { label: "新守山店（実績）", v: 45.2, c: "9CC3AA", tag: "実績" },
+    { label: "土浦店（想定）", v: 75, c: C.gold, tag: "想定" },
+    { label: "秋田店（想定）", v: 85, c: C.gold, tag: "想定" },
+    { label: "ささしまライブ店（実績）", v: 122.7, c: "5FA57C", tag: "実績" },
+  ];
+  const maxV = 130, lx = bx + 2.7, lw2 = bw - 3.5;
+  bars.forEach((b, i) => {
+    const y = TOP + 0.66 + i * 0.55;
+    s.addText(b.label, {
+      x: bx + 0.3, y, w: 2.36, h: 0.34,
+      fontFace: F.jp, fontSize: 9.5, bold: b.tag === "想定", color: b.tag === "想定" ? C.ink : C.muted, margin: 0, valign: "middle",
+    });
+    const w2 = (b.v / maxV) * lw2;
+    s.addShape("roundRect", {
+      x: lx, y: y + 0.05, w: w2, h: 0.24, rectRadius: 0.05,
+      fill: { color: b.c }, line: { type: "none" },
+    });
+    s.addText(b.v + " 杯", {
+      x: lx + w2 + 0.1, y, w: 1.0, h: 0.34,
+      fontFace: F.jp, fontSize: 10, bold: true, color: b.tag === "想定" ? C.gold : C.muted, margin: 0, valign: "middle",
+    });
+  });
+  s.addText("※ 帯の色：金＝今回の想定／緑＝既存店の実績", {
+    x: bx + 0.3, y: TOP + 3.14, w: bw - 0.6, h: 0.26,
+    fontFace: F.jp, fontSize: 8.5, color: C.footer, margin: 0, valign: "middle",
+  });
+
+  // 右：根拠
+  const rx = M + bw + 0.42, rw = R - rx;
+  const pts = [
+    ["LuChartColumn", "基準", "書店併設2店の実績平均 1日42.9杯"],
+    ["LuTrendingUp", "係数", "館内の通行量・映画館隣接を踏まえ 約1.9倍"],
+    ["LuUsers", "席数で配分", "秋田73席＝85杯／土浦59席＝75杯"],
+    ["LuShieldCheck", "妥当性", "ささしまライブ店の実績の6〜7割の水準"],
+  ];
+  pts.forEach((p2, i) => {
+    const y = TOP + i * 0.9;
+    tintCard(s, rx, y, rw, 0.8);
+    icon(s, p2[0], "green", rx + 0.24, y + 0.22, 0.34);
+    s.addText(p2[1], {
+      x: rx + 0.7, y: y + 0.1, w: rw - 0.94, h: 0.26,
+      fontFace: F.jp, fontSize: 10, bold: true, color: C.green, margin: 0, valign: "middle",
+    });
+    s.addText(p2[2], {
+      x: rx + 0.7, y: y + 0.36, w: rw - 0.94, h: 0.36,
+      fontFace: F.jp, fontSize: 9.5, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
+    });
+  });
+
+  panel(s, M, TOP + 3.72, CW, 0.84);
+  s.addText(
+    [
+      { text: "来客に対する購入率でみると、秋田店は約68％・土浦店は約56％。", options: { fontFace: F.jp, fontSize: 11.5, bold: true, color: C.white } },
+      { text: "  ご来店の半数以上が1杯ご購入いただく水準です。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
+    ],
+    { x: M + 0.34, y: TOP + 3.72, w: CW - 0.68, h: 0.84, margin: 0, valign: "middle" }
+  );
+
+  note(s, 6.86, "※ 想定値であり、売上を保証するものではありません。実際の販売杯数は立地・季節・館内の動線により変動します。");
+}
+
+/* ===================================================== p5 参考モデル（書店併設型の実績） */
+{
+  const s = pres.addSlide();
+  shell(s, "参考モデル", "書店併設型は、すでに2店舗で稼働しています。",
+    "同じ「書店の中のセルフカフェ」として運営している2店舗の実績です。");
+
+  const cw = (CW - 2 * 0.3) / 3;
+  const refs = [
+    { name: "印西牧の原店", sub: "千葉県印西市／書店併設", img: "inzai-hall.jpg", cups: "40.6", dark: false },
+    { name: "新守山店", sub: "愛知県名古屋市／書店併設", img: "shinmoriyama-hall.jpg", cups: "45.2", dark: false },
+    { name: "ささしまライブ店", sub: "愛知県名古屋市／商業施設内", img: "sasashima-exterior.jpg", cups: "122.7", dark: true },
+  ];
+  refs.forEach((r, i) => {
+    const x = M + i * (cw + 0.3);
+    if (r.dark) panel(s, x, TOP, cw, 4.2); else card(s, x, TOP, cw, 4.2);
+    photoSlot(s, x + 0.24, TOP + 0.24, cw - 0.48, 1.72, null, { img: r.img });
+    s.addText(r.name, {
+      x: x + 0.24, y: TOP + 2.02, w: cw - 0.48, h: 0.34,
+      fontFace: F.jp, fontSize: 15, bold: true, color: r.dark ? C.white : C.ink, margin: 0, valign: "middle",
+    });
+    s.addText(r.sub, {
+      x: x + 0.24, y: TOP + 2.36, w: cw - 0.48, h: 0.26,
+      fontFace: F.jp, fontSize: 9.5, color: r.dark ? C.cvBody : C.muted, margin: 0, valign: "middle",
+    });
+    s.addShape("rect", { x: x + 0.24, y: TOP + 2.74, w: cw - 0.48, h: 0.011, fill: { color: r.dark ? "2A7A4E" : C.warmLine } });
+    s.addText("1日あたりの販売杯数", {
+      x: x + 0.24, y: TOP + 2.88, w: cw - 0.48, h: 0.26,
+      fontFace: F.jp, fontSize: 9.5, color: r.dark ? C.cvBody : C.muted, margin: 0, valign: "middle",
+    });
+    s.addText(
+      [
+        { text: r.cups, options: { fontFace: F.num, fontSize: 30, bold: true, color: r.dark ? "F0C05A" : C.green } },
+        { text: " 杯", options: { fontFace: F.jp, fontSize: 14, bold: true, color: r.dark ? "F0C05A" : C.green } },
+      ],
+      { x: x + 0.24, y: TOP + 3.14, w: cw - 0.48, h: 0.66, margin: 0, valign: "middle" }
+    );
+    s.addText(r.dark ? "商業施設内の大型店。上限の目安" : "書店併設の標準的な水準", {
+      x: x + 0.24, y: TOP + 3.82, w: cw - 0.48, h: 0.26,
+      fontFace: F.jp, fontSize: 9, color: r.dark ? C.cvPale : C.muted, margin: 0, valign: "middle",
+    });
+  });
+
+  tintCard(s, M, TOP + 4.38, CW, 0.8);
+  icon(s, "LuChartColumn", "green", M + 0.32, TOP + 4.59, 0.38);
+  s.addText(
+    [
+      { text: "書店併設2店の平均は ", options: { fontFace: F.jp, fontSize: 11.5, color: C.ink } },
+      { text: "1日42.9杯", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.green } },
+      { text: "。商業施設内のささしまライブ店は ", options: { fontFace: F.jp, fontSize: 11.5, color: C.ink } },
+      { text: "1日122.7杯", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.green } },
+      { text: " で稼働しています。", options: { fontFace: F.jp, fontSize: 11.5, color: C.ink } },
+    ],
+    { x: M + 0.9, y: TOP + 4.38, w: CW - 1.2, h: 0.8, margin: 0, valign: "middle" }
+  );
+
+  note(s, 6.94, "出典：社内管理台帳（2026年5月〜8月の月間実杯数の平均）。");
+}
+
+/* ===================================================== p4 立地適性 */
+{
+  const s = pres.addSlide();
+  shell(s, "立地適性", "映画館のとなり。待ち時間が、そのまま需要になる。",
+    "両店とも同一フロアに映画館があり、上映前後の待ち時間需要を取り込める立地です。");
+
+  const cw = (CW - 0.42) / 2;
+  const stores = [
+    { name: "秋田店", floor: "2F", img: "map-akita-floor.png", cine: "TOHOシネマズ", h: 2.3,
+      facts: [["面積・席数", "62.97坪／73席"], ["月間来客数", "3,760人"], ["営業時間", "10:00〜21:00"]] },
+    { name: "土浦店", floor: "3F", img: "map-tsuchiura-floor.png", cine: "シネマサンシャイン土浦", h: 2.3,
+      facts: [["面積・席数", "30坪／59席"], ["月間来客数", "4,027人"], ["営業時間", "10:00〜21:00"]] },
+  ];
+  stores.forEach((st, i) => {
+    const x = M + i * (cw + 0.42);
+    card(s, x, TOP, cw, 4.16);
+    s.addText(
+      [
+        { text: st.name, options: { fontFace: F.jp, fontSize: 17, bold: true, color: C.ink } },
+        { text: "   " + st.floor + " ／ " + st.cine + " と同一フロア", options: { fontFace: F.jp, fontSize: 9.5, color: C.muted } },
+      ],
+      { x: x + 0.3, y: TOP + 0.18, w: cw - 0.6, h: 0.36, margin: 0, valign: "middle" }
+    );
+    photoSlot(s, x + 0.3, TOP + 0.58, cw - 0.6, st.h, null, { img: st.img, fit: "contain" });
+    const fy = TOP + 0.58 + st.h + 0.1;
+    st.facts.forEach((f, j) => {
+      const y = fy + j * 0.4;
+      s.addText(f[0], {
+        x: x + 0.3, y, w: 1.9, h: 0.32,
+        fontFace: F.jp, fontSize: 10, color: C.muted, margin: 0, valign: "middle",
+      });
+      s.addText(f[1], {
+        x: x + 2.2, y, w: cw - 2.5, h: 0.32,
+        fontFace: F.jp, fontSize: 12, bold: true, color: C.ink, margin: 0, valign: "middle",
+      });
+      if (j < st.facts.length - 1) s.addShape("rect", { x: x + 0.3, y: y + 0.36, w: cw - 0.6, h: 0.011, fill: { color: C.warmLine } });
+    });
+  });
+
+  panel(s, M, TOP + 4.34, CW, 0.72);
+  icon(s, "LuHourglass", "pale", M + 0.32, TOP + 4.52, 0.36);
+  s.addText("上映前後の待ち時間や、書店で本を選んだあとの休憩など「少しだけ座りたい」需要が館内で自然に発生します。1杯で時間制限がないため、その受け皿として機能します。", {
+    x: M + 0.88, y: TOP + 4.34, w: CW - 1.18, h: 0.72,
+    fontFace: F.jp, fontSize: 10, color: C.white, margin: 0, valign: "middle", lineSpacingMultiple: 1.3,
+  });
+
+  note(s, 6.92, "出典：面積・席数・月間来客数は貴社ご提供資料（2025年平均）。フロアマップは各館の館内図より。");
+}
+
+/* ===================================================== 書店併設の実例（印西牧の原店） */
+{
+  const s = pres.addSlide();
+  shell(s, "導入イメージ", "書店の中に、こう入ります。",
+    "印西牧の原店の実際の様子です。書架のとなりに席を並べ、書店の動線をそのまま活かしています。");
+
+  const bigW = 7.5, bigH = 3.9;
+  photoSlot(s, M, TOP, bigW, bigH, null, { img: "inzai-hall.jpg" });
+
+  const rx = M + bigW + 0.3, rw = R - rx, sh = (bigH - 0.3) / 2;
+  photoSlot(s, rx, TOP, rw, sh, null, { img: "inzai-books.jpg" });
+  photoSlot(s, rx, TOP + sh + 0.3, rw, sh, null, { img: "inzai-counter.jpg" });
+
+  const pts = [
+    ["LuRuler", "書架の間・壁面沿いに設置", "独立区画は不要。既存の什器配置を大きく変えずに席をつくれます。"],
+    ["LuPlug", "各席に電源とWi-Fi", "長時間の滞在に耐える設えで、書店の滞在時間もあわせて伸びます。"],
+    ["LuUsers", "レジ・接客は発生しない", "ドリンクはセルフのマシン。書店スタッフの手は一切かかりません。"],
+  ];
+  const by = TOP + bigH + 0.24, pw = (CW - 2 * 0.24) / 3;
+  pts.forEach((p2, i) => {
+    const x = M + i * (pw + 0.24);
+    tintCard(s, x, by, pw, 0.94);
+    icon(s, p2[0], "green", x + 0.24, by + 0.28, 0.34);
+    s.addText(p2[1], {
+      x: x + 0.68, y: by + 0.12, w: pw - 0.92, h: 0.28,
+      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
+    });
+    s.addText(p2[2], {
+      x: x + 0.68, y: by + 0.4, w: pw - 0.92, h: 0.44,
+      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+    });
+  });
+
+  note(s, by + 1.04, "写真：セルフカフェ 印西牧の原店（千葉県印西市／未来屋書店様 併設）。");
+}
+
 /* ===================================================== p9 運営と導入条件 */
 {
   const s = pres.addSlide();
@@ -868,6 +760,114 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   photoSlot(s, M, TOP + 3.86, phw, phh, null, { img: "inzai-counter.jpg" });
   photoSlot(s, M + phw + 0.3, TOP + 3.86, phw, phh, null, { img: "sasashima-interior.jpg" });
   note(s, TOP + 5.68, "※ 既存什器の再利用可否・工事範囲は現地確認のうえ個別にご相談させてください。金額は税抜・目安です。");
+}
+
+/* ===================================================== スキーム比較（業務委託型とFC） */
+{
+  const s = pres.addSlide();
+  shell(s, "参考｜スキーム", "場所をご提供いただくだけ。運営主体は本部です。",
+    "通常のFC加盟とは異なり、貴社が独立オーナーとして運営する必要はありません。");
+
+  const colW = [2.1, 4.5, 5.289];
+  const mine2 = (t2) => ({
+    text: t2,
+    options: {
+      fill: { color: C.tint }, color: C.ink, bold: true, fontSize: 11, fontFace: F.jp,
+      valign: "middle", margin: [0.06, 0.16, 0.06, 0.16],
+    },
+  });
+  const oth2 = (t2) => ({
+    text: t2,
+    options: {
+      fill: { color: C.white }, color: C.grayText, fontSize: 10.5, fontFace: F.jp,
+      valign: "middle", margin: [0.06, 0.16, 0.06, 0.16],
+    },
+  });
+  s.addShape("roundRect", {
+    x: M + colW[0] + colW[1], y: TOP + 0.08, w: colW[2], h: 0.3, rectRadius: 0.05,
+    fill: { color: C.gold }, line: { type: "none" },
+  });
+  s.addText("貴社にご提案するのはこちら", {
+    x: M + colW[0] + colW[1], y: TOP + 0.08, w: colW[2], h: 0.3,
+    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+  s.addTable(
+    [
+      [th("項目", { fill: C.grayBand, color: C.ink }), th("通常のFC加盟", { fill: "8E8B84" }), th("業務委託型")],
+      [tl("運営主体"), oth2("加盟者様が独立オーナーとして運営"), mine2("本部が運営を主導。貴社は場所のご提供のみ")],
+      [tl("初期費用"), oth2("加盟金100万円＋工事費用等\n（開業資金の目安：居抜き750万円〜／スケルトン1,050万円〜）"), mine2("30万〜50万円程度（機器設置費のみ）")],
+      [tl("出店スペース"), oth2("独立した店舗区画（20坪〜）が必要"), mine2("既存スペースの一角に間借り設置が可能")],
+      [tl("日常業務"), oth2("加盟者様が運営全般を担当"), mine2("清掃・補充のみ、1日15分程度（既存スタッフで対応可）")],
+      [tl("売上金の流れ"), oth2("本部が売上金を管理し、ロイヤリティ等を控除した残額を加盟者様へ振込"), mine2("本部が売上金を管理し、売上の25％を業務委託料として貴社へお支払い")],
+      [tl("契約・撤退"), oth2("独立出店が前提の長期契約"), mine2("契約期間の縛りあり（最低3年〜）／本部審査あり。原状回復の負担も小さい")],
+    ],
+    {
+      x: M, y: TOP + 0.5, w: CW, colW,
+      rowH: [0.4, 0.5, 0.72, 0.5, 0.56, 0.72, 0.66],
+      border: { type: "solid", color: C.warmLine, pt: 0.75 },
+      autoPage: false,
+    }
+  );
+  note(s, TOP + 4.84, "※ 金額はすべて税抜・目安です。物件条件により変動します。今回は業務委託型でのご提案です。");
+}
+
+/* ===================================================== p3 セルフカフェとは */
+{
+  const s = pres.addSlide();
+  shell(s, "参考｜セルフカフェとは", "スタッフのいない、ドリンク1杯のワークスペース。",
+    "Wi-Fi・電源完備。1杯のご購入で時間制限なくご利用いただける無人カフェです。");
+
+  const lw = 6.6;
+  const stats = [
+    ["利用料", "420", "円〜", "1杯で滞在時間の制限なし"],
+    ["会員登録", "不要", "", "登録手続き・月会費なし"],
+    ["運営人員", "0", "人", "無人運営。開閉店も自動"],
+    ["日常業務", "15", "分／日", "清掃・原料補充のみ"],
+  ];
+  const cw = (lw - 0.3) / 2, chh = 1.52;
+  stats.forEach((st, i) => {
+    const x = M + (i % 2) * (cw + 0.3);
+    const y = TOP + Math.floor(i / 2) * (chh + 0.24);
+    card(s, x, y, cw, chh);
+    s.addText(st[0], {
+      x: x + 0.28, y: y + 0.16, w: cw - 0.56, h: 0.26,
+      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.muted, margin: 0, valign: "middle",
+    });
+    s.addText(
+      [
+        { text: st[1], options: { fontFace: numFace(st[1]), fontSize: 30, bold: true, color: C.green } },
+        { text: st[2] ? " " + st[2] : "", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.green } },
+      ],
+      { x: x + 0.28, y: y + 0.44, w: cw - 0.56, h: 0.58, margin: 0, valign: "middle" }
+    );
+    s.addText(st[3], {
+      x: x + 0.28, y: y + 1.06, w: cw - 0.56, h: 0.3,
+      fontFace: F.jp, fontSize: 9.5, color: C.muted, margin: 0, valign: "middle",
+    });
+  });
+
+  const fy = TOP + 2 * (chh + 0.24) + 0.06;
+  const feats = [["LuWifi", "高速Wi-Fi"], ["LuPlug", "電源完備"], ["LuClock", "席時間無制限"], ["LuCalendarCheck", "年中無休"]];
+  const fw = (lw - 3 * 0.2) / 4;
+  feats.forEach(([ic, label], i) => {
+    const x = M + i * (fw + 0.2);
+    tintCard(s, x, fy, fw, 1.0);
+    icon(s, ic, "green", x + fw / 2 - 0.19, fy + 0.18, 0.38);
+    s.addText(label, {
+      x: x + 0.04, y: fy + 0.62, w: fw - 0.08, h: 0.28,
+      fontFace: F.jp, fontSize: 10, bold: true, color: C.green, align: "center", margin: 0, valign: "middle",
+    });
+  });
+
+  const rx = M + lw + 0.42, rw = R - rx;
+  photoSlot(s, rx, TOP, rw, 3.3, null, { img: "sasashima-interior.jpg" });
+  tintCard(s, rx, TOP + 3.48, rw, 1.04);
+  s.addText("ささしまライブ店（名古屋）。商業施設の1階路面で、朝8時から22時まで無人運営しています。", {
+    x: rx + 0.26, y: TOP + 3.48, w: rw - 0.52, h: 1.04,
+    fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.35,
+  });
+
+  note(s, 6.78, "※ ドリンクは1杯420円〜（税抜）。サブスクプランをご利用の場合は1杯あたり147円〜となります。");
 }
 
 /* ===================================================== p10 導入までの流れ／お問い合わせ */

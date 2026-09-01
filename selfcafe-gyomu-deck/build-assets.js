@@ -75,7 +75,7 @@ async function coverBg() {
 
   // 丸ロゴの透かし（右側に大きく、ごく薄く／キャンバス内に収める）
   const ROUND = path.join(OUT, "logo-round-mask.png");
-  const markH = Math.round(H * 0.86);
+  const markH = Math.round(H * 0.82);
   const mark = await sharp(ROUND).resize({ height: markH }).png().toBuffer();
   const mm = await sharp(mark).metadata();
   const faded = await sharp(mark).composite([{
@@ -84,7 +84,7 @@ async function coverBg() {
   }]).png().toBuffer();
 
   await sharp(base)
-    .composite([{ input: faded, left: W - mm.width - Math.round(W * 0.05), top: Math.round((H - mm.height) / 2) }])
+    .composite([{ input: faded, left: W - mm.width - Math.round(W * 0.02), top: Math.round(H * 0.045) }])
     .png()
     .toFile(path.join(OUT, "cover-bg.png"));
 }

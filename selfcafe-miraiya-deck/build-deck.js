@@ -376,6 +376,55 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   note(s, byr + 0.9, "※ お受取額は本資料の想定販売杯数に基づく試算です（税抜）。売上を保証するものではありません。");
 }
 
+/* ===================================================== スキーム比較（業務委託型とFC） */
+{
+  const s = pres.addSlide();
+  shell(s, "スキーム", "場所をご提供いただくだけ。運営主体は本部です。",
+    "通常のFC加盟とは異なり、貴社が独立オーナーとして運営する必要はありません。");
+
+  const colW = [2.1, 4.5, 5.289];
+  const mine2 = (t2) => ({
+    text: t2,
+    options: {
+      fill: { color: C.tint }, color: C.ink, bold: true, fontSize: 11, fontFace: F.jp,
+      valign: "middle", margin: [0.06, 0.16, 0.06, 0.16],
+    },
+  });
+  const oth2 = (t2) => ({
+    text: t2,
+    options: {
+      fill: { color: C.white }, color: C.grayText, fontSize: 10.5, fontFace: F.jp,
+      valign: "middle", margin: [0.06, 0.16, 0.06, 0.16],
+    },
+  });
+  s.addShape("roundRect", {
+    x: M + colW[0] + colW[1], y: TOP + 0.08, w: colW[2], h: 0.3, rectRadius: 0.05,
+    fill: { color: C.gold }, line: { type: "none" },
+  });
+  s.addText("貴社にご提案するのはこちら", {
+    x: M + colW[0] + colW[1], y: TOP + 0.08, w: colW[2], h: 0.3,
+    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+  s.addTable(
+    [
+      [th("項目", { fill: C.grayBand, color: C.ink }), th("通常のFC加盟", { fill: "8E8B84" }), th("業務委託型")],
+      [tl("運営主体"), oth2("加盟者様が独立オーナーとして運営"), mine2("本部が運営を主導。貴社は場所のご提供のみ")],
+      [tl("初期費用"), oth2("加盟金100万円＋工事費用等\n（開業資金の目安：居抜き750万円〜／スケルトン1,050万円〜）"), mine2("30万〜50万円程度（機器設置費のみ）")],
+      [tl("出店スペース"), oth2("独立した店舗区画（20坪〜）が必要"), mine2("既存スペースの一角に間借り設置が可能")],
+      [tl("日常業務"), oth2("加盟者様が運営全般を担当"), mine2("清掃・補充のみ、1日15分程度（既存スタッフで対応可）")],
+      [tl("売上金の流れ"), oth2("本部が売上金を管理し、ロイヤリティ等を控除した残額を加盟者様へ振込"), mine2("本部が売上金を管理し、売上の25％を業務委託料として貴社へお支払い")],
+      [tl("契約・撤退"), oth2("独立出店が前提の長期契約"), mine2("契約期間の縛りあり（最低3年〜）／本部審査あり。原状回復の負担も小さい")],
+    ],
+    {
+      x: M, y: TOP + 0.5, w: CW, colW,
+      rowH: [0.4, 0.5, 0.72, 0.5, 0.56, 0.72, 0.66],
+      border: { type: "solid", color: C.warmLine, pt: 0.75 },
+      autoPage: false,
+    }
+  );
+  note(s, TOP + 4.84, "※ 金額はすべて税抜・目安です。物件条件により変動します。今回は業務委託型でのご提案です。");
+}
+
 /* ===================================================== p3 セルフカフェとは */
 {
   const s = pres.addSlide();
@@ -700,7 +749,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
       [tl("月間販売杯数（30日）"), cell((sim.cups * 30).toLocaleString() + "杯")],
       [hl("セルフカフェ売上（1杯420円）"), hi(sim.sales, 13)],
       [tl("　うち 売上の25％"), cell(sim.fee25)],
-      [tl("　＋ 月額固定"), cell("50,000")],
+      [tl("　＋ 月額固定（貴社のみの特別条件）"), cell("50,000")],
       [
         { text: "貴社お受取額（月）", options: { fill: { color: C.goldTint }, color: C.gold, bold: true, fontSize: 12.5, fontFace: F.jp, valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
         { text: sim.total, options: { fill: { color: C.goldTint }, color: C.gold, bold: true, fontSize: 17, fontFace: F.num, align: "right", valign: "middle", margin: [0.05, 0.16, 0.05, 0.16] } },
@@ -784,10 +833,10 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
       fontFace: F.jp, fontSize: 9.5, color: C.body, margin: 0, valign: "middle",
     });
   });
-  panel(s, M, TOP + 2.9, lw, 0.9);
-  icon(s, "LuLifeBuoy", "pale", M + 0.3, TOP + 3.16, 0.36);
+  panel(s, M, TOP + 2.84, lw, 0.84);
+  icon(s, "LuLifeBuoy", "pale", M + 0.3, TOP + 3.07, 0.36);
   s.addText("清掃はパートナーへの委託も可能です（月3万円程度）。お客様からのお問い合わせは本部が対応します。", {
-    x: M + 0.82, y: TOP + 2.9, w: lw - 1.12, h: 0.9,
+    x: M + 0.82, y: TOP + 2.84, w: lw - 1.12, h: 0.84,
     fontFace: F.jp, fontSize: 10, bold: true, color: C.white, margin: 0, valign: "middle", lineSpacingMultiple: 1.3,
   });
 
@@ -799,7 +848,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
     ["お支払い", "セルフカフェ売上の25％ ＋ 月額5万円"],
     ["契約期間", "最低3年〜（本部審査あり）"],
   ];
-  card(s, rx, TOP, rw, 3.8);
+  card(s, rx, TOP, rw, 3.68);
   eyebrowIn(s, rx + 0.3, TOP + 0.24, 2.4, "CONDITIONS");
   conds.forEach((c2, i) => {
     const y = TOP + 0.58 + i * 0.62;
@@ -814,8 +863,11 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
     if (i < conds.length - 1) s.addShape("rect", { x: rx + 0.3, y: y + 0.54, w: rw - 0.6, h: 0.011, fill: { color: C.warmLine } });
   });
 
-  photoSlot(s, M, TOP + 3.96, CW, 0.96, null, { img: "p24-install.jpg" });
-  note(s, 6.94, "※ 既存什器の再利用可否・工事範囲は現地確認のうえ個別にご相談させてください。金額は税抜・目安です。");
+  // 写真は元比率に近い16:9で左右に配置（潰れないサイズ）
+  const phw = 3.1, phh = phw * 9 / 16;
+  photoSlot(s, M, TOP + 3.86, phw, phh, null, { img: "inzai-counter.jpg" });
+  photoSlot(s, M + phw + 0.3, TOP + 3.86, phw, phh, null, { img: "sasashima-interior.jpg" });
+  note(s, TOP + 5.68, "※ 既存什器の再利用可否・工事範囲は現地確認のうえ個別にご相談させてください。金額は税抜・目安です。");
 }
 
 /* ===================================================== p10 導入までの流れ／お問い合わせ */
@@ -854,10 +906,6 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   s.addText("ご不明な点は、お気軽にお問い合わせください。", {
     x: M + 0.44, y: TOP + 3.74, w: 6.4, h: 0.34,
     fontFace: F.jp, fontSize: 13, bold: true, color: C.white, margin: 0, valign: "middle",
-  });
-  s.addText("現地確認は日程を合わせて伺います。収益試算の条件変更もその場でご相談いただけます。", {
-    x: M + 0.44, y: TOP + 4.08, w: 6.4, h: 0.5,
-    fontFace: F.jp, fontSize: 10, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
   });
   const cx = M + 7.4;
   [["LuPhone", "TEL", "052-879-3557"], ["LuMail", "E-MAIL", "info@selfcafe.jp"], ["LuGlobe", "WEB", "https://selfcafe.jp/"]].forEach(([ic, lb, v], i) => {

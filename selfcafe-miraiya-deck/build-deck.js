@@ -302,8 +302,8 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   s.addShape("rect", { x: 0.889, y: 5.98, w: 0.778, h: 0.028, fill: { color: C.goldLine } });
   const stats = [
     { x: 0.889, w: 3.2, v: "0", u: "人", l: "カフェ運営に必要な人員" },
-    { x: 4.5, w: 3.2, v: "27.0", u: "万円／月", l: "秋田店 想定お受取額" },
-    { x: 8.1, w: 3.2, v: "23.9", u: "万円／月", l: "土浦店 想定お受取額" },
+    { x: 4.5, w: 3.2, v: "31.8", u: "万円／月", l: "秋田店 想定お受取額" },
+    { x: 8.1, w: 3.2, v: "28.6", u: "万円／月", l: "土浦店 想定お受取額" },
   ];
   stats.forEach((st) => {
     s.addText(
@@ -335,9 +335,9 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
 
   const cards = [
     { dark: false, label: "運営体制", v: "0", u: "人", sub: "カフェ専任の人員配置は不要。\n運営主体はセルフカフェ本部です。" },
-    { dark: true, label: "秋田店 お受取額（想定）", v: "27.0", u: "万円／月", sub: "年間 324.6万円\n売上の25％＋月5万円" },
+    { dark: true, label: "秋田店 お受取額（想定）", v: "31.8", u: "万円／月", sub: "年間 381.3万円\n売上の25％＋月5万円" },
     { dark: false, label: "初期費用", v: "30〜50", u: "万円", sub: "機器設置費のみ。加盟金・\n研修費はいただきません。" },
-    { dark: true, label: "土浦店 お受取額（想定）", v: "23.9", u: "万円／月", sub: "年間 286.8万円\n売上の25％＋月5万円" },
+    { dark: true, label: "土浦店 お受取額（想定）", v: "28.6", u: "万円／月", sub: "年間 343.5万円\n売上の25％＋月5万円" },
   ];
   const cw = (CW - 0.42) / 2, chh = 1.86;
   cards.forEach((k, i) => {
@@ -582,7 +582,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
 {
   const s = pres.addSlide();
   shell(s, "前提の考え方", "実績を基準に、控えめに置いた想定です。",
-    "商業施設内・映画館隣接という条件を踏まえ、実績平均の1.5倍程度を想定しました。");
+    "商業施設内・映画館隣接・館内の通行量を踏まえ、実績平均の約1.9倍を想定しました。");
 
   // 杯数の比較バー
   const bx = M, bw = 8.1, bh = 3.5;
@@ -594,8 +594,8 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   const bars = [
     { label: "印西牧の原店（実績）", v: 40.6, c: "9CC3AA", tag: "実績" },
     { label: "新守山店（実績）", v: 45.2, c: "9CC3AA", tag: "実績" },
-    { label: "土浦店（想定）", v: 60, c: C.gold, tag: "想定" },
-    { label: "秋田店（想定）", v: 70, c: C.gold, tag: "想定" },
+    { label: "土浦店（想定）", v: 75, c: C.gold, tag: "想定" },
+    { label: "秋田店（想定）", v: 85, c: C.gold, tag: "想定" },
     { label: "ささしまライブ店（実績）", v: 122.7, c: "5FA57C", tag: "実績" },
   ];
   const maxV = 130, lx = bx + 2.7, lw2 = bw - 3.5;
@@ -624,9 +624,9 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   const rx = M + bw + 0.42, rw = R - rx;
   const pts = [
     ["LuChartColumn", "基準", "書店併設2店の実績平均 1日42.9杯"],
-    ["LuTrendingUp", "係数", "館内の通行量・映画館隣接を踏まえ 約1.5倍"],
-    ["LuUsers", "席数で配分", "秋田73席＝70杯／土浦59席＝60杯"],
-    ["LuShieldCheck", "妥当性", "ささしまライブ店の実績の約半分の水準"],
+    ["LuTrendingUp", "係数", "館内の通行量・映画館隣接を踏まえ 約1.9倍"],
+    ["LuUsers", "席数で配分", "秋田73席＝85杯／土浦59席＝75杯"],
+    ["LuShieldCheck", "妥当性", "ささしまライブ店の実績の6〜7割の水準"],
   ];
   pts.forEach((p2, i) => {
     const y = TOP + i * 0.9;
@@ -645,8 +645,8 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   panel(s, M, TOP + 3.72, CW, 0.84);
   s.addText(
     [
-      { text: "来客に対する購入率でみると、秋田店は約56％・土浦店は約45％。", options: { fontFace: F.jp, fontSize: 11.5, bold: true, color: C.white } },
-      { text: "  ご来店のおよそ半数が1杯ご購入いただく水準です。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
+      { text: "来客に対する購入率でみると、秋田店は約68％・土浦店は約56％。", options: { fontFace: F.jp, fontSize: 11.5, bold: true, color: C.white } },
+      { text: "  ご来店の半数以上が1杯ご購入いただく水準です。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
     ],
     { x: M + 0.34, y: TOP + 3.72, w: CW - 0.68, h: 0.84, margin: 0, valign: "middle" }
   );
@@ -657,12 +657,14 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
 /* ===================================================== p7 / p8 収益シミュレーション */
 [
   {
-    name: "秋田店", spec: "62.97坪／73席", cups: 70, guests: "3,760",
-    sales: "882,000", fee25: "220,500", total: "270,500", year: "3,246,000", rate: "56",
+    name: "秋田店", spec: "62.97坪／73席", cups: 85, guests: "3,760",
+    sales: "1,071,000", fee25: "267,750", total: "317,750", year: "3,813,000", rate: "68",
+    man: "31.8", yearMan: "381.3",
   },
   {
-    name: "土浦店", spec: "30坪／59席", cups: 60, guests: "4,027",
-    sales: "756,000", fee25: "189,000", total: "239,000", year: "2,868,000", rate: "45",
+    name: "土浦店", spec: "30坪／59席", cups: 75, guests: "4,027",
+    sales: "945,000", fee25: "236,250", total: "286,250", year: "3,435,000", rate: "56",
+    man: "28.6", yearMan: "343.5",
   },
 ].forEach((sim) => {
   const s = pres.addSlide();
@@ -724,13 +726,13 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   s.addText(
     [
       { text: "月 ", options: { fontFace: F.jp, fontSize: 13, color: C.white } },
-      { text: sim.total === "270,500" ? "27.0" : "23.9", options: { fontFace: F.num, fontSize: 32, bold: true, color: "F0C05A" } },
+      { text: sim.man, options: { fontFace: F.num, fontSize: 32, bold: true, color: "F0C05A" } },
       { text: " 万円", options: { fontFace: F.jp, fontSize: 14, bold: true, color: "F0C05A" } },
     ],
     { x: rx + 0.28, y: TOP + 0.8, w: rw - 0.56, h: 0.7, margin: 0, valign: "middle" }
   );
   s.addShape("rect", { x: rx + 0.28, y: TOP + 1.58, w: rw - 0.56, h: 0.011, fill: { color: "2A7A4E" } });
-  s.addText("年 " + (sim.year === "3,246,000" ? "324.6" : "286.8") + " 万円", {
+  s.addText("年 " + sim.yearMan + " 万円", {
     x: rx + 0.28, y: TOP + 1.7, w: rw - 0.56, h: 0.36,
     fontFace: F.jp, fontSize: 14, bold: true, color: C.white, margin: 0, valign: "middle",
   });
@@ -744,7 +746,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   [
     "月間来客数 " + sim.guests + "人",
     "うち約" + sim.rate + "％が1杯ご購入",
-    "書店併設2店の実績の約1.5倍",
+    "書店併設2店の実績の約1.9倍",
     "原価・水道光熱費は本部負担",
   ].forEach((t2, i) => {
     const y = TOP + 2.8 + i * 0.4;

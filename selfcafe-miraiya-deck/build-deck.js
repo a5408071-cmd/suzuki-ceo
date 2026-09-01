@@ -513,7 +513,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
     ["初期費用", "30万〜50万円程度（機器設置費のみ）"],
     ["加盟金・研修費", "なし"],
     ["原料・機器・メンテナンス", "本部負担"],
-    ["水道光熱費・通信費", "貴社ご負担（実費）"],
+    ["水道光熱費・通信費・消耗品", "貴社ご負担（実費）"],
     ["お支払い", "セルフカフェ売上の25％ ＋ 月額5万円"],
     ["契約期間", "最低3年〜（本部審査あり）"],
   ];
@@ -543,7 +543,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   const phw = 3.1, phh = phw * 9 / 16;
   photoSlot(s, M, TOP + 2.86, phw, phh, null, { img: "inzai-counter.jpg" });
   photoSlot(s, M + phw + 0.3, TOP + 2.86, phw, phh, null, { img: "sasashima-interior.jpg" });
-  note(s, 6.62, "※ 水道光熱費・通信費は貴社のご負担（実費）となります。既存什器の再利用可否・工事範囲は現地確認のうえ個別にご相談させてください。金額は税抜・目安です。");
+  note(s, 6.62, "※ 水道光熱費・通信費・消耗品は貴社のご負担（実費）となります。既存什器の再利用可否・工事範囲は現地確認のうえ個別にご相談させてください。金額は税抜・目安です。");
 }
 
 /* ===================================================== p4 立地適性 */
@@ -692,8 +692,8 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
 /* ===================================================== p6 想定販売杯数の考え方 */
 {
   const s = pres.addSlide();
-  shell(s, "前提の考え方", "実績を基準に、控えめに置いた想定です。",
-    "商業施設内・映画館隣接・館内の通行量を踏まえ、実績平均の約1.9倍を想定しました。");
+  shell(s, "前提の考え方", "既存店の実績から積み上げた想定です。",
+    "商業施設内・映画館隣接・館内の通行量を踏まえ、書店併設2店の実績平均の約1.9倍を想定しました。");
 
   // 杯数の比較バー
   const bx = M, bw = 8.1, bh = 3.5;
@@ -868,14 +868,14 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
     });
   });
 
-  note(s, 6.78, "※ 想定値であり、売上・お受取額を保証するものではありません。水道光熱費・通信費は貴社のご負担です。金額はすべて税抜。実際の販売杯数により変動します。");
+  note(s, 6.78, "※ 想定値であり、売上・お受取額を保証するものではありません。水道光熱費・通信費・消耗品は貴社のご負担です。金額はすべて税抜。実際の販売杯数により変動します。");
 });
 
 /* ===================================================== 坪数別シミュレーション（業務委託型） */
 {
   const s = pres.addSlide();
-  shell(s, "坪数別シミュレーション", "60坪・40坪・30坪で試算しました。",
-    "同じ館内・同じ条件で、区画の広さ別にお受取額を置いた場合の比較です。");
+  shell(s, "坪数別シミュレーション", "30坪でも、お受取額はほとんど変わりません。",
+    "60坪・40坪・30坪の3パターンで試算しました。販売杯数を決めるのは坪数ではなく、館内の来客数だからです。");
 
   const cellR = (t2, opts = {}) => ({
     text: t2,
@@ -927,23 +927,41 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
     ],
     {
       x: M, y: TOP, w: CW, colW: [4.689, 2.4, 2.4, 2.4],
-      rowH: [0.4, 0.44, 0.44, 0.52, 0.44, 0.44, 0.62, 0.44],
+      rowH: [0.38, 0.4, 0.4, 0.48, 0.4, 0.4, 0.58, 0.4],
       border: { type: "solid", color: C.warmLine, pt: 0.75 },
       autoPage: false,
     }
   );
 
-  const py = TOP + 3.86;
-  panel(s, M, py, CW, 0.9);
+  const py = 5.36;
+  panel(s, M, py, CW, 0.72);
   s.addText(
     [
-      { text: "区画が小さくても、お受取額は大きく変わりません。", options: { fontFace: F.jp, fontSize: 13, bold: true, color: C.white } },
-      { text: "  販売杯数を決めるのは坪数ではなく、館内の来客数だからです。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
+      { text: "この試算からは、30坪でのご提案をお薦めします。", options: { fontFace: F.jp, fontSize: 13, bold: true, color: C.white, breakLine: true } },
+      { text: "60坪との月々のお受取額の差は3.2万円。残りの区画は売場など他の用途にご活用いただけます。", options: { fontFace: F.jp, fontSize: 10.5, color: C.cvBody } },
     ],
-    { x: M + 0.34, y: py, w: CW - 0.68, h: 0.9, margin: 0, valign: "middle" }
+    { x: M + 0.34, y: py, w: CW - 0.68, h: 0.72, margin: 0, valign: "middle", lineSpacingMultiple: 1.15 }
   );
 
-  note(s, py + 1.04, "※ 杯数の置き方：60坪は秋田店（62.97坪）の想定85杯、30坪は土浦店の想定75杯と同水準とし、40坪はその中間の80杯としました。想定値であり保証するものではありません。金額は税抜。");
+  const rw2 = (CW - 0.3) / 2;
+  [
+    ["LuUsers", "杯数は坪数ではなく来客数で決まります", "館内の通行量と映画館の待ち時間需要が販売杯数を左右するため、区画を広げても杯数は大きく増えません。"],
+    ["LuLandPlot", "平日ベースなら30坪・約59席で十分です", "土日は高稼働が見込めますが、平日の来店ペースであれば30坪の席数で受けきれると想定しています。"],
+  ].forEach((r, i) => {
+    const x = M + i * (rw2 + 0.3), y = 6.16;
+    tintCard(s, x, y, rw2, 0.62);
+    icon(s, r[0], "green", x + 0.22, y + 0.14, 0.32);
+    s.addText(r[1], {
+      x: x + 0.64, y: y + 0.06, w: rw2 - 0.86, h: 0.24,
+      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.green, margin: 0, valign: "middle",
+    });
+    s.addText(r[2], {
+      x: x + 0.64, y: y + 0.29, w: rw2 - 0.86, h: 0.3,
+      fontFace: F.jp, fontSize: 8.5, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.15,
+    });
+  });
+
+  note(s, 6.86, "※ 杯数の置き方：60坪は秋田店（62.97坪）の想定85杯、30坪は土浦店の想定75杯と同水準とし、40坪はその中間の80杯としました。想定値であり保証するものではありません。金額は税抜。");
 }
 
 /* ===================================================== ご参考：FCプランの場合 */
@@ -954,9 +972,9 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
 
   const RED = "B0483A";
   const FCT = [
-    { t: "60坪", cups: 85, sales: "1,071,000", mat: "214,200", cln: "45,000", utl: "95,000", etc: "30,000", pf: "530,800" },
-    { t: "40坪", cups: 80, sales: "1,008,000", mat: "201,600", cln: "35,000", utl: "85,000", etc: "25,000", pf: "505,400" },
-    { t: "30坪", cups: 75, sales: "945,000", mat: "189,000", cln: "30,000", utl: "80,000", etc: "20,000", pf: "470,000" },
+    { t: "60坪", cups: 85, sales: "1,071,000", mat: "214,200", cln: "30,000", utl: "70,000", etc: "30,000", pf: "570,800", inv: "1,200万円", pay: "21ヶ月" },
+    { t: "40坪", cups: 80, sales: "1,008,000", mat: "201,600", cln: "30,000", utl: "65,000", etc: "25,000", pf: "530,400", inv: "1,000万円", pay: "19ヶ月" },
+    { t: "30坪", cups: 75, sales: "945,000", mat: "189,000", cln: "30,000", utl: "60,000", etc: "20,000", pf: "490,000", inv: "900万円", pay: "18ヶ月" },
   ];
   const lw = 8.1;
   const num2 = (v, red) => ({
@@ -988,8 +1006,8 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
       [item2("売上高（1杯420円 × 杯数 × 30日）"), ...FCT.map((f) => num2(f.sales))],
       [item2("　想定販売杯数（1日）"), ...FCT.map((f) => num2(f.cups + "杯"))],
       [item2("ドリンク原料（20％）"), ...FCT.map((f) => num2(f.mat, true))],
-      [item2("清掃費"), ...FCT.map((f) => num2(f.cln, true))],
-      [item2("水道光熱費（24H営業想定）"), ...FCT.map((f) => num2(f.utl, true))],
+      [item2("清掃業務委託費"), ...FCT.map((f) => num2(f.cln, true))],
+      [item2("水道光熱費（書店営業時間ベース）"), ...FCT.map((f) => num2(f.utl, true))],
       [item2("機械使用料（マシン38,000円×2台・決済端末5,000円×2台）"), ...FCT.map(() => num2("86,000", true))],
       [item2("セキュリティ費"), ...FCT.map(() => num2("20,000", true))],
       [item2("ロイヤリティ（一律・売上連動なし）"), ...FCT.map(() => num2("50,000", true))],
@@ -1014,14 +1032,16 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   });
   s.addText(
     [
-      { text: "900", options: { fontFace: F.num, fontSize: 30, bold: true, color: "F0C05A" } },
-      { text: " 万円程度", options: { fontFace: F.jp, fontSize: 13, bold: true, color: "F0C05A" } },
+      { text: "900", options: { fontFace: F.num, fontSize: 28, bold: true, color: "F0C05A" } },
+      { text: " 〜 ", options: { fontFace: F.jp, fontSize: 15, color: "F0C05A" } },
+      { text: "1,200", options: { fontFace: F.num, fontSize: 28, bold: true, color: "F0C05A" } },
+      { text: " 万円", options: { fontFace: F.jp, fontSize: 13, bold: true, color: "F0C05A" } },
     ],
     { x: rx + 0.28, y: TOP + 0.74, w: rw - 0.56, h: 0.56, margin: 0, valign: "middle" }
   );
-  s.addText("開業費750万円〜（加盟金100万円・工事費・出店準備金・保証金）＋諸経費", {
-    x: rx + 0.28, y: TOP + 1.26, w: rw - 0.56, h: 0.3,
-    fontFace: F.jp, fontSize: 8.5, color: C.cvBody, margin: 0, valign: "middle",
+  s.addText("加盟金100万円・工事費・出店準備金・保証金・諸経費を含む総投資予算", {
+    x: rx + 0.28, y: TOP + 1.22, w: rw - 0.56, h: 0.34,
+    fontFace: F.jp, fontSize: 8.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
   });
 
   tintCard(s, rx, TOP + 1.78, rw, 1.72);
@@ -1029,44 +1049,48 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
     x: rx + 0.28, y: TOP + 1.96, w: rw - 0.56, h: 0.26,
     fontFace: F.jp, fontSize: 11, bold: true, color: C.green, margin: 0, valign: "middle",
   });
-  [["60坪", "17ヶ月（1年5ヶ月）"], ["40坪", "18ヶ月（1年6ヶ月）"], ["30坪", "19ヶ月（1年7ヶ月）"]].forEach((r, i) => {
-    const y = TOP + 2.28 + i * 0.38;
-    s.addText(r[0], {
-      x: rx + 0.3, y, w: 0.9, h: 0.3,
-      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+  FCT.forEach((f, i) => {
+    const y = TOP + 2.3 + i * 0.38;
+    s.addText(f.t, {
+      x: rx + 0.3, y, w: 0.62, h: 0.3,
+      fontFace: F.jp, fontSize: 10, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
-    s.addText(r[1], {
-      x: rx + 1.1, y, w: rw - 1.4, h: 0.3,
+    s.addText(f.inv, {
+      x: rx + 0.85, y, w: 1.05, h: 0.3,
+      fontFace: F.jp, fontSize: 9.5, color: C.muted, align: "right", margin: 0, valign: "middle",
+    });
+    s.addText(f.pay, {
+      x: rx + 1.98, y, w: rw - 2.28, h: 0.3,
       fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, align: "right", margin: 0, valign: "middle",
     });
   });
 
-  card(s, rx, TOP + 3.62, rw, 0.72);
-  icon(s, "LuUsers", "green", rx + 0.26, TOP + 3.79, 0.34);
-  s.addText("清掃を貴社スタッフで行う場合は清掃費が不要となり、その分利益が増えます。", {
-    x: rx + 0.7, y: TOP + 3.62, w: rw - 0.96, h: 0.72,
-    fontFace: F.jp, fontSize: 9.5, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.2,
+  card(s, rx, TOP + 3.62, rw, 0.76);
+  icon(s, "LuUsers", "green", rx + 0.26, TOP + 3.81, 0.34);
+  s.addText("清掃を貴社スタッフで行う場合は、委託費3万円が不要となり、その分利益が増えます。", {
+    x: rx + 0.7, y: TOP + 3.62, w: rw - 0.96, h: 0.76,
+    fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.15,
   });
 
-  note(s, 6.62, "※ 償却前営業利益（減価償却前）。人件費は未計上です。家賃は既存区画をご利用いただく前提のため0円で試算しています。投資回収は総投資予算900万円を月次利益で除した目安。金額はすべて税抜。");
+  note(s, 6.62, "※ 償却前営業利益（減価償却前）。人件費は未計上です。家賃は既存区画をご利用いただく前提のため0円で試算しています。水道光熱費は書店営業時間ベース（空調・照明は書店と共用のため24H営業想定より低く置いています）。投資回収は坪数別の総投資予算を月次利益で除した目安。金額はすべて税抜。");
 }
 
 /* ===================================================== 2方式の比較 */
 {
   const s = pres.addSlide();
-  shell(s, "2方式の比較", "投資せず着実に受け取るか、投資して利益を取るか。",
-    "同じ販売杯数の想定で、業務委託型とFCプランを並べて比較しました。");
+  shell(s, "2方式の比較", "同じ条件で、2つの方式を並べました。",
+    "同じ販売杯数の想定で業務委託型とFCプランを比較しています。ご検討の材料としてご覧ください。");
 
   const lw = 7.3;
   card(s, M, TOP, lw, 3.62);
-  s.addText("月次の貴社取り分の比較（万円）", {
+  s.addText("月次のお受取額・営業利益の比較（万円）", {
     x: M + 0.3, y: TOP + 0.2, w: lw - 0.6, h: 0.28,
     fontFace: F.jp, fontSize: 11, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
   const groups = [
-    { t: "60坪（85杯）", i: 31.8, f: 53.1 },
-    { t: "40坪（80杯）", i: 30.2, f: 50.5 },
-    { t: "30坪（75杯）", i: 28.6, f: 47.0 },
+    { t: "60坪（85杯）", i: 31.8, f: 57.1 },
+    { t: "40坪（80杯）", i: 30.2, f: 53.0 },
+    { t: "30坪（75杯）", i: 28.6, f: 49.0 },
   ];
   const maxV = 60, bx = M + 1.86, bw = lw - 2.9;
   groups.forEach((g, gi) => {
@@ -1093,7 +1117,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
       });
     });
   });
-  s.addText("※ 業務委託型＝売上の25％＋月額固定5万円のお受取額／FCプラン＝償却前営業利益（人件費未計上・家賃0円）", {
+  s.addText("※ 業務委託型＝未来屋書店様のお受取額（売上の25％＋月額固定5万円）／FCプラン＝未来屋書店様の償却前営業利益（人件費未計上・家賃0円）", {
     x: M + 0.3, y: TOP + 3.16, w: lw - 0.6, h: 0.3,
     fontFace: F.jp, fontSize: 8.5, color: C.footer, margin: 0, valign: "middle", lineSpacingMultiple: 1.15,
   });
@@ -1114,17 +1138,19 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   s.addTable(
     [
       [th("", { fill: C.grayBand, color: C.ink }), th("業務委託型", { fill: C.gold }), th("FCプラン", { fill: "8E8B84" })],
-      [cmpL("初期費用"), cmpA("30〜50万円"), cmpB("900万円程度")],
-      [cmpL("運営主体"), cmpA("セルフカフェ本部"), cmpB("貴社")],
-      [cmpL("日常業務"), cmpA("清掃・補充\n1日15分程度"), cmpB("運営全般")],
-      [cmpL("原料・機器"), cmpA("本部負担"), cmpB("貴社負担")],
-      [cmpL("水道光熱費"), cmpA("貴社負担"), cmpB("貴社負担")],
-      [cmpL("売上変動リスク"), cmpA("本部"), cmpB("貴社")],
-      [cmpL("投資回収"), cmpA("約2ヶ月"), cmpB("17〜19ヶ月")],
+      [cmpL("初期費用"), cmpA("30〜50万円"), cmpB("900〜1,200万円")],
+      [cmpL("運営主体"), cmpA("セルフカフェ"), cmpB("未来屋書店様")],
+      [cmpL("日常業務"), cmpA("清掃・補充・発注"), cmpB("清掃・補充・発注")],
+      [cmpL("原料・機器"), cmpA("セルフカフェ"), cmpB("未来屋書店様")],
+      [cmpL("水道光熱費"), cmpA("未来屋書店様"), cmpB("未来屋書店様")],
+      [cmpL("通信費"), cmpA("未来屋書店様"), cmpB("未来屋書店様")],
+      [cmpL("消耗品（清掃用品）"), cmpA("未来屋書店様"), cmpB("未来屋書店様")],
+      [cmpL("売上変動リスク"), cmpA("セルフカフェ"), cmpB("未来屋書店様")],
+      [cmpL("投資回収"), cmpA("約2ヶ月"), cmpB("18〜21ヶ月")],
     ],
     {
-      x: rx, y: TOP, w: rw, colW: [1.45, 1.5, 1.32],
-      rowH: [0.34, 0.36, 0.36, 0.52, 0.36, 0.36, 0.36, 0.36],
+      x: rx, y: TOP, w: rw, colW: [1.5, 1.42, 1.35],
+      rowH: [0.32, 0.34, 0.34, 0.34, 0.34, 0.34, 0.34, 0.34, 0.34, 0.34],
       border: { type: "solid", color: C.warmLine, pt: 0.75 },
       autoPage: false,
     }
@@ -1134,7 +1160,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   panel(s, M, py, CW, 0.86);
   s.addText(
     [
-      { text: "まずは業務委託型での切り替えをご提案します。", options: { fontFace: F.jp, fontSize: 12.5, bold: true, color: C.white } },
+      { text: "まずは業務委託型での切り替えをご提案しております。", options: { fontFace: F.jp, fontSize: 12.5, bold: true, color: C.white } },
       { text: "  初期費用を抑えて実績をご確認いただいたうえで、FCプランへの切り替えもご相談いただけます。", options: { fontFace: F.jp, fontSize: 10.5, color: C.cvBody } },
     ],
     { x: M + 0.34, y: py, w: CW - 0.68, h: 0.86, margin: 0, valign: "middle" }

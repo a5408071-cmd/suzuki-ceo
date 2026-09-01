@@ -425,9 +425,9 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   });
 
   const rx = M + lw + 0.42, rw = R - rx;
-  photoSlot(s, rx, TOP, rw, 3.3, null, { img: "store-sasashima.jpg" });
+  photoSlot(s, rx, TOP, rw, 3.3, null, { img: "sasashima-interior.jpg" });
   tintCard(s, rx, TOP + 3.48, rw, 1.04);
-  s.addText("ささしまライブ店（名古屋）の店内。商業施設内でも同じ仕様で展開しています。", {
+  s.addText("ささしまライブ店（名古屋）。商業施設の1階路面で、朝8時から22時まで無人運営しています。", {
     x: rx + 0.26, y: TOP + 3.48, w: rw - 0.52, h: 1.04,
     fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.35,
   });
@@ -492,9 +492,9 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
 
   const cw = (CW - 2 * 0.3) / 3;
   const refs = [
-    { name: "印西牧の原店", sub: "千葉県印西市／書店併設", img: "store-inzai-real.jpg", cups: "40.6", dark: false },
+    { name: "印西牧の原店", sub: "千葉県印西市／書店併設", img: "inzai-hall.jpg", cups: "40.6", dark: false },
     { name: "新守山店", sub: "愛知県名古屋市／書店併設", img: "store-shinmoriyama.jpg", cups: "45.2", dark: false },
-    { name: "ささしまライブ店", sub: "愛知県名古屋市／商業施設内", img: "store-sasashima.jpg", cups: "122.7", dark: true },
+    { name: "ささしまライブ店", sub: "愛知県名古屋市／商業施設内", img: "sasashima-exterior.jpg", cups: "122.7", dark: true },
   ];
   refs.forEach((r, i) => {
     const x = M + i * (cw + 0.3);
@@ -540,6 +540,42 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   );
 
   note(s, 6.94, "出典：社内管理台帳（2026年5月〜8月の月間実杯数の平均）。");
+}
+
+/* ===================================================== 書店併設の実例（印西牧の原店） */
+{
+  const s = pres.addSlide();
+  shell(s, "導入イメージ", "書店の中に、こう入ります。",
+    "印西牧の原店の実際の様子です。書架のとなりに席を並べ、書店の動線をそのまま活かしています。");
+
+  const bigW = 7.5, bigH = 3.9;
+  photoSlot(s, M, TOP, bigW, bigH, null, { img: "inzai-hall.jpg" });
+
+  const rx = M + bigW + 0.3, rw = R - rx, sh = (bigH - 0.3) / 2;
+  photoSlot(s, rx, TOP, rw, sh, null, { img: "inzai-books.jpg" });
+  photoSlot(s, rx, TOP + sh + 0.3, rw, sh, null, { img: "inzai-counter.jpg" });
+
+  const pts = [
+    ["LuRuler", "書架の間・壁面沿いに設置", "独立区画は不要。既存の什器配置を大きく変えずに席をつくれます。"],
+    ["LuPlug", "各席に電源とWi-Fi", "長時間の滞在に耐える設えで、書店の滞在時間もあわせて伸びます。"],
+    ["LuUsers", "レジ・接客は発生しない", "ドリンクはセルフのマシン。書店スタッフの手は一切かかりません。"],
+  ];
+  const by = TOP + bigH + 0.24, pw = (CW - 2 * 0.24) / 3;
+  pts.forEach((p2, i) => {
+    const x = M + i * (pw + 0.24);
+    tintCard(s, x, by, pw, 0.94);
+    icon(s, p2[0], "green", x + 0.24, by + 0.28, 0.34);
+    s.addText(p2[1], {
+      x: x + 0.68, y: by + 0.12, w: pw - 0.92, h: 0.28,
+      fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
+    });
+    s.addText(p2[2], {
+      x: x + 0.68, y: by + 0.4, w: pw - 0.92, h: 0.44,
+      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+    });
+  });
+
+  note(s, by + 1.04, "写真：セルフカフェ 印西牧の原店（千葉県印西市／未来屋書店様 併設）。");
 }
 
 /* ===================================================== p6 想定販売杯数の考え方 */

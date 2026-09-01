@@ -493,7 +493,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   const cw = (CW - 2 * 0.3) / 3;
   const refs = [
     { name: "印西牧の原店", sub: "千葉県印西市／書店併設", img: "inzai-hall.jpg", cups: "40.6", dark: false },
-    { name: "新守山店", sub: "愛知県名古屋市／書店併設", img: "store-shinmoriyama.jpg", cups: "45.2", dark: false },
+    { name: "新守山店", sub: "愛知県名古屋市／書店併設", img: "shinmoriyama-hall.jpg", cups: "45.2", dark: false },
     { name: "ささしまライブ店", sub: "愛知県名古屋市／商業施設内", img: "sasashima-exterior.jpg", cups: "122.7", dark: true },
   ];
   refs.forEach((r, i) => {

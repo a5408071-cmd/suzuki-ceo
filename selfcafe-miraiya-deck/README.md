@@ -81,7 +81,7 @@ python3 ../fix-pptx.py selfcafe-miraiya-deck.pptx   # PowerPointの「修復」�
 | `inzai-hall.jpg` | p5・p6 | 印西牧の原店 客席（書架沿い） |
 | `inzai-books.jpg` | p6 | 印西牧の原店 書架と席の関係 |
 | `inzai-counter.jpg` | p6 | 印西牧の原店 マシン・カウンター周り |
-| `store-shinmoriyama.jpg` | p5 | 新守山店（Drive「新守山.jpg」） |
+| `shinmoriyama-hall.jpg` | p5 | 新守山店 客席（ohagi3併設） |
 | `sasashima-exterior.jpg` | p5 | ささしまライブ店 外観 |
 | `sasashima-interior.jpg` | p3 | ささしまライブ店 店内 |
 | `p24-install.jpg` | p10 | 店内のドリンクマシン設置イメージ |

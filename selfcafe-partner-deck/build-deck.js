@@ -309,8 +309,7 @@ pres.title = "セルフカフェ パートナー制度";
   shell(s,  "会社概要", "会社概要", "無人カフェ「セルフカフェ」の企画・開発・運営を行っています。");
 
   // 実写バナー（元画像 1712x412 の横長比率に合わせて全幅で使用）
-  photoSlot(s, M, TOP, CW, 2.78, "セルフカフェ 盛岡駅前店（2025年4月オープン）",
-    { img: "p02-storefront.jpg", capSize: 10 });
+  photoSlot(s, M, TOP, CW, 2.78, null, { img: "p02-storefront.jpg" });
 
   const iy = TOP + 3.0;
   const items = [
@@ -2200,13 +2199,8 @@ pres.title = "セルフカフェ パートナー制度";
     x: 0.889, y: 2.28, w: 8.0, h: 0.86,
     fontFace: F.jp, fontSize: 42, bold: true, color: C.white, margin: 0, valign: "middle",
   });
-  s.addText("会社名・氏名・連絡先をご記入の上ご連絡ください。", {
-    x: 0.889, y: 3.24, w: 7.6, h: 0.72,
-    fontFace: F.jp, fontSize: 12.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.45,
-  });
-
   [
-    ["LuPhone", "TEL", "052-879-3557", "セルフカフェ株式会社 本社"],
+    ["LuPhone", "TEL", "052-879-3557", ""],
     ["LuMail", "E-MAIL", "info@selfcafe.jp", ""],
     ["LuGlobe", "WEB", "https://selfcafe.jp/", ""],
   ].forEach(([ic, label, value, sub], i) => {

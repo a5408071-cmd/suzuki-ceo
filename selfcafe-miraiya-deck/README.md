@@ -30,7 +30,7 @@ python3 ../fix-pptx.py selfcafe-miraiya-deck.pptx   # PowerPointの「修復」�
 | 6 | 05 立地適性 | 映画館と同一フロア。両店のフロアマップと基礎数値 |
 | 7 | 06 参考モデル | 印西牧の原・新守山（書店併設）とささしまライブの実績 |
 | 8 | 07 導入イメージ | 書店の中に、こう入ります。（印西牧の原店の実写真3枚） |
-| 9 | 08 業態転換イメージ | **土浦店の現況2枚 → 完成予想パース3枚（ビフォー／アフター）** |
+| 9 | 08 業態転換イメージ | **土浦店 同アングルのビフォー／アフター（現況3枚／パース3枚を上下で対比）** |
 | 10 | 09 前提の考え方 | 想定杯数の根拠（実績比1.9倍・席数で配分） |
 | 11 | 10 収益シミュレーション | **秋田店（85杯／日）** |
 | 12 | 11 収益シミュレーション | **土浦店（75杯／日）** |
@@ -164,11 +164,12 @@ python3 ../fix-pptx.py selfcafe-miraiya-deck.pptx   # PowerPointの「修復」�
 
 | ファイル | 使用ページ | 内容 |
 |---|---|---|
-| `tsuchiura-current-exterior.jpg` | p9 | 土浦店 現況 外観（貴社ご提供） |
-| `tsuchiura-current-interior.jpg` | p9 | 土浦店 現況 店内（貴社ご提供） |
-| `tsuchiura-after-exterior.jpg` | p9 | 土浦店 完成予想パース 外観 |
-| `tsuchiura-after-interior-01.jpg` | p9 | 土浦店 完成予想パース 店内（マシン・カウンター） |
-| `tsuchiura-after-interior-02.jpg` | p9 | 土浦店 完成予想パース 店内（引き） |
+| `tsuchiura-before-exterior.jpg` | p9 | 土浦店 現況 ①店頭（モール通路側）／元 `B2.jpg` |
+| `tsuchiura-before-overview.jpg` | p9 | 土浦店 現況 ②売場全景（児童書側から）／元 `B1.jpg` |
+| `tsuchiura-before-cafe.jpg` | p9 | 土浦店 現況 ③カフェ区画／元 `B3.jpg` |
+| `tsuchiura-after-exterior.jpg` | p9 | 土浦店 完成予想パース ①店頭／元 `..._02_外観サイン.png` |
+| `tsuchiura-after-overview.jpg` | p9 | 土浦店 完成予想パース ②売場全景／元 `..._01_全景.png` |
+| `tsuchiura-after-cafe.jpg` | p9 | 土浦店 完成予想パース ③カフェ区画／元 `..._03_店内.png` |
 | `map-akita-floor.png` | p4 | 秋田店 2Fフロアマップ（貴社ご提供） |
 | `map-tsuchiura-floor.png` | p4 | 土浦店 3Fフロアマップ（貴社ご提供） |
 | `inzai-hall.jpg` | p5・p6 | 印西牧の原店 客席（書架沿い） |
@@ -184,6 +185,25 @@ python3 ../fix-pptx.py selfcafe-miraiya-deck.pptx   # PowerPointの「修復」�
 
 `map-akita-plan.png` / `map-tsuchiura-plan.png`（区画の平面図）も `assets/photos/` に格納済み。
 現地確認後にレイアウト提案を追加する場合に使える。
+
+## p9 業態転換イメージ（ビフォー／アフター）
+
+Driveの「提案資料」フォルダでご提供いただいた6枚を使用。**3枚のパースが3枚の現況写真と
+同一アングルで1対1対応していた**ため、上段＝現況／下段＝パースの3列×2段で縦に対比させている。
+
+| 列 | 視点 | 現況 | パース |
+|---|---|---|---|
+| ① | 店頭（モール通路側） | `tsuchiura-before-exterior.jpg` | `tsuchiura-after-exterior.jpg` |
+| ② | 売場全景（児童書側から） | `tsuchiura-before-overview.jpg` | `tsuchiura-after-overview.jpg` |
+| ③ | カフェ区画 | `tsuchiura-before-cafe.jpg` | `tsuchiura-after-cafe.jpg` |
+
+- 写真枠は元比率（16:9）ちょうどのサイズにして中央寄せ。**パースをトリミングせず全体を見せている。**
+- 現況写真は3,840×2,160を長辺2,400pxへ縮小、パースは1,672×941の原寸をJPEG(q92)化。
+- 現況写真の2枚目に「祝・OPEN　カフェ・ド・クリエ　リーブルイオンモール土浦店」の花輪バナーが
+  写っているため、**土浦店であることは確認済み**。
+- 現況写真には CAFÉ de CRIÉ の看板が写る。キャプションには業態名を書かず「現況」表記に留めている
+  （「現在の業態は明記しない」とのご指示との整合）。看板を出したくない場合はパース3枚のみの
+  構成に組み替えられる。
 
 ## 要確認事項
 

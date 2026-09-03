@@ -689,6 +689,58 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   note(s, by + 1.04, "写真：セルフカフェ 印西牧の原店（千葉県印西市／未来屋書店様 併設）。");
 }
 
+/* ===================================================== 業態転換イメージ（土浦店・パース） */
+{
+  const s = pres.addSlide();
+  shell(s, "業態転換イメージ", "土浦店のカフェ区画は、こう変わります。",
+    "現況のフルサービス型カフェ区画に、セルフカフェを入れた場合の完成イメージです。");
+
+  const lw = 3.2, gap = 0.5;
+  const rx = M + lw + gap, rw = R - rx;
+
+  // 列ラベル
+  s.addShape("roundRect", {
+    x: M, y: TOP, w: lw, h: 0.3, rectRadius: 0.05,
+    fill: { color: "8E8B84" }, line: { type: "none" },
+  });
+  s.addText("現況", {
+    x: M, y: TOP, w: lw, h: 0.3,
+    fontFace: F.jp, fontSize: 10, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+  s.addShape("roundRect", {
+    x: rx, y: TOP, w: rw, h: 0.3, rectRadius: 0.05,
+    fill: { color: C.green }, line: { type: "none" },
+  });
+  s.addText("業態転換後のイメージ（完成予想パース）", {
+    x: rx, y: TOP, w: rw, h: 0.3,
+    fontFace: F.jp, fontSize: 10, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+
+  // 左：現況 2枚
+  const cy = TOP + 0.34, ch = 2.13;
+  photoSlot(s, M, cy, lw, ch, null, { img: "tsuchiura-current-exterior.jpg" });
+  photoSlot(s, M, cy + ch + 0.13, lw, ch, null, { img: "tsuchiura-current-interior.jpg" });
+
+  // 中央：変換の矢印
+  s.addShape("roundRect", {
+    x: M + lw + 0.06, y: 4.16, w: 0.38, h: 0.38, rectRadius: 0.19,
+    fill: { color: C.gold }, line: { type: "none" },
+  });
+  s.addText("▶", {
+    x: M + lw + 0.06, y: 4.16, w: 0.38, h: 0.38,
+    fontFace: F.jp, fontSize: 11, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+
+  // 右：パース 外観大1枚＋内観2枚
+  const ah = 2.55;
+  photoSlot(s, rx, cy, rw, ah, null, { img: "tsuchiura-after-exterior.jpg" });
+  const iw = (rw - 0.3) / 2, ih2 = 1.75, iy = cy + ah + 0.13;
+  photoSlot(s, rx, iy, iw, ih2, null, { img: "tsuchiura-after-interior-01.jpg" });
+  photoSlot(s, rx + iw + 0.3, iy, iw, ih2, null, { img: "tsuchiura-after-interior-02.jpg" });
+
+  note(s, 6.68, "※ パースは完成予想図です。什器の再利用可否・工事範囲は現地確認のうえ確定します。実際の仕上がりは設計内容により異なります。");
+}
+
 /* ===================================================== p6 想定販売杯数の考え方 */
 {
   const s = pres.addSlide();

@@ -736,6 +736,38 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   note(s, 6.64, "※ パースは完成予想図です。什器の再利用可否・工事範囲は現地確認のうえ確定します。実際の仕上がりは設計内容により異なります。");
 }
 
+/* ===================================================== 業態転換イメージ（秋田店・パース） */
+{
+  const s = pres.addSlide();
+  shell(s, "業態転換イメージ", "秋田店のカフェ区画は、こう変わります。",
+    "同じアングルでの対比です。売場の柱・天井・床はそのままに、カフェ区画だけを入れ替えます。");
+
+  const gap = 0.36;
+  const pw = (CW - gap) / 2, ph = pw * 3 / 4; // 元比率(4:3)ちょうど＝トリミングなし
+
+  s.addShape("roundRect", {
+    x: M, y: TOP, w: 1.5, h: 0.26, rectRadius: 0.05,
+    fill: { color: "8E8B84" }, line: { type: "none" },
+  });
+  s.addText("現況", {
+    x: M, y: TOP, w: 1.5, h: 0.26,
+    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+  s.addShape("roundRect", {
+    x: M + pw + gap, y: TOP, w: 3.5, h: 0.26, rectRadius: 0.05,
+    fill: { color: C.green }, line: { type: "none" },
+  });
+  s.addText("業態転換後のイメージ（完成予想パース）", {
+    x: M + pw + gap, y: TOP, w: 3.5, h: 0.26,
+    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+
+  photoSlot(s, M, TOP + 0.34, pw, ph, null, { img: "akita-before-exterior.jpg" });
+  photoSlot(s, M + pw + gap, TOP + 0.34, pw, ph, null, { img: "akita-after-exterior.jpg" });
+
+  note(s, 6.62, "※ パースは完成予想図です。既存什器・造作の再利用可否および工事範囲は現地確認のうえ確定します。実際の仕上がりは設計内容により異なります。");
+}
+
 /* ===================================================== p6 想定販売杯数の考え方 */
 {
   const s = pres.addSlide();

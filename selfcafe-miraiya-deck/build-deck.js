@@ -717,7 +717,7 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
     x: x0, y: 4.22, w: 3.5, h: 0.26, rectRadius: 0.05,
     fill: { color: C.green }, line: { type: "none" },
   });
-  s.addText("業態転換後のイメージ（完成予想パース）", {
+  s.addText("業態転換後のイメージ ／ スタンダード仕様", {
     x: x0, y: 4.22, w: 3.5, h: 0.26,
     fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
   });
@@ -736,62 +736,106 @@ pres.title = "セルフカフェ × 未来屋書店 業態転換のご提案";
   note(s, 6.64, "※ パースは完成予想図です。什器の再利用可否・工事範囲は現地確認のうえ確定します。実際の仕上がりは設計内容により異なります。");
 }
 
-/* ===================================================== 業態転換イメージ（秋田店・パース2案） */
+/* ===================================================== 業態転換イメージ（秋田店） */
 {
   const s = pres.addSlide();
   shell(s, "業態転換イメージ", "秋田店のカフェ区画は、こう変わります。",
-    "同じアングルでの対比です。内装は床仕上げの異なる2案をご用意しました。");
+    "同じアングルでの対比です。書店の売場構成はそのままに、カフェ区画だけを入れ替えます。");
 
-  const gap = 0.3;
-  const pw = (CW - gap * 2) / 3, ph = pw * 3 / 4; // 元比率(4:3)ちょうど＝トリミングなし
+  const gap = 0.36;
+  const pw = (CW - gap) / 2, ph = pw * 3 / 4; // 元比率(4:3)ちょうど＝トリミングなし
 
-  const cols = [
-    {
-      pill: "現況", pillFill: "8E8B84", pillW: 1.4,
-      img: "akita-before-exterior.jpg",
-      title: "現況",
-      body: "フルサービス型のカフェ区画。スタッフの常駐とレジ対応が必要な業態です。",
-    },
-    {
-      pill: "業態転換後 ／ N案", pillFill: C.green, pillW: 2.5,
-      img: "akita-after-n.jpg",
-      title: "N案：ライトフロア",
-      body: "床を明るい仕上げに。書店売場の床と連続し、区画が広く開放的に見えます。",
-    },
-    {
-      pill: "業態転換後 ／ G案", pillFill: C.green, pillW: 2.5,
-      img: "akita-after-g.jpg",
-      title: "G案：グリーンフロア",
-      body: "床をグリーンで仕上げ。カフェ区画が明確に分かれ、落ち着いた印象になります。",
-    },
-  ];
+  s.addShape("roundRect", {
+    x: M, y: TOP, w: 1.5, h: 0.26, rectRadius: 0.05,
+    fill: { color: "8E8B84" }, line: { type: "none" },
+  });
+  s.addText("現況", {
+    x: M, y: TOP, w: 1.5, h: 0.26,
+    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+  s.addShape("roundRect", {
+    x: M + pw + gap, y: TOP, w: 3.5, h: 0.26, rectRadius: 0.05,
+    fill: { color: C.green }, line: { type: "none" },
+  });
+  s.addText("業態転換後のイメージ ／ スタンダード仕様", {
+    x: M + pw + gap, y: TOP, w: 3.5, h: 0.26,
+    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
 
-  cols.forEach((c2, i) => {
-    const x = M + i * (pw + gap);
+  photoSlot(s, M, TOP + 0.34, pw, ph, null, { img: "akita-before-exterior.jpg" });
+  photoSlot(s, M + pw + gap, TOP + 0.34, pw, ph, null, { img: "akita-after-exterior.jpg" });
+
+  note(s, 6.62, "※ パースは完成予想図です。スタンダード仕様は印西牧の原店・新守山店など既存の書店併設店と同じ設えです。什器・造作の再利用可否および工事範囲は現地確認のうえ確定します。");
+}
+
+/* ===================================================== 内装グレード（プレミアム仕様・2店舗） */
+{
+  const s = pres.addSlide();
+  shell(s, "内装グレード", "書店一体型のプレミアム仕様もご用意しています。",
+    "木製書架と間接照明でまとめた特別仕様です。床仕上げはN案・G案の2案からお選びいただけます。");
+
+  const pw = 3.75, ph = pw * 9 / 16, gapX = 0.28, gapY = 0.26;
+  const col = [M, M + pw + gapX];
+  const rowY = [2.10, 2.10 + ph + gapY + 0.26];
+
+  // 列見出し（床仕上げ2案）
+  [["N案：ライトフロア", 0], ["G案：グリーンフロア", 1]].forEach(([t2, i]) => {
     s.addShape("roundRect", {
-      x, y: TOP, w: c2.pillW, h: 0.26, rectRadius: 0.05,
-      fill: { color: c2.pillFill }, line: { type: "none" },
+      x: col[i], y: TOP, w: 2.4, h: 0.26, rectRadius: 0.05,
+      fill: { color: C.green }, line: { type: "none" },
     });
-    s.addText(c2.pill, {
-      x, y: TOP, w: c2.pillW, h: 0.26,
+    s.addText(t2, {
+      x: col[i], y: TOP, w: 2.4, h: 0.26,
       fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
-    });
-    photoSlot(s, x, 2.14, pw, ph, null, { img: c2.img });
-
-    const cy = 5.1;
-    if (i === 0) tintCard(s, x, cy, pw, 1.08, { fill: C.grayBand });
-    else tintCard(s, x, cy, pw, 1.08);
-    s.addText(c2.title, {
-      x: x + 0.24, y: cy + 0.14, w: pw - 0.48, h: 0.26,
-      fontFace: F.jp, fontSize: 10.5, bold: true, color: i === 0 ? C.muted : C.green, margin: 0, valign: "middle",
-    });
-    s.addText(c2.body, {
-      x: x + 0.24, y: cy + 0.42, w: pw - 0.48, h: 0.54,
-      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
     });
   });
 
-  note(s, 6.4, "※ パースは完成予想図です。内装は書店との一体感を重視した仕様としています。什器・造作の再利用可否および工事範囲は現地確認のうえ確定し、実際の仕上がりは設計内容により異なります。");
+  // 行見出し（店舗）と写真
+  [
+    { store: "土浦店", y: rowY[0], n: "tsuchiura-premium-n.jpg", g: "tsuchiura-premium-g.jpg" },
+    { store: "秋田店", y: rowY[1], n: "akita-premium-n.jpg", g: "akita-premium-g.jpg" },
+  ].forEach((r) => {
+    photoSlot(s, col[0], r.y, pw, ph, r.store, { img: r.n });
+    photoSlot(s, col[1], r.y, pw, ph, r.store, { img: r.g });
+  });
+
+  // 右：説明
+  const rx = col[1] + pw + 0.3, rw = R - rx;
+  tintCard(s, rx, rowY[0], rw, ph);
+  s.addText("プレミアム仕様の特徴", {
+    x: rx + 0.26, y: rowY[0] + 0.16, w: rw - 0.52, h: 0.26,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
+  });
+  ["木製書架と一体の造作", "間接照明・スタンドライト", "落ち着いたダークトーンのサイン", "「MIRAIYA Book & Cafe」併記"].forEach((t2, i) => {
+    const y = rowY[0] + 0.5 + i * 0.36;
+    icon(s, "LuCheck", "green", rx + 0.28, y + 0.05, 0.18);
+    s.addText(t2, {
+      x: rx + 0.58, y, w: rw - 0.86, h: 0.3,
+      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "middle",
+    });
+  });
+
+  card(s, rx, rowY[1], rw, ph);
+  s.addText("床仕上げの違い", {
+    x: rx + 0.26, y: rowY[1] + 0.16, w: rw - 0.52, h: 0.26,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  [
+    ["N案", "書店売場の床と連続し、区画が広く開放的に見えます。"],
+    ["G案", "カフェ区画が明確に分かれ、落ち着いた印象になります。"],
+  ].forEach((t2, i) => {
+    const y = rowY[1] + 0.52 + i * 0.76;
+    s.addText(t2[0], {
+      x: rx + 0.26, y, w: rw - 0.52, h: 0.24,
+      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+    });
+    s.addText(t2[1], {
+      x: rx + 0.26, y: y + 0.22, w: rw - 0.52, h: 0.46,
+      fontFace: F.jp, fontSize: 9, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
+    });
+  });
+
+  note(s, 6.84, "※ パースは完成予想図です。スタンダード仕様・プレミアム仕様のいずれでもご提案可能です。仕様により工事費が変わるため、初期費用は現地確認のうえ個別にお見積りします。");
 }
 
 /* ===================================================== p6 想定販売杯数の考え方 */

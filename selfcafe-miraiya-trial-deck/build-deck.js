@@ -303,8 +303,8 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
   s.addShape("rect", { x: 0.889, y: 5.98, w: 0.778, h: 0.028, fill: { color: C.goldLine } });
   const stats = [
     { x: 0.889, w: 3.2, v: "0", u: "円", l: "内装工事費のご負担" },
-    { x: 4.5, w: 3.6, v: "25", u: "％ ＋ 月額5万円", l: "御社の毎月のお受取" },
-    { x: 8.6, w: 3.2, v: "なし", u: "", l: "原状回復義務" },
+    { x: 4.5, w: 3.2, v: "25", u: "％", l: "トライアル期間中のお受取" },
+    { x: 8.1, w: 3.2, v: "なし", u: "", l: "原状回復義務" },
   ];
   stats.forEach((st) => {
     s.addText(
@@ -319,7 +319,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
       fontFace: F.jp, fontSize: 9.5, color: C.cvSmall, margin: 0, valign: "middle",
     });
   });
-  [4.06, 8.16].forEach((x) =>
+  [4.06, 7.66].forEach((x) =>
     s.addShape("rect", { x, y: 6.31, w: 0.013, h: 0.583, fill: { color: "3C5F4B" } })
   );
   s.addText("セルフカフェ株式会社", {
@@ -339,8 +339,8 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
     ["LuSparkles", "内装仕様", "スタンダード仕様（既存の書店併設店と同じ設え）"],
     ["LuHammer", "工事部分", "セルフカフェが負担します（御社のご負担なし）"],
     ["LuLandPlot", "家具・什器", "御社にてご手配いただきます（御社の所有となります）"],
-    ["LuHandCoins", "お支払い", "セルフカフェ売上の25％ ＋ 月額固定5万円"],
-    ["LuCalendarCheck", "契約期間", "基本3年〜／特約により最低2年〜でも同条件"],
+    ["LuHandCoins", "お支払い", "トライアル中は売上の25％／2年目以降は＋月額5万円"],
+    ["LuCalendarCheck", "契約期間", "基本3年〜（トライアル1年を含む）／特約で最低2年〜"],
     ["LuKeyRound", "原状回復義務", "なし（当社のマシン・カメラ等のみ撤去します）"],
   ];
   conds.forEach((c2, i) => {
@@ -358,109 +358,123 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
   });
 
   const rx = M + lw + 0.42, rw = R - rx;
-  panel(s, rx, TOP, rw, 1.9);
-  eyebrowIn(s, rx + 0.28, TOP + 0.24, 2.6, "REVENUE SHARE", C.cvPale);
-  s.addText("御社へのお支払い", {
-    x: rx + 0.28, y: TOP + 0.5, w: rw - 0.56, h: 0.28,
-    fontFace: F.jp, fontSize: 11, color: C.cvBody, margin: 0, valign: "middle",
+  panel(s, rx, TOP, rw, 2.3);
+  eyebrowIn(s, rx + 0.28, TOP + 0.2, 2.6, "REVENUE SHARE", C.cvPale);
+  s.addText("トライアル期間（1年目）", {
+    x: rx + 0.28, y: TOP + 0.44, w: rw - 0.56, h: 0.24,
+    fontFace: F.jp, fontSize: 9.5, color: C.cvBody, margin: 0, valign: "middle",
   });
   s.addText(
     [
       { text: "売上の ", options: { fontFace: F.jp, fontSize: 13, color: C.white } },
-      { text: "25", options: { fontFace: F.num, fontSize: 32, bold: true, color: "F0C05A" } },
+      { text: "25", options: { fontFace: F.num, fontSize: 30, bold: true, color: "F0C05A" } },
       { text: " ％", options: { fontFace: F.jp, fontSize: 15, bold: true, color: "F0C05A" } },
     ],
-    { x: rx + 0.28, y: TOP + 0.78, w: rw - 0.56, h: 0.62, margin: 0, valign: "middle" }
+    { x: rx + 0.28, y: TOP + 0.68, w: rw - 0.56, h: 0.58, margin: 0, valign: "middle" }
   );
+  s.addShape("rect", { x: rx + 0.28, y: TOP + 1.34, w: rw - 0.56, h: 0.011, fill: { color: "2A7A4E" } });
+  s.addText("2年目以降", {
+    x: rx + 0.28, y: TOP + 1.44, w: rw - 0.56, h: 0.24,
+    fontFace: F.jp, fontSize: 9.5, color: C.cvBody, margin: 0, valign: "middle",
+  });
   s.addText(
     [
-      { text: "＋ 月額固定 ", options: { fontFace: F.jp, fontSize: 12, color: C.white } },
-      { text: "5", options: { fontFace: F.num, fontSize: 18, bold: true, color: "F0C05A" } },
-      { text: " 万円", options: { fontFace: F.jp, fontSize: 12, bold: true, color: "F0C05A" } },
+      { text: "売上の25％ ", options: { fontFace: F.jp, fontSize: 12, bold: true, color: C.white } },
+      { text: "＋ 月額固定 5万円", options: { fontFace: F.jp, fontSize: 12.5, bold: true, color: "F0C05A" } },
     ],
-    { x: rx + 0.28, y: TOP + 1.38, w: rw - 0.56, h: 0.38, margin: 0, valign: "middle" }
+    { x: rx + 0.28, y: TOP + 1.7, w: rw - 0.56, h: 0.46, margin: 0, valign: "middle" }
   );
 
-  tintCard(s, rx, TOP + 2.06, rw, 1.3);
+  tintCard(s, rx, TOP + 2.44, rw, 1.16);
   s.addText("御社のご負担", {
-    x: rx + 0.28, y: TOP + 2.24, w: rw - 0.56, h: 0.26,
+    x: rx + 0.28, y: TOP + 2.58, w: rw - 0.56, h: 0.26,
     fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
   });
   s.addText("家具・什器のご手配のみです。\n内装工事費のご負担はありません。", {
-    x: rx + 0.28, y: TOP + 2.54, w: rw - 0.56, h: 0.7,
-    fontFace: F.jp, fontSize: 10.5, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
+    x: rx + 0.28, y: TOP + 2.86, w: rw - 0.56, h: 0.64,
+    fontFace: F.jp, fontSize: 10, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
   });
 
-  card(s, rx, TOP + 3.5, rw, 1.08);
-  icon(s, "LuShieldCheck", "green", rx + 0.26, TOP + 3.74, 0.34);
+  card(s, rx, TOP + 3.74, rw, 0.84);
+  icon(s, "LuShieldCheck", "green", rx + 0.26, TOP + 3.9, 0.32);
   s.addText("原状回復義務なし", {
-    x: rx + 0.72, y: TOP + 3.66, w: rw - 0.98, h: 0.28,
+    x: rx + 0.68, y: TOP + 3.82, w: rw - 0.94, h: 0.26,
     fontFace: F.jp, fontSize: 11, bold: true, color: C.gold, margin: 0, valign: "middle",
   });
   s.addText("終了時も内装を元に戻す必要はありません。", {
-    x: rx + 0.72, y: TOP + 3.96, w: rw - 0.98, h: 0.46,
-    fontFace: F.jp, fontSize: 9.5, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+    x: rx + 0.68, y: TOP + 4.08, w: rw - 0.94, h: 0.4,
+    fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
   });
 
-  note(s, 6.62, "※ 金額はすべて税抜。対象店舗はご相談のうえ決定させていただきます。契約期間の考え方は次ページに記載しています。");
+  note(s, 6.62, "※ 金額はすべて税抜。トライアル期間（1年）は契約期間に含みます。対象店舗はご相談のうえ決定させていただきます。");
 }
 
 /* ===================================================== p3 契約期間の考え方 */
 {
   const s = pres.addSlide();
-  shell(s, "契約期間の考え方", "トライアル1年、その先は2年からでも同条件で。",
+  shell(s, "契約期間の考え方", "トライアルの1年も、契約期間に含みます。",
     "内装工事費を当社が負担するため、基本契約は3年以上とさせていただいています。");
 
-  const cw = (CW - 0.6) / 3;
-  const terms = [
-    {
-      ic: "LuTimer", label: "トライアル期間", v: "1", u: "年", gold: false,
-      body: "実際の販売杯数と、清掃・補充の運営負荷をご確認いただく期間として1年を想定しています。",
-    },
-    {
-      ic: "LuFileCheck", label: "基本契約", v: "3", u: "年〜", gold: false,
-      body: "内装工事費は当社が負担するため、回収に一定の期間が必要です。通常は3年以上でお願いしています。",
-    },
-    {
-      ic: "LuBadgeCheck", label: "今回の特約", v: "2", u: "年〜", gold: true,
-      body: "今回は特約として、最低2年からでも3年以上と同じ条件でお受けします。",
-    },
+  // ── 年次タイムライン
+  const seg = (CW - 0.24) / 3;
+  const years = [
+    { t: "1年目", label: "トライアル期間", pay: "売上の25％", gold: true },
+    { t: "2年目", label: "本格運用", pay: "売上の25％ ＋ 月額5万円", gold: false },
+    { t: "3年目", label: "本格運用", pay: "売上の25％ ＋ 月額5万円", gold: false },
   ];
-  terms.forEach((t2, i) => {
-    const x = M + i * (cw + 0.3);
-    if (t2.gold) card(s, x, TOP, cw, 3.2, { fill: C.goldTint, line: "E7D3A8" });
-    else card(s, x, TOP, cw, 3.2);
-    icon(s, t2.ic, t2.gold ? "gold" : "green", x + 0.3, TOP + 0.3, 0.4);
-    s.addText(t2.label, {
-      x: x + 0.3, y: TOP + 0.86, w: cw - 0.6, h: 0.28,
-      fontFace: F.jp, fontSize: 11, bold: true, color: t2.gold ? C.gold : C.muted, margin: 0, valign: "middle",
+  years.forEach((y2, i) => {
+    const x = M + i * (seg + 0.12);
+    s.addText(y2.t, {
+      x, y: TOP, w: seg, h: 0.24,
+      fontFace: F.jp, fontSize: 10, bold: true, color: C.muted, margin: 0, valign: "middle",
     });
-    s.addText(
-      [
-        { text: t2.v, options: { fontFace: F.num, fontSize: 40, bold: true, color: t2.gold ? C.gold : C.green } },
-        { text: " " + t2.u, options: { fontFace: F.jp, fontSize: 16, bold: true, color: t2.gold ? C.gold : C.green } },
-      ],
-      { x: x + 0.3, y: TOP + 1.16, w: cw - 0.6, h: 0.74, margin: 0, valign: "middle" }
-    );
-    s.addShape("rect", { x: x + 0.3, y: TOP + 2.0, w: cw - 0.6, h: 0.011, fill: { color: t2.gold ? "E7D3A8" : C.warmLine } });
-    s.addText(t2.body, {
-      x: x + 0.3, y: TOP + 2.16, w: cw - 0.6, h: 0.94,
-      fontFace: F.jp, fontSize: 10, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.4,
+    s.addShape("roundRect", {
+      x, y: TOP + 0.3, w: seg, h: 0.86, rectRadius: 0.06,
+      fill: { color: y2.gold ? C.gold : C.greenDeep }, line: { type: "none" },
+    });
+    s.addText(y2.label, {
+      x: x + 0.24, y: TOP + 0.38, w: seg - 0.48, h: 0.28,
+      fontFace: F.jp, fontSize: 11, bold: true, color: y2.gold ? "FFF3DC" : C.cvPale, margin: 0, valign: "middle",
+    });
+    s.addText(y2.pay, {
+      x: x + 0.24, y: TOP + 0.66, w: seg - 0.48, h: 0.32,
+      fontFace: F.jp, fontSize: 12.5, bold: true, color: C.white, margin: 0, valign: "middle",
     });
   });
 
-  const py = 5.16;
-  panel(s, M, py, CW, 1.1);
-  icon(s, "LuHandCoins", "pale", M + 0.38, py + 0.3, 0.44);
-  s.addText(
-    [
-      { text: "通常は3年以上が条件ですが、今回は2年からでも同じ条件でお受けします。", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.white, breakLine: true } },
-      { text: "工事費は当社が負担し、原状回復もいただかないため、御社側の期間リスクは小さく抑えられます。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
-    ],
-    { x: M + 1.0, y: py, w: CW - 1.4, h: 1.1, margin: 0, valign: "middle", lineSpacingMultiple: 1.25 }
-  );
+  // ── 期間の帯（特約2年／基本3年）
+  const band = (x, w, y, fill, line, color, text) => {
+    s.addShape("roundRect", { x, y, w, h: 0.42, rectRadius: 0.05, fill: { color: fill }, line: { color: line, width: 1 } });
+    s.addText(text, {
+      x: x + 0.24, y, w: w - 0.48, h: 0.42,
+      fontFace: F.jp, fontSize: 10.5, bold: true, color, margin: 0, valign: "middle",
+    });
+  };
+  band(M, seg * 2 + 0.12, TOP + 1.3, C.goldTint, "E7D3A8", C.gold, "今回の特約：最低2年〜　3年以上と同じ条件でお受けします");
+  band(M, CW, TOP + 1.84, C.tint, C.tintLine, C.green, "基本契約：3年〜　トライアルの1年を含めて通算します");
 
-  note(s, 6.44, "※ トライアル期間（1年）と基本契約期間の通算の扱いは、契約書にて明記させていただきます。");
+  // ── 補足カード
+  const cw = (CW - 0.6) / 3;
+  const cards2 = [
+    ["LuTimer", "1年目はトライアル", "実際の販売杯数と、清掃・補充の運営負荷をご確認いただく期間です。お支払いは売上の25％のみとなります。"],
+    ["LuHandCoins", "2年目から月額5万円が加算", "トライアル期間を終えたあとは、売上の25％に月額固定5万円を上乗せしてお支払いします。"],
+    ["LuFileCheck", "3年を基本とする理由", "内装工事費は当社が負担するため、回収に一定の期間が必要です。今回は特約として2年からお受けします。"],
+  ];
+  cards2.forEach((c2, i) => {
+    const x = M + i * (cw + 0.3);
+    tintCard(s, x, 4.24, cw, 2.02);
+    icon(s, c2[0], "green", x + 0.28, 4.46, 0.36);
+    s.addText(c2[1], {
+      x: x + 0.28, y: 4.94, w: cw - 0.56, h: 0.5,
+      fontFace: F.jp, fontSize: 12, bold: true, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
+    });
+    s.addText(c2[2], {
+      x: x + 0.28, y: 5.5, w: cw - 0.56, h: 0.66,
+      fontFace: F.jp, fontSize: 9.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
+    });
+  });
+
+  note(s, 6.44, "※ トライアル期間（1年）は契約期間に含みます。特約を適用した場合、最低契約期間はトライアル1年＋本格運用1年の計2年となります。");
 }
 
 /* ===================================================== p3 費用と所有の区分 */

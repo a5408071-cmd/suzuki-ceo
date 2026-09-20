@@ -1,5 +1,5 @@
 /**
- * 未来屋書店様 トライアル導入 特別条件のご提案 — 全6ページ
+ * 未来屋書店様 トライアル導入のご提案 — 全7ページ
  *
  * 業態転換提案資料（../selfcafe-miraiya-deck）と同じデザイン基準。
  * メール返信でご提示したトライアル条件のみを扱う独立資料。
@@ -56,7 +56,7 @@ const A = path.join(__dirname, "assets");
 const ICON = path.join(A, "icons");
 const LOGO_G = path.join(A, "logo-green.png");
 const LOGO_W = path.join(A, "logo-white.png");
-const FOOTER = "セルフカフェ × 未来屋書店 トライアル導入 特別条件";
+const FOOTER = "セルフカフェ × 未来屋書店 トライアル導入のご提案";
 
 // ---------------------------------------------------------------- helpers
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -273,7 +273,7 @@ const td = (t, opts = {}) => ({
 const pres = new pptxgen();
 pres.layout = "LAYOUT_WIDE";
 pres.author = "セルフカフェ株式会社";
-pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別条件のご提案";
+pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご提案";
 
 /* ===================================================== p1 表紙 */
 {
@@ -283,7 +283,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
   s.addImage({ path: LOGO_W, x: 0.889, y: 1.94, w: 2.861, h: 0.407 });
 
   s.addShape("rect", { x: 0.889, y: 2.94, w: 0.278, h: 0.028, fill: { color: C.goldLine } });
-  s.addText("TRIAL — SPECIAL TERMS", {
+  s.addText("TRIAL PROGRAM", {
     x: 1.306, y: 2.843, w: 5.5, h: 0.194,
     fontFace: F.num, fontSize: 10.5, bold: true, color: C.cvPale, charSpacing: 2, margin: 0, valign: "middle",
   });
@@ -291,7 +291,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
     x: 0.889, y: 3.14, w: 7.778, h: 0.32,
     fontFace: F.jp, fontSize: 15, color: C.cvSub, margin: 0, valign: "middle",
   });
-  s.addText("トライアル導入 特別条件のご提案", {
+  s.addText("トライアル導入のご提案", {
     x: 0.889, y: 3.44, w: 10.5, h: 1.0,
     fontFace: F.jp, fontSize: 42, bold: true, color: C.white, margin: 0, valign: "middle",
   });
@@ -303,8 +303,8 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
   s.addShape("rect", { x: 0.889, y: 5.98, w: 0.778, h: 0.028, fill: { color: C.goldLine } });
   const stats = [
     { x: 0.889, w: 3.2, v: "0", u: "円", l: "内装工事費のご負担" },
-    { x: 4.5, w: 3.2, v: "25", u: "％", l: "セルフカフェ売上の歩合" },
-    { x: 8.1, w: 3.2, v: "なし", u: "", l: "原状回復義務" },
+    { x: 4.5, w: 3.6, v: "25", u: "％ ＋ 月額5万円", l: "御社の毎月のお受取" },
+    { x: 8.6, w: 3.2, v: "なし", u: "", l: "原状回復義務" },
   ];
   stats.forEach((st) => {
     s.addText(
@@ -319,7 +319,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
       fontFace: F.jp, fontSize: 9.5, color: C.cvSmall, margin: 0, valign: "middle",
     });
   });
-  [4.06, 7.66].forEach((x) =>
+  [4.06, 8.16].forEach((x) =>
     s.addShape("rect", { x, y: 6.31, w: 0.013, h: 0.583, fill: { color: "3C5F4B" } })
   );
   s.addText("セルフカフェ株式会社", {
@@ -331,7 +331,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
 /* ===================================================== p2 トライアル特別条件 */
 {
   const s = pres.addSlide();
-  shell(s, "トライアル特別条件", "通常条件とは別の、トライアル条件です。",
+  shell(s, "トライアル条件", "トライアル導入の条件をご提案します。",
     "メールにてご提示した内容を、あらためて整理したものです。");
 
   const lw = 7.5;
@@ -339,19 +339,20 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
     ["LuSparkles", "内装仕様", "スタンダード仕様（既存の書店併設店と同じ設え）"],
     ["LuHammer", "工事部分", "セルフカフェが負担します（御社のご負担なし）"],
     ["LuLandPlot", "家具・什器", "御社にてご手配いただきます（御社の所有となります）"],
-    ["LuHandCoins", "歩合", "セルフカフェ売上の25％を御社へお支払い"],
+    ["LuHandCoins", "お支払い", "セルフカフェ売上の25％ ＋ 月額固定5万円"],
+    ["LuCalendarCheck", "契約期間", "基本3年〜／特約により最低2年〜でも同条件"],
     ["LuKeyRound", "原状回復義務", "なし（当社のマシン・カメラ等のみ撤去します）"],
   ];
   conds.forEach((c2, i) => {
-    const y = TOP + i * 0.94;
-    tintCard(s, M, y, lw, 0.82);
-    icon(s, c2[0], "green", M + 0.28, y + 0.23, 0.36);
+    const y = TOP + i * 0.78;
+    tintCard(s, M, y, lw, 0.68);
+    icon(s, c2[0], "green", M + 0.28, y + 0.16, 0.36);
     s.addText(c2[1], {
-      x: M + 0.78, y: y + 0.1, w: lw - 1.06, h: 0.28,
+      x: M + 0.78, y: y + 0.06, w: lw - 1.06, h: 0.26,
       fontFace: F.jp, fontSize: 11.5, bold: true, color: C.green, margin: 0, valign: "middle",
     });
     s.addText(c2[2], {
-      x: M + 0.78, y: y + 0.4, w: lw - 1.06, h: 0.32,
+      x: M + 0.78, y: y + 0.34, w: lw - 1.06, h: 0.28,
       fontFace: F.jp, fontSize: 10.5, color: C.ink, margin: 0, valign: "middle",
     });
   });
@@ -366,15 +367,19 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
   s.addText(
     [
       { text: "売上の ", options: { fontFace: F.jp, fontSize: 13, color: C.white } },
-      { text: "25", options: { fontFace: F.num, fontSize: 34, bold: true, color: "F0C05A" } },
+      { text: "25", options: { fontFace: F.num, fontSize: 32, bold: true, color: "F0C05A" } },
       { text: " ％", options: { fontFace: F.jp, fontSize: 15, bold: true, color: "F0C05A" } },
     ],
-    { x: rx + 0.28, y: TOP + 0.82, w: rw - 0.56, h: 0.7, margin: 0, valign: "middle" }
+    { x: rx + 0.28, y: TOP + 0.78, w: rw - 0.56, h: 0.62, margin: 0, valign: "middle" }
   );
-  s.addText("毎月お支払いします（税抜）", {
-    x: rx + 0.28, y: TOP + 1.5, w: rw - 0.56, h: 0.28,
-    fontFace: F.jp, fontSize: 9.5, color: C.cvBody, margin: 0, valign: "middle",
-  });
+  s.addText(
+    [
+      { text: "＋ 月額固定 ", options: { fontFace: F.jp, fontSize: 12, color: C.white } },
+      { text: "5", options: { fontFace: F.num, fontSize: 18, bold: true, color: "F0C05A" } },
+      { text: " 万円", options: { fontFace: F.jp, fontSize: 12, bold: true, color: "F0C05A" } },
+    ],
+    { x: rx + 0.28, y: TOP + 1.38, w: rw - 0.56, h: 0.38, margin: 0, valign: "middle" }
+  );
 
   tintCard(s, rx, TOP + 2.06, rw, 1.3);
   s.addText("御社のご負担", {
@@ -397,7 +402,65 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
     fontFace: F.jp, fontSize: 9.5, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
   });
 
-  note(s, 6.62, "※ 金額はすべて税抜。トライアルの期間・対象店舗はご相談のうえ決定させていただきます。");
+  note(s, 6.62, "※ 金額はすべて税抜。対象店舗はご相談のうえ決定させていただきます。契約期間の考え方は次ページに記載しています。");
+}
+
+/* ===================================================== p3 契約期間の考え方 */
+{
+  const s = pres.addSlide();
+  shell(s, "契約期間の考え方", "トライアル1年、その先は2年からでも同条件で。",
+    "内装工事費を当社が負担するため、基本契約は3年以上とさせていただいています。");
+
+  const cw = (CW - 0.6) / 3;
+  const terms = [
+    {
+      ic: "LuTimer", label: "トライアル期間", v: "1", u: "年", gold: false,
+      body: "実際の販売杯数と、清掃・補充の運営負荷をご確認いただく期間として1年を想定しています。",
+    },
+    {
+      ic: "LuFileCheck", label: "基本契約", v: "3", u: "年〜", gold: false,
+      body: "内装工事費は当社が負担するため、回収に一定の期間が必要です。通常は3年以上でお願いしています。",
+    },
+    {
+      ic: "LuBadgeCheck", label: "今回の特約", v: "2", u: "年〜", gold: true,
+      body: "今回は特約として、最低2年からでも3年以上と同じ条件でお受けします。",
+    },
+  ];
+  terms.forEach((t2, i) => {
+    const x = M + i * (cw + 0.3);
+    if (t2.gold) card(s, x, TOP, cw, 3.2, { fill: C.goldTint, line: "E7D3A8" });
+    else card(s, x, TOP, cw, 3.2);
+    icon(s, t2.ic, t2.gold ? "gold" : "green", x + 0.3, TOP + 0.3, 0.4);
+    s.addText(t2.label, {
+      x: x + 0.3, y: TOP + 0.86, w: cw - 0.6, h: 0.28,
+      fontFace: F.jp, fontSize: 11, bold: true, color: t2.gold ? C.gold : C.muted, margin: 0, valign: "middle",
+    });
+    s.addText(
+      [
+        { text: t2.v, options: { fontFace: F.num, fontSize: 40, bold: true, color: t2.gold ? C.gold : C.green } },
+        { text: " " + t2.u, options: { fontFace: F.jp, fontSize: 16, bold: true, color: t2.gold ? C.gold : C.green } },
+      ],
+      { x: x + 0.3, y: TOP + 1.16, w: cw - 0.6, h: 0.74, margin: 0, valign: "middle" }
+    );
+    s.addShape("rect", { x: x + 0.3, y: TOP + 2.0, w: cw - 0.6, h: 0.011, fill: { color: t2.gold ? "E7D3A8" : C.warmLine } });
+    s.addText(t2.body, {
+      x: x + 0.3, y: TOP + 2.16, w: cw - 0.6, h: 0.94,
+      fontFace: F.jp, fontSize: 10, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.4,
+    });
+  });
+
+  const py = 5.16;
+  panel(s, M, py, CW, 1.1);
+  icon(s, "LuHandCoins", "pale", M + 0.38, py + 0.3, 0.44);
+  s.addText(
+    [
+      { text: "通常は3年以上が条件ですが、今回は2年からでも同じ条件でお受けします。", options: { fontFace: F.jp, fontSize: 14, bold: true, color: C.white, breakLine: true } },
+      { text: "工事費は当社が負担し、原状回復もいただかないため、御社側の期間リスクは小さく抑えられます。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
+    ],
+    { x: M + 1.0, y: py, w: CW - 1.4, h: 1.1, margin: 0, valign: "middle", lineSpacingMultiple: 1.25 }
+  );
+
+  note(s, 6.44, "※ トライアル期間（1年）と基本契約期間の通算の扱いは、契約書にて明記させていただきます。");
 }
 
 /* ===================================================== p3 費用と所有の区分 */
@@ -455,7 +518,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入 特別
 {
   const s = pres.addSlide();
   shell(s, "終了時の扱い", "原状回復は不要。撤去するのは当社の機器だけです。",
-    "トライアルを終了される場合も、内装を元に戻していただく必要はありません。");
+    "ご契約を終了される場合も、内装を元に戻していただく必要はありません。");
 
   const cw = (CW - 0.42) / 2;
   const blocks = [

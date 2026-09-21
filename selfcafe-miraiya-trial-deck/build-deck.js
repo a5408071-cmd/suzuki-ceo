@@ -650,44 +650,6 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
   note(s, 6.44, "※ 撤去の範囲・時期は事前にお打ち合わせのうえ決定します。什器の再利用可否は現地確認時にご相談させてください。");
 }
 
-/* ===================================================== p5 家具を御社所有とする理由 */
-{
-  const s = pres.addSlide();
-  shell(s, "家具・什器の考え方", "家具は御社ご所有のほうがよい、と判断しました。",
-    "家具・什器は本来当社でご用意しますが、そのまま残す前提では御社の資産にしておくのが最も無駄がありません。");
-
-  const cw = (CW - 0.6) / 3;
-  const reasons = [
-    ["LuStore", "そのまま使い続けられる", "トライアル後に継続される場合、什器の入れ替えも買い直しも発生しません。設えを変えずに運営を続けられます。"],
-    ["LuShieldCheck", "御社の資産として残る", "当社所有にすると、契約が終わる際に引き上げか買取かの整理が必要になります。はじめから御社ご所有であれば、その論点自体がなくなります。"],
-    ["LuPenLine", "仕様を御社で選べる", "テーブル・椅子・植栽は店舗の雰囲気を大きく左右します。書店の売場に合わせて御社側でお選びいただけます。"],
-  ];
-  reasons.forEach((r, i) => {
-    const x = M + i * (cw + 0.3);
-    card(s, x, TOP, cw, 3.3);
-    icon(s, r[0], "green", x + 0.3, TOP + 0.3, 0.4);
-    s.addText(r[1], {
-      x: x + 0.3, y: TOP + 0.88, w: cw - 0.6, h: 0.6,
-      fontFace: F.jp, fontSize: 13, bold: true, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
-    });
-    s.addShape("rect", { x: x + 0.3, y: TOP + 1.58, w: cw - 0.6, h: 0.011, fill: { color: C.warmLine } });
-    s.addText(r[2], {
-      x: x + 0.3, y: TOP + 1.74, w: cw - 0.6, h: 1.4,
-      fontFace: F.jp, fontSize: 10, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.4,
-    });
-  });
-
-  const py = 5.26;
-  tintCard(s, M, py, CW, 1.0);
-  icon(s, "LuMessagesSquare", "green", M + 0.34, py + 0.3, 0.4);
-  s.addText("通常のご契約と同じく当社側で家具・什器を手配することも可能です。その場合は当社の資産となるため、終了時に引き上げ・買取のご相談が必要になります。ご希望があればその形でもお受けします。", {
-    x: M + 0.92, y: py, w: CW - 1.3, h: 1.0,
-    fontFace: F.jp, fontSize: 10.5, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.35,
-  });
-
-  note(s, 6.44, "※ 什器の概算費用は、レイアウト確定後にお見積りをお出しします。既存什器を再利用できる場合は、その分ご負担が減ります。");
-}
-
 /* ===================================================== p6 今後の進め方／お問い合わせ */
 {
   const s = pres.addSlide();

@@ -275,60 +275,142 @@ pres.layout = "LAYOUT_WIDE";
 pres.author = "セルフカフェ株式会社";
 pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご提案";
 
-/* ===================================================== p1 表紙 */
+/* ===================================================== p1 表紙（左テキスト＋右写真の分割構成） */
 {
   const s = pres.addSlide();
   bare();
   s.addImage({ path: path.join(A, "cover-bg.png"), x: 0, y: 0, w: 13.333, h: 7.5 });
+
+  // 右側に実店舗写真を全高で配置（本編の表紙と見分けがつくように）
+  const phx = 7.95, phw = 13.333 - phx;
+  s.addImage({ path: croppedPath(path.join(PHOTOS, "inzai-hall.jpg"), phw, 7.5, 0.5), x: phx, y: 0, w: phw, h: 7.5 });
+  s.addShape("rect", { x: phx - 0.03, y: 0, w: 0.03, h: 7.5, fill: { color: C.goldLine } });
+
+  s.addText("セルフカフェ株式会社", {
+    x: 0.889, y: 0.83, w: 4.0, h: 0.194,
+    fontFace: F.jp, fontSize: 9.5, color: C.cvSmall, margin: 0, valign: "middle",
+  });
   s.addImage({ path: LOGO_W, x: 0.889, y: 1.94, w: 2.861, h: 0.407 });
 
-  s.addShape("rect", { x: 0.889, y: 2.94, w: 0.278, h: 0.028, fill: { color: C.goldLine } });
-  s.addText("TRIAL PROGRAM", {
-    x: 1.306, y: 2.843, w: 5.5, h: 0.194,
-    fontFace: F.num, fontSize: 10.5, bold: true, color: C.cvPale, charSpacing: 2, margin: 0, valign: "middle",
+  // 金色のTRIALバッジ
+  s.addShape("roundRect", {
+    x: 0.889, y: 2.86, w: 1.25, h: 0.34, rectRadius: 0.05,
+    fill: { color: C.gold }, line: { type: "none" },
   });
-  s.addText("未来屋書店 秋田店・土浦店", {
-    x: 0.889, y: 3.14, w: 7.778, h: 0.32,
-    fontFace: F.jp, fontSize: 15, color: C.cvSub, margin: 0, valign: "middle",
+  s.addText("TRIAL", {
+    x: 0.889, y: 2.86, w: 1.25, h: 0.34,
+    fontFace: F.num, fontSize: 11, bold: true, color: C.white, align: "center", charSpacing: 1.5, margin: 0, valign: "middle",
   });
-  s.addText("トライアル導入のご提案", {
-    x: 0.889, y: 3.44, w: 10.5, h: 1.0,
-    fontFace: F.jp, fontSize: 42, bold: true, color: C.white, margin: 0, valign: "middle",
-  });
-  s.addText("1年間のトライアルからお試しいただけます。内装工事費は当社が負担し、\n原状回復義務もいただきません。まずは実際の数字をご確認ください。", {
-    x: 0.889, y: 4.62, w: 8.6, h: 0.72,
-    fontFace: F.jp, fontSize: 12.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
+  s.addText("1年間のお試し導入", {
+    x: 2.28, y: 2.86, w: 4.0, h: 0.34,
+    fontFace: F.jp, fontSize: 11.5, bold: true, color: C.cvPale, margin: 0, valign: "middle",
   });
 
-  s.addShape("rect", { x: 0.889, y: 5.98, w: 0.778, h: 0.028, fill: { color: C.goldLine } });
+  s.addText("未来屋書店 秋田店・土浦店", {
+    x: 0.889, y: 3.36, w: 6.6, h: 0.32,
+    fontFace: F.jp, fontSize: 14, color: C.cvSub, margin: 0, valign: "middle",
+  });
+  s.addText("トライアル導入の\nご提案", {
+    x: 0.889, y: 3.68, w: 6.8, h: 1.5,
+    fontFace: F.jp, fontSize: 40, bold: true, color: C.white, margin: 0, valign: "middle", lineSpacingMultiple: 1.1,
+  });
+  s.addShape("rect", { x: 0.889, y: 5.34, w: 0.778, h: 0.028, fill: { color: C.goldLine } });
+  s.addText("内装工事費は当社が負担し、原状回復義務もいただきません。\nまずは1年、実際の数字をご確認ください。", {
+    x: 0.889, y: 5.5, w: 6.6, h: 0.66,
+    fontFace: F.jp, fontSize: 12, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
+  });
+
   const stats = [
-    { x: 0.889, w: 3.2, v: "1", u: "年", l: "トライアルの契約期間" },
-    { x: 4.5, w: 3.2, v: "25", u: "％", l: "売上からのお受取" },
-    { x: 8.1, w: 3.2, v: "0", u: "円", l: "内装工事費のご負担" },
+    { x: 0.889, w: 2.2, v: "1", u: "年", l: "トライアルの契約期間" },
+    { x: 3.32, w: 2.2, v: "25", u: "％", l: "売上からのお受取" },
+    { x: 5.75, w: 2.2, v: "0", u: "円", l: "内装工事費のご負担" },
   ];
   stats.forEach((st) => {
     s.addText(
       [
-        { text: st.v, options: { fontFace: numFace(st.v), fontSize: 26, bold: true, color: C.white } },
-        { text: st.u ? " " + st.u : "", options: { fontFace: F.jp, fontSize: 12, bold: true, color: C.white } },
+        { text: st.v, options: { fontFace: numFace(st.v), fontSize: 24, bold: true, color: "F0C05A" } },
+        { text: " " + st.u, options: { fontFace: F.jp, fontSize: 11.5, bold: true, color: "F0C05A" } },
       ],
-      { x: st.x, y: 6.28, w: st.w, h: 0.417, margin: 0, valign: "middle" }
+      { x: st.x, y: 6.4, w: st.w, h: 0.4, margin: 0, valign: "middle" }
     );
     s.addText(st.l, {
-      x: st.x, y: 6.72, w: st.w + 0.4, h: 0.181,
-      fontFace: F.jp, fontSize: 9.5, color: C.cvSmall, margin: 0, valign: "middle",
+      x: st.x, y: 6.82, w: st.w + 0.3, h: 0.181,
+      fontFace: F.jp, fontSize: 9, color: C.cvSmall, margin: 0, valign: "middle",
     });
   });
-  [4.06, 7.66].forEach((x) =>
-    s.addShape("rect", { x, y: 6.31, w: 0.013, h: 0.583, fill: { color: "3C5F4B" } })
+  [3.06, 5.49].forEach((x) =>
+    s.addShape("rect", { x, y: 6.43, w: 0.013, h: 0.56, fill: { color: "3C5F4B" } })
   );
-  s.addText("セルフカフェ株式会社", {
-    x: 9.722, y: 6.9, w: 2.889, h: 0.194,
-    fontFace: F.jp, fontSize: 9.5, color: C.cvSmall, align: "right", margin: 0, valign: "middle",
-  });
 }
 
-/* ===================================================== p2 トライアル特別条件 */
+/* ===================================================== p2 ご参考：プレミアム仕様のイメージ */
+{
+  const s = pres.addSlide();
+  shell(s, "内装イメージ（ご参考）", "プレミアム仕様なら、こんな仕上がりになります。",
+    "ご要望をいただいたプレミアム仕様の完成イメージです。木製書架と間接照明でまとめた書店一体型の仕様です。");
+
+  const pw = 3.75, ph = pw * 9 / 16, gapX = 0.28, gapY = 0.26;
+  const col = [M, M + pw + gapX];
+  const rowY = [2.10, 2.10 + ph + gapY + 0.26];
+
+  [["N案：ライトフロア", 0], ["G案：グリーンフロア", 1]].forEach(([t2, i]) => {
+    s.addShape("roundRect", {
+      x: col[i], y: TOP, w: 2.4, h: 0.26, rectRadius: 0.05,
+      fill: { color: C.green }, line: { type: "none" },
+    });
+    s.addText(t2, {
+      x: col[i], y: TOP, w: 2.4, h: 0.26,
+      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+    });
+  });
+
+  [
+    { store: "土浦店", y: rowY[0], n: "tsuchiura-premium-n.jpg", g: "tsuchiura-premium-g.jpg" },
+    { store: "秋田店", y: rowY[1], n: "akita-premium-n.jpg", g: "akita-premium-g.jpg" },
+  ].forEach((r) => {
+    photoSlot(s, col[0], r.y, pw, ph, r.store, { img: r.n });
+    photoSlot(s, col[1], r.y, pw, ph, r.store, { img: r.g });
+  });
+
+  const rx = col[1] + pw + 0.3, rw = R - rx;
+  tintCard(s, rx, rowY[0], rw, ph);
+  s.addText("プレミアム仕様の特徴", {
+    x: rx + 0.26, y: rowY[0] + 0.16, w: rw - 0.52, h: 0.26,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
+  });
+  ["木製書架と一体の造作", "間接照明・スタンドライト", "落ち着いたダークトーンのサイン", "「MIRAIYA Book & Cafe」併記"].forEach((t2, i) => {
+    const y = rowY[0] + 0.5 + i * 0.36;
+    icon(s, "LuCheck", "green", rx + 0.28, y + 0.05, 0.18);
+    s.addText(t2, {
+      x: rx + 0.58, y, w: rw - 0.86, h: 0.3,
+      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "middle",
+    });
+  });
+
+  card(s, rx, rowY[1], rw, ph);
+  s.addText("床仕上げの違い", {
+    x: rx + 0.26, y: rowY[1] + 0.16, w: rw - 0.52, h: 0.26,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  [
+    ["N案", "書店売場の床と連続し、区画が広く開放的に見えます。"],
+    ["G案", "カフェ区画が明確に分かれ、落ち着いた印象になります。"],
+  ].forEach((t2, i) => {
+    const y = rowY[1] + 0.52 + i * 0.76;
+    s.addText(t2[0], {
+      x: rx + 0.26, y, w: rw - 0.52, h: 0.24,
+      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+    });
+    s.addText(t2[1], {
+      x: rx + 0.26, y: y + 0.22, w: rw - 0.52, h: 0.46,
+      fontFace: F.jp, fontSize: 9, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
+    });
+  });
+
+  note(s, 6.84, "※ パースは完成予想図です。本ご提案の内装はスタンダード仕様（既存の書店併設店と同じ設え）です。プレミアム仕様をご希望の場合は、工事範囲と費用をあらためてご相談させてください。");
+}
+
+/* ===================================================== p3 トライアル条件 */
 {
   const s = pres.addSlide();
   shell(s, "トライアル条件", "トライアル導入の条件をご提案します。",
@@ -336,7 +418,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
 
   const lw = 7.5;
   const conds = [
-    ["LuSparkles", "内装仕様", "プレミアム仕様（木製書架・間接照明の書店一体型）"],
+    ["LuSparkles", "内装仕様", "スタンダード仕様（既存の書店併設店と同じ設え）"],
     ["LuHammer", "工事部分", "セルフカフェが負担します（御社のご負担なし）"],
     ["LuLandPlot", "家具・什器", "御社にてご手配いただきます（御社の所有となります）"],
     ["LuHandCoins", "お支払い", "セルフカフェ売上の25％を毎月お支払いします"],
@@ -404,7 +486,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
 /* ===================================================== p3 通常のご契約との比較 */
 {
   const s = pres.addSlide();
-  shell(s, "通常契約との比較", "違いは、契約期間と月額5万円だけです。",
+  shell(s, "通常契約との比較", "違いは3点。それ以外は通常と同じです。",
     "通常は3年以上でお願いしていますが、今回は1年のトライアルとしてご提案します。");
 
   const colW = [3.2, 4.3, 4.389];
@@ -433,16 +515,15 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
     [
       [th("項目", { fill: C.grayBand, color: C.ink }), th("通常のご契約", { fill: "8E8B84" }), th("今回のトライアル")],
       [tl("契約期間"), std("3年〜"), tri("1年", true)],
-      [tl("内装仕様"), std("プレミアム仕様"), tri("プレミアム仕様（同じ）")],
+      [tl("内装仕様"), std("スタンダード仕様"), tri("スタンダード仕様（同じ）")],
       [tl("内装工事費"), std("セルフカフェが負担"), tri("セルフカフェが負担（同じ）")],
-      [tl("家具・什器"), std("御社にてご手配（御社の所有）"), tri("御社にてご手配（同じ）")],
-      [tl("御社のご負担"), std("家具・什器のご手配のみ"), tri("家具・什器のご手配のみ（同じ）")],
+      [tl("家具・什器"), std("セルフカフェが準備"), tri("御社にてご手配（御社の所有）", true)],
       [tl("お支払い"), std("売上の25％ ＋ 月額固定5万円"), tri("売上の25％", true)],
       [tl("原状回復義務"), std("なし"), tri("なし（同じ）")],
     ],
     {
       x: M, y: TOP + 0.44, w: CW, colW,
-      rowH: [0.38, 0.42, 0.42, 0.42, 0.42, 0.42, 0.46, 0.42],
+      rowH: [0.42, 0.5, 0.48, 0.48, 0.5, 0.5, 0.48],
       border: { type: "solid", color: C.warmLine, pt: 0.75 },
       autoPage: false,
     }
@@ -453,80 +534,13 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
   icon(s, "LuBadgeCheck", "pale", M + 0.38, py + 0.22, 0.44);
   s.addText(
     [
-      { text: "契約期間を1年に短縮する分、月額固定5万円はお付けしていません。", options: { fontFace: F.jp, fontSize: 13, bold: true, color: C.white, breakLine: true } },
-      { text: "それ以外の条件は、通常のご契約とすべて同じです。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
+      { text: "1年でご判断いただける代わりに、家具・什器のご手配と月額5万円の2点をご調整ください。", options: { fontFace: F.jp, fontSize: 12.5, bold: true, color: C.white, breakLine: true } },
+      { text: "家具・什器は御社の資産として残ります。それ以外の条件は通常のご契約とすべて同じです。", options: { fontFace: F.jp, fontSize: 10.5, color: C.cvBody } },
     ],
     { x: M + 1.0, y: py, w: CW - 1.4, h: 0.9, margin: 0, valign: "middle", lineSpacingMultiple: 1.25 }
   );
 
   note(s, 6.74, "※ 金額はすべて税抜。内装工事費は当社が負担し、原状回復義務もいただかないため、1年でご判断いただく形でも御社側の持ち出しは家具・什器のみです。");
-}
-
-/* ===================================================== p4 内装仕様（プレミアム） */
-{
-  const s = pres.addSlide();
-  shell(s, "内装仕様", "内装はプレミアム仕様でご提案します。",
-    "木製書架と間接照明でまとめた書店一体型の仕様です。床仕上げは2案からお選びいただけます。");
-
-  const pw = 3.75, ph = pw * 9 / 16, gapX = 0.28, gapY = 0.26;
-  const col = [M, M + pw + gapX];
-  const rowY = [2.10, 2.10 + ph + gapY + 0.26];
-
-  [["N案：ライトフロア", 0], ["G案：グリーンフロア", 1]].forEach(([t2, i]) => {
-    s.addShape("roundRect", {
-      x: col[i], y: TOP, w: 2.4, h: 0.26, rectRadius: 0.05,
-      fill: { color: C.green }, line: { type: "none" },
-    });
-    s.addText(t2, {
-      x: col[i], y: TOP, w: 2.4, h: 0.26,
-      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
-    });
-  });
-
-  [
-    { store: "土浦店", y: rowY[0], n: "tsuchiura-premium-n.jpg", g: "tsuchiura-premium-g.jpg" },
-    { store: "秋田店", y: rowY[1], n: "akita-premium-n.jpg", g: "akita-premium-g.jpg" },
-  ].forEach((r) => {
-    photoSlot(s, col[0], r.y, pw, ph, r.store, { img: r.n });
-    photoSlot(s, col[1], r.y, pw, ph, r.store, { img: r.g });
-  });
-
-  const rx = col[1] + pw + 0.3, rw = R - rx;
-  tintCard(s, rx, rowY[0], rw, ph);
-  s.addText("プレミアム仕様の特徴", {
-    x: rx + 0.26, y: rowY[0] + 0.16, w: rw - 0.52, h: 0.26,
-    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
-  });
-  ["木製書架と一体の造作", "間接照明・スタンドライト", "落ち着いたダークトーンのサイン", "「MIRAIYA Book & Cafe」併記"].forEach((t2, i) => {
-    const y = rowY[0] + 0.5 + i * 0.36;
-    icon(s, "LuCheck", "green", rx + 0.28, y + 0.05, 0.18);
-    s.addText(t2, {
-      x: rx + 0.58, y, w: rw - 0.86, h: 0.3,
-      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "middle",
-    });
-  });
-
-  card(s, rx, rowY[1], rw, ph);
-  s.addText("床仕上げの違い", {
-    x: rx + 0.26, y: rowY[1] + 0.16, w: rw - 0.52, h: 0.26,
-    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.gold, margin: 0, valign: "middle",
-  });
-  [
-    ["N案", "書店売場の床と連続し、区画が広く開放的に見えます。"],
-    ["G案", "カフェ区画が明確に分かれ、落ち着いた印象になります。"],
-  ].forEach((t2, i) => {
-    const y = rowY[1] + 0.52 + i * 0.76;
-    s.addText(t2[0], {
-      x: rx + 0.26, y, w: rw - 0.52, h: 0.24,
-      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
-    });
-    s.addText(t2[1], {
-      x: rx + 0.26, y: y + 0.22, w: rw - 0.52, h: 0.46,
-      fontFace: F.jp, fontSize: 9, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
-    });
-  });
-
-  note(s, 6.84, "※ パースは完成予想図です。内装工事は当社が負担して施工します。什器・造作の再利用可否および工事範囲は現地確認のうえ確定し、実際の仕上がりは設計内容により異なります。");
 }
 
 /* ===================================================== p3 費用と所有の区分 */
@@ -640,7 +654,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
 {
   const s = pres.addSlide();
   shell(s, "家具・什器の考え方", "家具は御社ご所有のほうがよい、と判断しました。",
-    "トライアル後もそのまま残す前提で考えると、御社の資産にしておくのが最も無駄がありません。");
+    "家具・什器は本来当社でご用意しますが、そのまま残す前提では御社の資産にしておくのが最も無駄がありません。");
 
   const cw = (CW - 0.6) / 3;
   const reasons = [
@@ -666,7 +680,7 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
   const py = 5.26;
   tintCard(s, M, py, CW, 1.0);
   icon(s, "LuMessagesSquare", "green", M + 0.34, py + 0.3, 0.4);
-  s.addText("当社側で家具・什器を手配することも可能です。その場合は当社の資産となるため、トライアル終了時に引き上げ・買取のご相談が必要になります。ご希望があればその形でもお受けします。", {
+  s.addText("通常のご契約と同じく当社側で家具・什器を手配することも可能です。その場合は当社の資産となるため、終了時に引き上げ・買取のご相談が必要になります。ご希望があればその形でもお受けします。", {
     x: M + 0.92, y: py, w: CW - 1.3, h: 1.0,
     fontFace: F.jp, fontSize: 10.5, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.35,
   });

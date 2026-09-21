@@ -295,16 +295,16 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
     x: 0.889, y: 3.44, w: 10.5, h: 1.0,
     fontFace: F.jp, fontSize: 42, bold: true, color: C.white, margin: 0, valign: "middle",
   });
-  s.addText("内装工事は当社が負担し、原状回復義務もいただきません。\nまずは実際の数字をご確認いただいたうえで、その先をご判断ください。", {
+  s.addText("1年間のトライアルからお試しいただけます。内装工事費は当社が負担し、\n原状回復義務もいただきません。まずは実際の数字をご確認ください。", {
     x: 0.889, y: 4.62, w: 8.6, h: 0.72,
     fontFace: F.jp, fontSize: 12.5, color: C.cvBody, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
   });
 
   s.addShape("rect", { x: 0.889, y: 5.98, w: 0.778, h: 0.028, fill: { color: C.goldLine } });
   const stats = [
-    { x: 0.889, w: 3.2, v: "0", u: "円", l: "内装工事費のご負担" },
-    { x: 4.5, w: 3.2, v: "25", u: "％", l: "トライアル期間中のお受取" },
-    { x: 8.1, w: 3.2, v: "なし", u: "", l: "原状回復義務" },
+    { x: 0.889, w: 3.2, v: "1", u: "年", l: "トライアルの契約期間" },
+    { x: 4.5, w: 3.2, v: "25", u: "％", l: "売上からのお受取" },
+    { x: 8.1, w: 3.2, v: "0", u: "円", l: "内装工事費のご負担" },
   ];
   stats.forEach((st) => {
     s.addText(
@@ -336,11 +336,11 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
 
   const lw = 7.5;
   const conds = [
-    ["LuSparkles", "内装仕様", "スタンダード仕様（既存の書店併設店と同じ設え）"],
+    ["LuSparkles", "内装仕様", "プレミアム仕様（木製書架・間接照明の書店一体型）"],
     ["LuHammer", "工事部分", "セルフカフェが負担します（御社のご負担なし）"],
     ["LuLandPlot", "家具・什器", "御社にてご手配いただきます（御社の所有となります）"],
-    ["LuHandCoins", "お支払い", "トライアル中は売上の25％／2年目以降は＋月額5万円"],
-    ["LuCalendarCheck", "契約期間", "基本3年〜（トライアル1年を含む）／特約で最低2年〜"],
+    ["LuHandCoins", "お支払い", "セルフカフェ売上の25％を毎月お支払いします"],
+    ["LuCalendarCheck", "契約期間", "1年（通常は3年以上のところ、今回は1年で）"],
     ["LuKeyRound", "原状回復義務", "なし（当社のマシン・カメラ等のみ撤去します）"],
   ];
   conds.forEach((c2, i) => {
@@ -359,31 +359,23 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
 
   const rx = M + lw + 0.42, rw = R - rx;
   panel(s, rx, TOP, rw, 2.3);
-  eyebrowIn(s, rx + 0.28, TOP + 0.2, 2.6, "REVENUE SHARE", C.cvPale);
-  s.addText("トライアル期間（1年目）", {
-    x: rx + 0.28, y: TOP + 0.44, w: rw - 0.56, h: 0.24,
-    fontFace: F.jp, fontSize: 9.5, color: C.cvBody, margin: 0, valign: "middle",
+  eyebrowIn(s, rx + 0.28, TOP + 0.24, 2.6, "REVENUE SHARE", C.cvPale);
+  s.addText("御社へのお支払い", {
+    x: rx + 0.28, y: TOP + 0.54, w: rw - 0.56, h: 0.28,
+    fontFace: F.jp, fontSize: 11, color: C.cvBody, margin: 0, valign: "middle",
   });
   s.addText(
     [
-      { text: "売上の ", options: { fontFace: F.jp, fontSize: 13, color: C.white } },
-      { text: "25", options: { fontFace: F.num, fontSize: 30, bold: true, color: "F0C05A" } },
-      { text: " ％", options: { fontFace: F.jp, fontSize: 15, bold: true, color: "F0C05A" } },
+      { text: "売上の ", options: { fontFace: F.jp, fontSize: 14, color: C.white } },
+      { text: "25", options: { fontFace: F.num, fontSize: 40, bold: true, color: "F0C05A" } },
+      { text: " ％", options: { fontFace: F.jp, fontSize: 17, bold: true, color: "F0C05A" } },
     ],
-    { x: rx + 0.28, y: TOP + 0.68, w: rw - 0.56, h: 0.58, margin: 0, valign: "middle" }
+    { x: rx + 0.28, y: TOP + 0.9, w: rw - 0.56, h: 0.8, margin: 0, valign: "middle" }
   );
-  s.addShape("rect", { x: rx + 0.28, y: TOP + 1.34, w: rw - 0.56, h: 0.011, fill: { color: "2A7A4E" } });
-  s.addText("2年目以降", {
-    x: rx + 0.28, y: TOP + 1.44, w: rw - 0.56, h: 0.24,
+  s.addText("毎月お支払いします（税抜）", {
+    x: rx + 0.28, y: TOP + 1.78, w: rw - 0.56, h: 0.3,
     fontFace: F.jp, fontSize: 9.5, color: C.cvBody, margin: 0, valign: "middle",
   });
-  s.addText(
-    [
-      { text: "売上の25％ ", options: { fontFace: F.jp, fontSize: 12, bold: true, color: C.white } },
-      { text: "＋ 月額固定 5万円", options: { fontFace: F.jp, fontSize: 12.5, bold: true, color: "F0C05A" } },
-    ],
-    { x: rx + 0.28, y: TOP + 1.7, w: rw - 0.56, h: 0.46, margin: 0, valign: "middle" }
-  );
 
   tintCard(s, rx, TOP + 2.44, rw, 1.16);
   s.addText("御社のご負担", {
@@ -406,75 +398,135 @@ pres.title = "セルフカフェ × 未来屋書店 トライアル導入のご�
     fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
   });
 
-  note(s, 6.62, "※ 金額はすべて税抜。トライアル期間（1年）は契約期間に含みます。対象店舗はご相談のうえ決定させていただきます。");
+  note(s, 6.62, "※ 金額はすべて税抜。通常のご契約との違いは次ページに整理しています。対象店舗はご相談のうえ決定させていただきます。");
 }
 
-/* ===================================================== p3 契約期間の考え方 */
+/* ===================================================== p3 通常のご契約との比較 */
 {
   const s = pres.addSlide();
-  shell(s, "契約期間の考え方", "トライアルの1年も、契約期間に含みます。",
-    "内装工事費を当社が負担するため、基本契約は3年以上とさせていただいています。");
+  shell(s, "通常契約との比較", "違いは、契約期間と月額5万円だけです。",
+    "通常は3年以上でお願いしていますが、今回は1年のトライアルとしてご提案します。");
 
-  // ── 年次タイムライン
-  const seg = (CW - 0.24) / 3;
-  const years = [
-    { t: "1年目", label: "トライアル期間", pay: "売上の25％", gold: true },
-    { t: "2年目", label: "本格運用", pay: "売上の25％ ＋ 月額5万円", gold: false },
-    { t: "3年目", label: "本格運用", pay: "売上の25％ ＋ 月額5万円", gold: false },
-  ];
-  years.forEach((y2, i) => {
-    const x = M + i * (seg + 0.12);
-    s.addText(y2.t, {
-      x, y: TOP, w: seg, h: 0.24,
-      fontFace: F.jp, fontSize: 10, bold: true, color: C.muted, margin: 0, valign: "middle",
-    });
+  const colW = [3.2, 4.3, 4.389];
+  const std = (t2) => ({
+    text: t2,
+    options: { fill: { color: C.white }, color: C.grayText, fontSize: 11, fontFace: F.jp, valign: "middle", margin: [0.06, 0.16, 0.06, 0.16] },
+  });
+  const tri = (t2, hi) => ({
+    text: t2,
+    options: {
+      fill: { color: hi ? C.goldTint : C.tint }, color: hi ? C.gold : C.ink,
+      bold: true, fontSize: hi ? 12 : 11, fontFace: F.jp, valign: "middle", margin: [0.06, 0.16, 0.06, 0.16],
+    },
+  });
+
+  s.addShape("roundRect", {
+    x: M + colW[0] + colW[1], y: TOP + 0.06, w: colW[2], h: 0.3, rectRadius: 0.05,
+    fill: { color: C.gold }, line: { type: "none" },
+  });
+  s.addText("今回ご提案するのはこちら", {
+    x: M + colW[0] + colW[1], y: TOP + 0.06, w: colW[2], h: 0.3,
+    fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
+  });
+
+  s.addTable(
+    [
+      [th("項目", { fill: C.grayBand, color: C.ink }), th("通常のご契約", { fill: "8E8B84" }), th("今回のトライアル")],
+      [tl("契約期間"), std("3年〜"), tri("1年", true)],
+      [tl("内装仕様"), std("プレミアム仕様"), tri("プレミアム仕様（同じ）")],
+      [tl("内装工事費"), std("セルフカフェが負担"), tri("セルフカフェが負担（同じ）")],
+      [tl("家具・什器"), std("御社にてご手配（御社の所有）"), tri("御社にてご手配（同じ）")],
+      [tl("御社のご負担"), std("家具・什器のご手配のみ"), tri("家具・什器のご手配のみ（同じ）")],
+      [tl("お支払い"), std("売上の25％ ＋ 月額固定5万円"), tri("売上の25％", true)],
+      [tl("原状回復義務"), std("なし"), tri("なし（同じ）")],
+    ],
+    {
+      x: M, y: TOP + 0.44, w: CW, colW,
+      rowH: [0.38, 0.42, 0.42, 0.42, 0.42, 0.42, 0.46, 0.42],
+      border: { type: "solid", color: C.warmLine, pt: 0.75 },
+      autoPage: false,
+    }
+  );
+
+  const py = 5.72;
+  panel(s, M, py, CW, 0.9);
+  icon(s, "LuBadgeCheck", "pale", M + 0.38, py + 0.22, 0.44);
+  s.addText(
+    [
+      { text: "契約期間を1年に短縮する分、月額固定5万円はお付けしていません。", options: { fontFace: F.jp, fontSize: 13, bold: true, color: C.white, breakLine: true } },
+      { text: "それ以外の条件は、通常のご契約とすべて同じです。", options: { fontFace: F.jp, fontSize: 11, color: C.cvBody } },
+    ],
+    { x: M + 1.0, y: py, w: CW - 1.4, h: 0.9, margin: 0, valign: "middle", lineSpacingMultiple: 1.25 }
+  );
+
+  note(s, 6.74, "※ 金額はすべて税抜。内装工事費は当社が負担し、原状回復義務もいただかないため、1年でご判断いただく形でも御社側の持ち出しは家具・什器のみです。");
+}
+
+/* ===================================================== p4 内装仕様（プレミアム） */
+{
+  const s = pres.addSlide();
+  shell(s, "内装仕様", "内装はプレミアム仕様でご提案します。",
+    "木製書架と間接照明でまとめた書店一体型の仕様です。床仕上げは2案からお選びいただけます。");
+
+  const pw = 3.75, ph = pw * 9 / 16, gapX = 0.28, gapY = 0.26;
+  const col = [M, M + pw + gapX];
+  const rowY = [2.10, 2.10 + ph + gapY + 0.26];
+
+  [["N案：ライトフロア", 0], ["G案：グリーンフロア", 1]].forEach(([t2, i]) => {
     s.addShape("roundRect", {
-      x, y: TOP + 0.3, w: seg, h: 0.86, rectRadius: 0.06,
-      fill: { color: y2.gold ? C.gold : C.greenDeep }, line: { type: "none" },
+      x: col[i], y: TOP, w: 2.4, h: 0.26, rectRadius: 0.05,
+      fill: { color: C.green }, line: { type: "none" },
     });
-    s.addText(y2.label, {
-      x: x + 0.24, y: TOP + 0.38, w: seg - 0.48, h: 0.28,
-      fontFace: F.jp, fontSize: 11, bold: true, color: y2.gold ? "FFF3DC" : C.cvPale, margin: 0, valign: "middle",
-    });
-    s.addText(y2.pay, {
-      x: x + 0.24, y: TOP + 0.66, w: seg - 0.48, h: 0.32,
-      fontFace: F.jp, fontSize: 12.5, bold: true, color: C.white, margin: 0, valign: "middle",
+    s.addText(t2, {
+      x: col[i], y: TOP, w: 2.4, h: 0.26,
+      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.white, align: "center", margin: 0, valign: "middle",
     });
   });
 
-  // ── 期間の帯（特約2年／基本3年）
-  const band = (x, w, y, fill, line, color, text) => {
-    s.addShape("roundRect", { x, y, w, h: 0.42, rectRadius: 0.05, fill: { color: fill }, line: { color: line, width: 1 } });
-    s.addText(text, {
-      x: x + 0.24, y, w: w - 0.48, h: 0.42,
-      fontFace: F.jp, fontSize: 10.5, bold: true, color, margin: 0, valign: "middle",
-    });
-  };
-  band(M, seg * 2 + 0.12, TOP + 1.3, C.goldTint, "E7D3A8", C.gold, "今回の特約：最低2年〜　3年以上と同じ条件でお受けします");
-  band(M, CW, TOP + 1.84, C.tint, C.tintLine, C.green, "基本契約：3年〜　トライアルの1年を含めて通算します");
+  [
+    { store: "土浦店", y: rowY[0], n: "tsuchiura-premium-n.jpg", g: "tsuchiura-premium-g.jpg" },
+    { store: "秋田店", y: rowY[1], n: "akita-premium-n.jpg", g: "akita-premium-g.jpg" },
+  ].forEach((r) => {
+    photoSlot(s, col[0], r.y, pw, ph, r.store, { img: r.n });
+    photoSlot(s, col[1], r.y, pw, ph, r.store, { img: r.g });
+  });
 
-  // ── 補足カード
-  const cw = (CW - 0.6) / 3;
-  const cards2 = [
-    ["LuTimer", "1年目はトライアル", "実際の販売杯数と、清掃・補充の運営負荷をご確認いただく期間です。お支払いは売上の25％のみとなります。"],
-    ["LuHandCoins", "2年目から月額5万円が加算", "トライアル期間を終えたあとは、売上の25％に月額固定5万円を上乗せしてお支払いします。"],
-    ["LuFileCheck", "3年を基本とする理由", "内装工事費は当社が負担するため、回収に一定の期間が必要です。今回は特約として2年からお受けします。"],
-  ];
-  cards2.forEach((c2, i) => {
-    const x = M + i * (cw + 0.3);
-    tintCard(s, x, 4.24, cw, 2.02);
-    icon(s, c2[0], "green", x + 0.28, 4.46, 0.36);
-    s.addText(c2[1], {
-      x: x + 0.28, y: 4.94, w: cw - 0.56, h: 0.5,
-      fontFace: F.jp, fontSize: 12, bold: true, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
-    });
-    s.addText(c2[2], {
-      x: x + 0.28, y: 5.5, w: cw - 0.56, h: 0.66,
-      fontFace: F.jp, fontSize: 9.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
+  const rx = col[1] + pw + 0.3, rw = R - rx;
+  tintCard(s, rx, rowY[0], rw, ph);
+  s.addText("プレミアム仕様の特徴", {
+    x: rx + 0.26, y: rowY[0] + 0.16, w: rw - 0.52, h: 0.26,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.green, margin: 0, valign: "middle",
+  });
+  ["木製書架と一体の造作", "間接照明・スタンドライト", "落ち着いたダークトーンのサイン", "「MIRAIYA Book & Cafe」併記"].forEach((t2, i) => {
+    const y = rowY[0] + 0.5 + i * 0.36;
+    icon(s, "LuCheck", "green", rx + 0.28, y + 0.05, 0.18);
+    s.addText(t2, {
+      x: rx + 0.58, y, w: rw - 0.86, h: 0.3,
+      fontFace: F.jp, fontSize: 9, color: C.ink, margin: 0, valign: "middle",
     });
   });
 
-  note(s, 6.44, "※ トライアル期間（1年）は契約期間に含みます。特約を適用した場合、最低契約期間はトライアル1年＋本格運用1年の計2年となります。");
+  card(s, rx, rowY[1], rw, ph);
+  s.addText("床仕上げの違い", {
+    x: rx + 0.26, y: rowY[1] + 0.16, w: rw - 0.52, h: 0.26,
+    fontFace: F.jp, fontSize: 10.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  [
+    ["N案", "書店売場の床と連続し、区画が広く開放的に見えます。"],
+    ["G案", "カフェ区画が明確に分かれ、落ち着いた印象になります。"],
+  ].forEach((t2, i) => {
+    const y = rowY[1] + 0.52 + i * 0.76;
+    s.addText(t2[0], {
+      x: rx + 0.26, y, w: rw - 0.52, h: 0.24,
+      fontFace: F.jp, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+    });
+    s.addText(t2[1], {
+      x: rx + 0.26, y: y + 0.22, w: rw - 0.52, h: 0.46,
+      fontFace: F.jp, fontSize: 9, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
+    });
+  });
+
+  note(s, 6.84, "※ パースは完成予想図です。内装工事は当社が負担して施工します。什器・造作の再利用可否および工事範囲は現地確認のうえ確定し、実際の仕上がりは設計内容により異なります。");
 }
 
 /* ===================================================== p3 費用と所有の区分 */

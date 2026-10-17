@@ -139,9 +139,9 @@ s.addShape("rect", { x: M + 0.22, y: by + 0.38, w: lw - 0.44, h: 0.01, fill: { c
   "開業スケジュール確定版の提示（内見後）",
   "オープン後の集客・お客様対応",
 ].forEach((t, i) => {
-  const y = by + 0.50 + i * 0.19;
-  s.addText("・", { x: M + 0.24, y, w: 0.16, h: 0.19, fontFace: F.jp, fontSize: 8.5, color: C.green, margin: 0, valign: "middle" });
-  s.addText(t, { x: M + 0.42, y, w: lw - 0.64, h: 0.19, fontFace: F.jp, fontSize: 8.5, color: C.ink, margin: 0, valign: "middle" });
+  const y = by + 0.50 + i * 0.185;
+  s.addText("・", { x: M + 0.24, y, w: 0.16, h: 0.185, fontFace: F.jp, fontSize: 8.5, color: C.green, margin: 0, valign: "middle" });
+  s.addText(t, { x: M + 0.42, y, w: lw - 0.64, h: 0.185, fontFace: F.jp, fontSize: 8.5, color: C.ink, margin: 0, valign: "middle" });
 });
 
 // 右：未来屋書店様
@@ -162,20 +162,21 @@ s.addText("ご確認事項（★＝工期・コストに直結）", {
   ["★", "原状回復の範囲（造作・床・設備の残置）"],
   ["★", "残置する既存設備（給排水・電気容量）"],
   ["★", "ネット回線の新規敷設（12月中に申込）"],
+  ["", "開業日の確定（契約期間の起算日）"],
   ["", "カメラ映像（個人情報）の取扱いの取決め"],
   ["", "館への工事申請（様式・期限・搬入ルート）"],
   ["", "サイン表記の確定（MIRAIYA Book & Cafe）"],
-  ["", "社内稟議の進捗・決裁完了の目処"],
   ["", "運営体制（営業時間・清掃補充の担当分け）"],
+  ["", "社内稟議の進捗・決裁完了の目処"],
 ].forEach((t, i) => {
-  const y = by + 0.64 + i * 0.195;
+  const y = by + 0.62 + i * 0.17;
   s.addText(t[0] || "・", {
-    x: rx + 0.24, y, w: 0.18, h: 0.195,
-    fontFace: F.jp, fontSize: t[0] ? 7.5 : 8.5, bold: !!t[0], color: t[0] ? C.gold : C.muted, margin: 0, valign: "middle",
+    x: rx + 0.24, y, w: 0.18, h: 0.17,
+    fontFace: F.jp, fontSize: t[0] ? 7 : 8, bold: !!t[0], color: t[0] ? C.gold : C.muted, margin: 0, valign: "middle",
   });
   s.addText(t[1], {
-    x: rx + 0.44, y, w: sub - 0.2, h: 0.195,
-    fontFace: F.jp, fontSize: 8.5, bold: !!t[0], color: C.ink, margin: 0, valign: "middle",
+    x: rx + 0.44, y, w: sub - 0.2, h: 0.17,
+    fontFace: F.jp, fontSize: 8, bold: !!t[0], color: C.ink, margin: 0, valign: "middle",
   });
 });
 
@@ -192,23 +193,25 @@ s.addText("ご提供いただきたい資料", {
   "現況写真（既存設備・厨房まわり）",
   "館の工事規定・申請様式",
   "クリエ様の原状回復条件がわかる資料",
+  "ご契約者情報（会社名・所在地・代表者名）",
+  "業務委託料のお振込先口座",
 ].forEach((t, i) => {
-  const y = by + 0.64 + i * 0.195;
-  s.addText("・", { x: sx + 0.02, y, w: 0.16, h: 0.195, fontFace: F.jp, fontSize: 8.5, color: C.muted, margin: 0, valign: "middle" });
-  s.addText(t, { x: sx + 0.2, y, w: sub - 0.2, h: 0.195, fontFace: F.jp, fontSize: 8.5, color: C.ink, margin: 0, valign: "middle" });
+  const y = by + 0.62 + i * 0.17;
+  s.addText("・", { x: sx + 0.02, y, w: 0.16, h: 0.17, fontFace: F.jp, fontSize: 8, color: C.muted, margin: 0, valign: "middle" });
+  s.addText(t, { x: sx + 0.2, y, w: sub - 0.2, h: 0.17, fontFace: F.jp, fontSize: 8, color: C.ink, margin: 0, valign: "middle" });
 });
 
 /* ---------------- フッター ---------------- */
 s.addText("※ 業務委託型のため、工事費のお見積り提出はございません。御社にご負担いただくのは設置工事費（30〜50万円・税抜）のみです。", {
-  x: M, y: 7.93, w: CW, h: 0.16,
+  x: M, y: 7.94, w: CW, h: 0.15,
   fontFace: F.jp, fontSize: 7.5, color: C.gold, margin: 0, valign: "middle",
 });
-s.addText("※ 工期・納期は目安です。館（イオンモール様）の工事申請に要する期間は未織り込みのため、判明次第あらためて調整いたします。", {
-  x: M, y: 8.08, w: 7.2, h: 0.16,
+s.addText("※ 業務委託契約書は別途ご送付済みです。別表は仕様確定後に作成いたします。工期・納期は目安で、館の工事申請期間は未織り込みです。", {
+  x: M, y: 8.08, w: 7.0, h: 0.15,
   fontFace: F.jp, fontSize: 7.5, color: C.footer, margin: 0, valign: "middle",
 });
 s.addText("セルフカフェ株式会社　052-879-3557 ／ info@selfcafe.jp", {
-  x: R - 3.6, y: 8.08, w: 3.6, h: 0.16,
+  x: R - 3.6, y: 8.08, w: 3.6, h: 0.15,
   fontFace: F.jp, fontSize: 7.5, color: C.footer, align: "right", margin: 0, valign: "middle",
 });
 

@@ -68,15 +68,16 @@ const MMPT = 420.0 / 1191 * 160;            // 56.4232 mm / pt
 
 // カフェ区画の実測座標（PDFポイント・回転補正済み）
 const CAFE = { x0: 37.24, y0: 210.36, x1: 271.36, y1: 557.07 };
-// 案A：西側縦型
-const PA = { x0: 37.24, y0: 347.13, x1: 186.19, y1: 557.07 };
-// 案B：南側横型（右端は既存区画の段差に沿う）
-const PB_TOP = 412.95;
-const PB = [
-  { x0: 37.24, y0: PB_TOP, x1: 233.09, y1: 417.91 },
-  { x0: 37.24, y0: 417.91, x1: 246.47, y1: 510.55 },
-  { x0: 37.24, y0: 510.55, x1: 271.36, y1: 557.07 },
+// 案A：厨房前（既存厨房の東面から東側へ）— 推奨
+const KE = 102.3;       // 既存厨房の東面
+const PA_TOP = 341.98;  // 区画北端から 7,426mm
+const PA = [
+  { x0: KE, y0: PA_TOP, x1: 233.09, y1: 417.91 },
+  { x0: KE, y0: 417.91, x1: 246.47, y1: 510.55 },
+  { x0: KE, y0: 510.55, x1: 271.36, y1: 557.07 },
 ];
+// 案B：厨房込み・西側縦型
+const PB = { x0: 37.24, y0: 347.13, x1: 186.19, y1: 557.07 };
 // 既存厨房（既存造作・現状のまま）の外形
 const KIT = { x0: 48.0, y0: 338.3, x1: 102.3, y1: 533.7 };
 
@@ -128,23 +129,31 @@ const foot = (s, lines) => {
 /* ================================================= P1 案A（推奨） */
 {
   const s = pres.addSlide();
-  head(s, "１．セルフカフェ区画 30坪 ─ 案Ａ：西側縦型（推奨）",
+  head(s, "１．セルフカフェ区画 30坪 ─ 案Ａ：厨房前（推奨）",
     "ベース図：貴社ご提供 平面図 DWG.NO 02-1／縮尺 1/160");
 
   planBase(s);
-  fillRect(s, PA, C.green, 82);
+  // 既存厨房は区画外
   s.addShape("rect", {
-    x: X(PA.x0), y: Y(PA.y0), w: D(PA.x1 - PA.x0), h: D(PA.y1 - PA.y0),
-    fill: { type: "none" }, line: { color: C.greenDeep, width: 2 },
+    x: X(KIT.x0), y: Y(KIT.y0), w: D(KIT.x1 - KIT.x0), h: D(KIT.y1 - KIT.y0),
+    fill: { color: C.gold, transparency: 86 }, line: { color: C.gold, width: 1.5, dashType: "dash" },
   });
-  kitchen(s);
-  // 寸法
-  tag(s, (X(PA.x0) + X(PA.x1)) / 2, Y(PA.y0) + 0.13, 0.62, 0.17, "8,400", { size: 7.5, color: C.greenDeep });
-  tag(s, X(PA.x1) - 0.40, Y(385), 0.68, 0.17, "11,850", { size: 7.5, color: C.greenDeep });
-  // ラベル
-  tag(s, X(PA.x1) - 0.74, Y(452), 1.38, 0.38, "セルフカフェ\n30.00坪（99.17㎡）", { size: 8 });
+  PA.forEach((r) => fillRect(s, r, C.green, 82));
+  // 新設する区画境界（太線）
+  seg(s, KE, PA_TOP, KE, 557.07, { color: C.greenDeep, w: 2.25 });
+  seg(s, KE, PA_TOP, 233.09, PA_TOP, { color: C.greenDeep, w: 2.25 });
+  // 既存区画の外周に沿う部分（細線）
+  seg(s, 233.09, PA_TOP, 233.09, 417.91, { color: C.greenDeep, w: 1 });
+  seg(s, 233.09, 417.91, 246.47, 417.91, { color: C.greenDeep, w: 1 });
+  seg(s, 246.47, 417.91, 246.47, 510.55, { color: C.greenDeep, w: 1 });
+  seg(s, 246.47, 510.55, 271.36, 510.55, { color: C.greenDeep, w: 1 });
+
+  tag(s, (X(KE) + X(233.09)) / 2, Y(PA_TOP) + 0.13, 0.62, 0.17, "7,380", { size: 7.5, color: C.greenDeep });
+  tag(s, X(271.36) - 0.36, Y(551), 0.64, 0.17, "9,539", { size: 7.5, color: C.greenDeep });
+  tag(s, X(240), Y(430), 0.66, 0.17, "12,136", { size: 7.5, color: C.greenDeep });
+  tag(s, (X(KE) + X(246.47)) / 2, Y(470), 1.42, 0.38, "セルフカフェ\n30.00坪（99.17㎡）", { size: 8 });
+  tag(s, X(75), Y(420), 0.92, 0.38, "既存厨房\n区画外", { size: 7.5, color: C.gold, border: C.gold });
   tag(s, X(172), Y(278), 1.30, 0.34, "未来屋書店様\n32.94坪（108.88㎡）", { size: 8, color: C.muted, border: C.line });
-  tag(s, X(75), Y(300), 0.78, 0.17, "既存厨房", { size: 7.5, color: C.gold, border: C.gold });
   mallNote(s);
   legend(s, IY + IH + 0.06);
 
@@ -153,30 +162,37 @@ const foot = (s, lines) => {
   s.addTable(
     [
       [th("項目"), th("数値・内容")],
-      [td("セルフカフェ区画", { size: 9 }), td("8,400mm × 11,850mm ／ 99.17㎡（30.00坪）", { bold: true, color: C.green, size: 9 })],
+      [td("セルフカフェ区画", { size: 9 }), td("99.17㎡（30.00坪）／ 奥行 12,136mm", { bold: true, color: C.green, size: 9 })],
+      [td("間口（南面）", { size: 9 }), td("9,539mm　※北側は 7,380mm", { size: 9 })],
+      [td("西端の位置", { size: 9 }), td("既存厨房の東面（区画西端から 3,671mm）", { size: 9 })],
+      [td("既存厨房", { size: 9 }), td("区画外。約10坪は貴社側に残ります", { bold: true, color: C.gold, size: 9 })],
       [td("カフェ区画 全体", { size: 9 }), td("208.16㎡（62.97坪）※図面表記", { size: 9 })],
-      [td("未来屋書店様側", { size: 9 }), td("108.88㎡（32.94坪）", { size: 9 })],
-      [td("既存厨房", { size: 9 }), td("区画内に収まる（幅約3.0m × 長さ約11.0m）", { size: 9 })],
-      [td("天井高・柱スパン", { size: 9 }), td("CH=3,000 ／ 8,000（図面記載）", { size: 9 })],
+      [td("未来屋書店様側", { size: 9 }), td("108.88㎡（32.94坪）※既存厨房を含む", { size: 9 })],
       [td("想定席数", { size: 9 }), td("約59席（土浦店 30坪／59席／75杯と同等）", { size: 9 })],
     ],
-    { x: RX, y: 1.40, w: RW, colW: [1.52, RW - 1.52], rowH: [0.2, 0.26, 0.26, 0.26, 0.26, 0.26, 0.26], border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false }
+    { x: RX, y: 1.40, w: RW, colW: [1.42, RW - 1.42], rowH: [0.2, 0.26, 0.24, 0.24, 0.24, 0.24, 0.24, 0.24], border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false }
   );
 
-  secAt(s, RX, 3.36, RW, "この切り出し方をお薦めする理由");
+  secAt(s, RX, 3.36, RW, "既存厨房を区画外とする理由");
   bullets(s, RX, 3.66, RW, [
-    "既存厨房を区画内にほぼ全量収められるため、給排水・電源の既存位置をそのまま使える見込みでございます。",
-    "工事範囲が内装と機器設置に限定され、閉店後 約1か月の工期と、3月上旬の開業予定を確保しやすくなります。",
-    "モール共用通路に面する南面と、売場南西の角を確保でき、通路からの視認性を損ないません。",
-    "未来屋書店様にお戻しする約33坪が、既存書架（031区画）に隣接してまとまります。",
-  ], { pitch: 0.34, size: 8.5 });
+    "業務委託型のため、設置工事費は弊社の負担でございます。既存厨房を区画に含めますと、厨房設備の撤去と床・壁の復旧が生じ、工事費と工期の双方が膨らみます。",
+    "弊社のカフェは全自動抽出機を中心とした構成で、厨房設備を必要といたしません。厨房を区画外とすることで、工事範囲を床・内装・機器設置に限定できます。",
+    "給排水は、隣接する既存厨房から分岐して引き込む想定でございます。引込距離が最短となり、配管工事を最小限に抑えられます。",
+    "モール共用通路に面する南面を 9,539mm 確保でき、通路からの視認性は十分でございます。",
+  ], { pitch: 0.46, size: 8.5 });
 
-  secAt(s, RX, 5.12, RW, "作図の前提");
-  bullets(s, RX, 5.42, RW, [
-    "貴社ご提供の平面図に、縮尺を実測検証のうえ重ねております。区画面積の実測値は 208.05㎡（62.94坪）で、図面表記 208.16㎡（62.97坪）との差は 0.05% でございます。",
-    "30坪の位置は本日のご相談用のたたき台でございます。既存厨房の残置範囲が確定次第、正式な区画図として作成いたします。",
-    "席数および什器の詳細レイアウトは、現地実測のうえ別途作図いたします。",
-  ], { pitch: 0.44, size: 8.5 });
+  secAt(s, RX, 5.60, RW, "この案の前提となるご確認事項");
+  s.addShape("rect", { x: RX, y: 5.90, w: RW, h: 0.62, fill: { color: C.goldTint }, line: { color: C.gold, width: 1 } });
+  s.addText("既存厨房の給排水を、区画内へ分岐してご使用いただけますでしょうか。", {
+    x: RX + 0.16, y: 5.96, w: RW - 0.32, h: 0.2, fontFace: F.jp, fontSize: 9.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  s.addText("分岐位置・口径・排水勾配の確保可否により、本案の成立が決まります。", {
+    x: RX + 0.16, y: 6.17, w: RW - 0.32, h: 0.26, fontFace: F.jp, fontSize: 8.5, color: C.body, margin: 0, valign: "top",
+  });
+  bullets(s, RX, 6.60, RW, [
+    "区画外となる既存厨房 約10坪 の扱い（貴社でご利用か、クリエ様の原状回復対象か）。",
+    "30坪の位置は本日のご相談用のたたき台でございます。現地内見のうえ確定させていただきます。",
+  ], { pitch: 0.2, size: 8.5 });
 
   foot(s, [
     "※　本図は区画位置のご相談を目的とした資料であり、工事図面ではございません。",
@@ -187,63 +203,64 @@ const foot = (s, lines) => {
 /* ================================================= P2 案B と比較 */
 {
   const s = pres.addSlide();
-  head(s, "２．比較案 ─ 案Ｂ：南側横型", "同一縮尺・同一ベース図");
+  head(s, "２．比較案 ─ 案Ｂ：厨房込み（西側縦型）", "同一縮尺・同一ベース図");
 
   planBase(s);
-  PB.forEach((r) => fillRect(s, r, C.green, 82));
-  // 切り出しライン（既存区画境界に沿わない新設部分）
-  seg(s, PB[0].x0, PB_TOP, 233.09, PB_TOP, { color: C.greenDeep, w: 2 });
-  seg(s, 233.09, PB_TOP, 233.09, 417.91, { color: C.greenDeep, w: 2 });
-  seg(s, 233.09, 417.91, 246.47, 417.91, { color: C.greenDeep, w: 2 });
-  seg(s, 246.47, 417.91, 246.47, 510.55, { color: C.greenDeep, w: 2 });
-  seg(s, 246.47, 510.55, 271.36, 510.55, { color: C.greenDeep, w: 2 });
-  kitchen(s);
-  tag(s, (X(PB[0].x0) + X(233.09)) / 2, Y(PB_TOP) + 0.13, 0.62, 0.17, "8,131", { size: 7.5, color: C.greenDeep });
-  tag(s, (X(120) + X(220)) / 2, Y(500), 1.26, 0.40, "セルフカフェ\n30.00坪（99.17㎡）", { size: 8 });
-  tag(s, X(160), Y(300), 1.26, 0.34, "未来屋書店様\n32.94坪（108.88㎡）", { size: 8, color: C.muted, border: C.line });
-  // 区画外となる厨房部分
+  fillRect(s, PB, C.green, 82);
   s.addShape("rect", {
-    x: X(KIT.x0), y: Y(KIT.y0), w: D(KIT.x1 - KIT.x0), h: D(PB_TOP - KIT.y0),
-    fill: { color: C.red, transparency: 74 }, line: { type: "none" },
+    x: X(PB.x0), y: Y(PB.y0), w: D(PB.x1 - PB.x0), h: D(PB.y1 - PB.y0),
+    fill: { type: "none" }, line: { color: C.greenDeep, width: 2 },
   });
-  tag(s, X(75), Y(372), 1.06, 0.30, "厨房の約4割が\n区画外", { size: 7.5, color: C.red, border: C.red });
+  kitchen(s);
+  s.addShape("rect", {
+    x: X(KIT.x0), y: Y(347.13), w: D(KIT.x1 - KIT.x0), h: D(KIT.y1 - 347.13),
+    fill: { color: C.red, transparency: 76 }, line: { type: "none" },
+  });
+  tag(s, (X(PB.x0) + X(PB.x1)) / 2, Y(PB.y0) + 0.13, 0.62, 0.17, "8,400", { size: 7.5, color: C.greenDeep });
+  tag(s, X(PB.x1) - 0.40, Y(385), 0.68, 0.17, "11,850", { size: 7.5, color: C.greenDeep });
+  tag(s, X(PB.x1) - 0.74, Y(452), 1.38, 0.38, "セルフカフェ\n30.00坪（99.17㎡）", { size: 8 });
+  tag(s, X(75), Y(318), 1.02, 0.30, "既存厨房が\n区画内に入る", { size: 7.5, color: C.red, border: C.red });
+  tag(s, X(172), Y(278), 1.30, 0.34, "未来屋書店様\n32.94坪（108.88㎡）", { size: 8, color: C.muted, border: C.line });
   mallNote(s);
   legend(s, IY + IH + 0.06);
 
   const RX = IX + IW + 0.3, RW = R - RX;
   secAt(s, RX, 1.10, RW, "２案の比較");
-  const cw2 = (RW - 1.46) / 2;
+  const cw2 = (RW - 1.52) / 2;
   s.addTable(
     [
-      [th("観点"), th("案Ａ　西側縦型", "center"), th("案Ｂ　南側横型", "center")],
-      [td("面積", { size: 8.5 }), td("30.00坪（99.17㎡）", { align: "center", size: 8.5 }), td("30.00坪（99.17㎡）", { align: "center", size: 8.5 })],
-      [td("形状", { size: 8.5 }), td("8,400 × 11,850", { align: "center", size: 8.5 }), td("奥行 8,131 × 全幅", { align: "center", size: 8.5 })],
-      [td("既存厨房", { size: 8.5 }), td("ほぼ全量を区画内に確保", { align: "center", bold: true, color: C.green, size: 8.5 }), td("約4割が区画外となる", { align: "center", bold: true, color: C.red, size: 8.5 })],
-      [td("モール通路への接道", { size: 8.5 }), td("南面 約7.7m ＋ 南西の角", { align: "center", size: 8.5 }), td("南面 全幅 約13.2m", { align: "center", bold: true, color: C.green, size: 8.5 })],
-      [td("貴社にお戻しする形", { size: 8.5 }), td("北側 ＋ 東側のＬ字", { align: "center", size: 8.5 }), td("北側の整形（長方形）", { align: "center", bold: true, color: C.green, size: 8.5 })],
-      [td("工事範囲・工期", { size: 8.5 }), td("最小。残置を最大限活かせる", { align: "center", bold: true, color: C.green, size: 8.5 }), td("厨房の再構築が生じ得る", { align: "center", color: C.red, size: 8.5 })],
-      [td("弊社の評価", { size: 8.5, bold: true, fill: C.band }), td("推奨", { align: "center", bold: true, color: C.white, size: 9, fill: C.green }), td("要調整", { align: "center", bold: true, color: C.muted, size: 9, fill: C.band })],
+      [th("観点"), th("案Ａ　厨房前", "center"), th("案Ｂ　厨房込み", "center")],
+      [td("面積", { size: 8.5 }), td("30.00坪", { align: "center", size: 8.5 }), td("30.00坪", { align: "center", size: 8.5 })],
+      [td("形状", { size: 8.5 }), td("間口9,539 × 奥行12,136", { align: "center", size: 8.5 }), td("8,400 × 11,850", { align: "center", size: 8.5 })],
+      [td("既存厨房", { size: 8.5 }), td("区画外", { align: "center", bold: true, color: C.green, size: 8.5 }), td("区画内", { align: "center", color: C.red, size: 8.5 })],
+      [td("厨房設備の撤去・復旧", { size: 8.5 }), td("不要", { align: "center", bold: true, color: C.green, size: 8.5 }), td("必要", { align: "center", bold: true, color: C.red, size: 8.5 })],
+      [td("弊社負担の工事費", { size: 8.5 }), td("最小", { align: "center", bold: true, color: C.green, size: 8.5 }), td("増加", { align: "center", bold: true, color: C.red, size: 8.5 })],
+      [td("給排水", { size: 8.5 }), td("既存厨房から分岐（最短）", { align: "center", size: 8.5 }), td("既存位置をそのまま使用", { align: "center", size: 8.5 })],
+      [td("モール通路への接道", { size: 8.5 }), td("南面 9,539mm", { align: "center", bold: true, color: C.green, size: 8.5 }), td("南面 7,743mm ＋ 南西の角", { align: "center", size: 8.5 })],
+      [td("貴社にお戻しする形", { size: 8.5 }), td("北側 ＋ 西側（厨房）", { align: "center", size: 8.5 }), td("北側 ＋ 東側", { align: "center", size: 8.5 })],
+      [td("弊社の評価", { size: 8.5, bold: true, fill: C.band }), td("推奨", { align: "center", bold: true, color: C.white, size: 9, fill: C.green }), td("次善", { align: "center", bold: true, color: C.muted, size: 9, fill: C.band })],
     ],
-    { x: RX, y: 1.40, w: RW, colW: [1.46, cw2, cw2], rowH: [0.2, 0.24, 0.24, 0.3, 0.26, 0.26, 0.3, 0.26], border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false }
+    { x: RX, y: 1.40, w: RW, colW: [1.52, cw2, cw2], rowH: [0.2, 0.22, 0.26, 0.22, 0.24, 0.22, 0.26, 0.26, 0.24, 0.26], border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false }
   );
 
-  secAt(s, RX, 3.64, RW, "判断の分かれ目");
-  s.addShape("rect", { x: RX, y: 3.94, w: RW, h: 0.86, fill: { color: C.goldTint }, line: { color: C.gold, width: 1 } });
-  s.addText("２案の優劣は、既存厨房をどこまで残置いただけるかで決まります。", {
-    x: RX + 0.16, y: 4.02, w: RW - 0.32, h: 0.22, fontFace: F.jp, fontSize: 9.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  secAt(s, RX, 4.08, RW, "判断の分かれ目");
+  s.addShape("rect", { x: RX, y: 4.38, w: RW, h: 0.94, fill: { color: C.goldTint }, line: { color: C.gold, width: 1 } });
+  s.addText("既存厨房の給排水を区画内へ分岐してご使用いただけるか。この一点でございます。", {
+    x: RX + 0.16, y: 4.46, w: RW - 0.32, h: 0.22, fontFace: F.jp, fontSize: 9.5, bold: true, color: C.gold, margin: 0, valign: "middle",
   });
-  s.addText("厨房が現状のまま使える前提であれば案Ａが最も有利でございます。厨房がスケルトン戻しとなる場合は、通路への接道が長く、貴社の売場も整形となる案Ｂが有力となります。本日は、この前提のご確認をお願いしたく存じます。", {
-    x: RX + 0.16, y: 4.24, w: RW - 0.32, h: 0.50, fontFace: F.jp, fontSize: 8.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.1,
+  s.addText("分岐が可能であれば案Ａが、費用・工期の双方で有利でございます。分岐が難しく、区画内に給排水を新設する必要がある場合は、既存の設備をそのまま使える案Ｂが現実的となります。本日、この前提のご確認をお願いしたく存じます。", {
+    x: RX + 0.16, y: 4.68, w: RW - 0.32, h: 0.58, fontFace: F.jp, fontSize: 8.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.1,
   });
 
-  secAt(s, RX, 5.00, RW, "調整案（ご参考）");
-  bullets(s, RX, 5.30, RW, [
-    "南西Ｌ字型　─　厨房のある西側ストリップ（幅約4.2m）と、南側の帯（奥行約6.0m）を組み合わせる切り方でございます。厨房を全量確保しながら、南面の接道も長く取れます。",
-    "一方で、貴社にお戻しする区画・弊社区画の双方がＬ字となるため、什器計画が複雑になります。案Ａ・案Ｂでまとまらない場合の次善案としてご提示いたします。",
-  ], { pitch: 0.56, size: 8.5 });
+  secAt(s, RX, 5.52, RW, "案Ｂを採る場合の留意点");
+  bullets(s, RX, 5.82, RW, [
+    "既存厨房の設備（シンク・冷蔵機器・排気フード等）の撤去と、床・壁・天井の復旧が工事範囲に加わります。弊社負担の設置工事費が増加し、工期も延びます。",
+    "弊社のカフェは全自動抽出機を中心とした構成のため、厨房設備そのものは使用いたしません。区画に含めても、設備を活かす場面は限られます。",
+    "一方で、給排水・電源・排気が既存位置のまま使えるため、設備工事のリスクは最も小さくなります。",
+  ], { pitch: 0.46, size: 8.5 });
 
   foot(s, [
-    "※　両案とも面積は 30.00坪ちょうどで作図しております（案Ｂを既存区画の段差ラインで切る場合は 29.07坪）。",
+    "※　両案とも面積は 30.00坪ちょうどで作図しております。",
     "※　区画の確定にあたっては、館（イオンモール様）の区画変更申請の要否についても併せてご確認をお願いいたします。",
   ]);
 }
@@ -312,15 +329,16 @@ const foot = (s, lines) => {
   bullets(s, RX, 2.72, RW, [
     { t: "カフェ区画 62.97坪 と、クリエ様の専有面積 43坪 の差（約20坪）の扱い。書店側のカフェ席を含む範囲でしょうか、あるいは改装により区画が広がったものでしょうか。30坪をどこから切り出すかに直結いたします。", hl: true, m: "★" },
     { t: "平面図の凡例では、カフェ区画内の什器はすべて「既存転用什器」、厨房は「既存造作（現状のまま）」として図示されております。この前提が現時点でも有効か（クリエ様の原状回復義務がどこまで免除されるか）をご教示ください。", hl: true, m: "★" },
-    { t: "既存厨房の給排水の引込位置と能力、および分電盤の位置・容量。②に設備図が含まれていないため、現況のご提供をお願いいたします。", hl: true, m: "★" },
+    { t: "既存厨房の給排水を、弊社区画内へ分岐してご使用いただけるか（分岐位置・口径・排水勾配）。あわせて分電盤の位置・容量。②に設備図が含まれていないため、現況のご提供をお願いいたします。", hl: true, m: "★" },
+    { t: "区画外となる既存厨房 約10坪 の扱い。貴社でご利用になるか、クリエ様の原状回復の対象とされるかをご教示ください。", hl: true, m: "★" },
     "既存の排煙オペレーター（区画内に2か所図示）および空調の吹出位置について、区画を分割した場合の扱い。",
     "カフェ区画の西側外周および南側外周の仕様（外壁か、共用部との境界か）。ファサードの計画に必要でございます。",
     "区画を分割する場合の、館（イオンモール様）への区画変更申請の要否と、所要期間。",
-  ], { pitch: 0.62, size: 8.5 });
+  ], { pitch: 0.555, size: 8.5 });
 
-  s.addShape("rect", { x: RX, y: 6.62, w: RW, h: 0.62, fill: { color: C.tint }, line: { color: C.green, width: 1 } });
-  s.addText("11月の現地内見では、上記★の3点を実地で確認してまいります。内見の日程をご調整いただけますと幸いでございます。", {
-    x: RX + 0.16, y: 6.72, w: RW - 0.32, h: 0.42, fontFace: F.jp, fontSize: 9, bold: true, color: C.greenDeep, margin: 0, valign: "middle", lineSpacingMultiple: 1.1,
+  s.addShape("rect", { x: RX, y: 6.52, w: RW, h: 0.62, fill: { color: C.tint }, line: { color: C.green, width: 1 } });
+  s.addText("11月の現地内見では、上記★の4点を実地で確認してまいります。内見の日程をご調整いただけますと幸いでございます。", {
+    x: RX + 0.16, y: 6.62, w: RW - 0.32, h: 0.42, fontFace: F.jp, fontSize: 9, bold: true, color: C.greenDeep, margin: 0, valign: "middle", lineSpacingMultiple: 1.1,
   });
 
   foot(s, [

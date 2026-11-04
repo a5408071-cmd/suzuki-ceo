@@ -624,4 +624,77 @@ const DOC2 = "未来屋書店様 事前打合せ 別紙（ご確認事項）";
   ]);
 }
 
+/* ================================================= 別紙4 仙台 試算Q&A */
+{
+  const s = pres.addSlide();
+  head(s, "別紙４　仙台新規出店　売上試算のためのご質問（ご回答記入シート）", "", DOC2);
+
+  // 試算の組み立て
+  s.addShape("roundRect", { x: M, y: 1.08, w: CW, h: 0.80, rectRadius: 0.04, fill: { color: C.goldTint }, line: { color: "E2CFA6", width: 0.75 } });
+  s.addText("試算の組み立て　①カフェ区画の来客数（人／月）　→　②購入率　→　③販売杯数　→　④客単価・原価　→　⑤損益", {
+    x: M + 0.16, y: 1.14, w: CW - 0.32, h: 0.2,
+    fontFace: F.jp, fontSize: 9, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  s.addText("既存店では、秋田店 3,760人／月に対し 85杯／日（購入率 約68%）、土浦店 4,027人／月に対し 75杯／日（約56%）と幅がございます。仙台の 13,000人／月は「書籍売場への来店客数」で分母の定義が異なるため、そのまま当てはめますと過大な試算となってしまいます。同じ定義での既存店の数値をいただければ、仙台の販売杯数に根拠を持たせることができます。", {
+    x: M + 0.16, y: 1.36, w: CW - 0.32, h: 0.46,
+    fontFace: F.jp, fontSize: 8, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+  });
+
+  const grpRow = (t) => [{
+    text: t,
+    options: { colspan: 4, fill: { color: C.tint }, color: C.greenDeep, bold: true, fontSize: 8.5, fontFace: F.jp, valign: "middle", margin: [0.02, 0.1, 0.02, 0.1] },
+  }];
+  const qRow = (no, q, eff, hl) => [
+    td(no, { align: "center", bold: true, size: 8, color: hl ? C.gold : C.muted, fill: hl ? C.goldTint : C.white }),
+    td((hl ? "★　" : "") + q, { size: 8, color: hl ? C.gold : C.body, bold: !!hl, fill: hl ? C.goldTint : C.white }),
+    td(eff, { size: 7.5, color: C.muted, align: "center", fill: hl ? C.goldTint : C.white }),
+    td("", { fill: C.white }),
+  ];
+
+  const QS = [
+    ["g", "Ⅰ．来客数 ─ 試算の分母となる数値でございます（最優先）"],
+    ["1", "13,000人／月は、どのように算出された数値でしょうか。", "分母そのもの", 1],
+    ["2", "同じ定義での秋田店・土浦店の月間来客数。", "購入率の検証", 1],
+    ["3", "館全体の想定来客数（年間・月間）。", "立地ポテンシャル"],
+    ["4", "13,000人／月の根拠とされた類似館・既存店。", "妥当性の検証"],
+    ["g", "Ⅱ．立地・区画 ─ カフェ区画への来店率に影響いたします"],
+    ["5", "4Fのフロア構成（核テナント、ＥＳ・ＥＶの位置）。", "回遊・視認性"],
+    ["6", "セルフカフェ区画の想定位置（通路に面するか、奥か）。", "来店率"],
+    ["7", "4Fへの動線（直通ＥＶ・ＥＳの有無）。", "フロア到達率"],
+    ["8", "書店446坪の売場構成（主要ジャンルとレジの位置）。", "滞在時間"],
+    ["g", "Ⅲ．営業条件 ─ 販売杯数に直結いたします"],
+    ["9", "館の営業時間と、書店の想定営業時間。", "営業時間"],
+    ["10", "カフェの希望営業時間（書店営業時間に合わせる想定か）。", "稼働時間"],
+    ["11", "想定席数（弊社想定：30坪＝約59席／60坪＝約73席）。", "席数の上限"],
+    ["12", "ご購入前の書籍・雑誌の持ち込み可否。", "滞在時間"],
+    ["g", "Ⅳ．費用・条件 ─ 損益および出店可否に影響いたします"],
+    ["13", "給排水の新設可否と引込ルート（水回りなしのため）。", "工事費・可否", 1],
+    ["14", "電源容量および回線の引込条件・申請先。", "工事費"],
+    ["15", "館の工事区分（Ａ／Ｂ／Ｃ工事）と内装制限。", "工事費"],
+    ["16", "賃料・共益費の扱い（貴社の賃借面積に含まれるか）。", "固定費"],
+  ];
+  s.addTable(
+    [[th("", "center"), th("ご質問"), th("試算への影響", "center"), th("ご回答欄")],
+     ...QS.map((r) => (r[0] === "g" ? grpRow(r[1]) : qRow(r[0], r[1], r[2], r[3])))],
+    {
+      x: M, y: 1.98, w: CW, colW: [0.36, 4.64, 1.25, 4.60],
+      rowH: [0.2, ...QS.map((r) => (r[0] === "g" ? 0.2 : 0.235))],
+      border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false,
+    }
+  );
+
+  s.addText("★印の3点（Ｑ1・Ｑ2・Ｑ13）が揃いしだい、30坪・60坪の2案で売上試算を作成し、あらためてご提出いたします。他の項目は未定のままでも試算の着手は可能でございます。", {
+    x: M, y: 6.84, w: CW, h: 0.2,
+    fontFace: F.jp, fontSize: 8.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  s.addText("※　Ｑ1につきましては、書店への入店客数か、レジ通過客数か、館の通行量からの按分か、といった算出の考え方をご教示いただけますと幸いでございます。", {
+    x: M, y: 7.08, w: CW, h: 0.2,
+    fontFace: F.jp, fontSize: 7.5, color: C.muted, margin: 0, valign: "middle",
+  });
+
+  foot(s, [
+    "※　ご回答欄にご記入のうえご返送いただく形でも、打合せの中で口頭にてご教示いただく形でも差し支えございません。",
+  ]);
+}
+
 pres.writeFile({ fileName: path.join(__dirname, "akita-plan-30tsubo.pptx") }).then((f) => console.log("written:", f));

@@ -26,10 +26,10 @@ pres.author = "セルフカフェ株式会社";
 pres.title = "秋田店 セルフカフェ区画（30坪）図面落とし込み";
 
 let PAGE = 0;
-function head(s, title, sub) {
+function head(s, title, sub, doc) {
   PAGE++;
   s.background = { color: C.bg };
-  s.addText(DOC, { x: M, y: 0.34, w: 7.4, h: 0.18, fontFace: F.jp, fontSize: 8, color: C.muted, margin: 0, valign: "middle" });
+  s.addText(doc || DOC, { x: M, y: 0.34, w: 7.4, h: 0.18, fontFace: F.jp, fontSize: 8, color: C.muted, margin: 0, valign: "middle" });
   s.addText(String(PAGE), { x: R - 1.0, y: 0.34, w: 1.0, h: 0.18, fontFace: F.num, fontSize: 8, color: C.muted, align: "right", margin: 0, valign: "middle" });
   s.addShape("rect", { x: M, y: 0.56, w: CW, h: 0.014, fill: { color: C.rule } });
   s.addText(title, { x: M, y: 0.62, w: CW - 3.6, h: 0.34, fontFace: F.jp, fontSize: 14, bold: true, color: C.ink, margin: 0, valign: "middle" });
@@ -343,6 +343,284 @@ const foot = (s, lines) => {
 
   foot(s, [
     "※　本資料は、貴社よりご提供いただいた図面2件に基づき、弊社にて作成したものでございます。",
+  ]);
+}
+
+/* ================================================= 別紙1 秋田店 ご確認事項 */
+const DOC2 = "未来屋書店様 事前打合せ 別紙（ご確認事項）";
+{
+  const s = pres.addSlide();
+  head(s, "別紙１　秋田店　ご確認事項", "2026年11月4日 事前打合せ資料より", DOC2);
+
+  const lw = 6.4, rx = M + lw + 0.35, rw = R - rx;
+  secAt(s, M, 1.10, lw, "カフェ・ド・クリエ様へご確認をお願いしたい事項");
+  s.addText("弊社が工事に取り掛かるにあたり、解約協議の中であわせてご確認いただけますと、工期と費用の精度が上がります。", {
+    x: M, y: 1.34, w: lw, h: 0.18, fontFace: F.jp, fontSize: 8, color: C.body, margin: 0, valign: "middle",
+  });
+  const chk = [
+    ["★", "原状回復の範囲", "どこまで残置いただけるか。工期と費用に最も影響します。"],
+    ["★", "給排水の残置と分岐の可否", "経路・口径・止水栓の位置。弊社区画へ分岐してご使用いただけるかを含みます。"],
+    ["★", "電気容量・分電盤の残置", "容量と回路数。カフェ機器の消費電力に足りるかを確認いたします。"],
+    ["★", "既存厨房の扱い", "区画外となる約10坪を貴社でご利用か、クリエ様の原状回復対象とされるか。"],
+    ["", "造作の残置可否", "カウンター・間仕切り・天井・照明・床仕上げ。"],
+    ["", "厨房設備の撤去範囲", "撤去後の床・壁の状態（下地が露出するか、仕上げまで復旧されるか）。"],
+    ["", "排気ダクト・グリストラップ", "残置か撤去か。残置の場合は閉塞処理の要否。"],
+    ["", "看板・サインの撤去範囲", "下地・電源の残置可否。弊社サインの取り付けに影響します。"],
+    ["", "閉店日と退去完了日", "弊社の工事着手可能日となります。"],
+    ["", "館への原状回復届", "提出の有無と内容。弊社の工事申請との整合が必要です。"],
+    ["", "引き渡し時の立会い", "弊社施工担当を同席させていただけますと、認識の齟齬を防げます。"],
+  ];
+  chk.forEach((c, i) => {
+    const y = 1.58 + i * 0.47;
+    const hl = c[0] === "★";
+    s.addShape("rect", { x: M, y, w: lw, h: 0.43, fill: { color: hl ? C.goldTint : (i % 2 ? C.band : C.white) }, line: { color: C.lightLine, width: 0.5 } });
+    s.addText(hl ? "★" : String(i + 1), {
+      x: M + 0.06, y: y + 0.03, w: 0.3, h: 0.19,
+      fontFace: F.jp, fontSize: 8, bold: true, color: hl ? C.gold : C.muted, align: "center", margin: 0, valign: "middle",
+    });
+    s.addText(c[1], {
+      x: M + 0.42, y: y + 0.03, w: lw - 0.56, h: 0.19,
+      fontFace: F.jp, fontSize: 9, bold: true, color: hl ? C.gold : C.ink, margin: 0, valign: "middle",
+    });
+    s.addText(c[2], {
+      x: M + 0.42, y: y + 0.22, w: lw - 0.56, h: 0.19,
+      fontFace: F.jp, fontSize: 8.5, color: C.body, margin: 0, valign: "middle",
+    });
+  });
+  s.addText("★印の4点は、工期と工事費に直結いたします。優先してご確認いただけますと幸いでございます。", {
+    x: M, y: 6.82, w: lw, h: 0.18, fontFace: F.jp, fontSize: 8.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+
+  secAt(s, rx, 1.10, rw, "レイアウト作成に先立ち必要となる情報");
+  bullets(s, rx, 1.36, rw, [
+    "区画図面（平面図・展開図／CADデータ）",
+    "既存カフェ区画の実測寸法",
+    "電気容量および分電盤の位置",
+    "給排水の位置・系統",
+    "排気ダクト・空調の系統",
+    "現況写真（客席・カウンター・厨房まわり）",
+    "天井高および床仕上げの納まり",
+    "館の内装制限・工事区分",
+  ], { pitch: 0.19, size: 8.5 });
+
+  secAt(s, rx, 3.00, rw, "残置の範囲が、工期と費用を決めます");
+  s.addTable(
+    [
+      [th("閉店後の工程"), th("期間", "center")],
+      [td("残置物の撤去・下地調整", { size: 8.5 }), td("3〜5日", { align: "center", size: 8.5 })],
+      [td("内装工事（造作・床・サイン）", { size: 8.5 }), td("2〜3週間", { align: "center", size: 8.5 })],
+      [td("機器設置・試運転・什器搬入", { size: 8.5 }), td("3〜5日", { align: "center", size: 8.5 })],
+      [td("合計", { bold: true, color: C.ink, size: 9, fill: C.tint }), td("約1か月", { align: "center", bold: true, color: C.green, size: 9, fill: C.tint })],
+    ],
+    { x: rx, y: 3.26, w: rw, colW: [rw - 1.0, 1.0], rowH: [0.2, 0.24, 0.24, 0.24, 0.28], border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false }
+  );
+
+  s.addShape("roundRect", { x: rx, y: 4.62, w: rw, h: 1.00, rectRadius: 0.04, fill: { color: C.goldTint }, line: { color: "E2CFA6", width: 0.75 } });
+  s.addText("スケルトン戻しとなる場合", {
+    x: rx + 0.16, y: 4.70, w: rw - 0.32, h: 0.2, fontFace: F.jp, fontSize: 8.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  s.addText("下地からの復旧が必要となり、工期が2週間程度延びる見込みでございます。2027年3月上旬の開業が厳しくなります。", {
+    x: rx + 0.16, y: 4.92, w: rw - 0.32, h: 0.64, fontFace: F.jp, fontSize: 8, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
+  });
+
+  s.addShape("roundRect", { x: rx, y: 5.82, w: rw, h: 1.26, rectRadius: 0.04, fill: { color: C.band }, line: { color: C.lightLine, width: 0.75 } });
+  s.addText("ご相談のお願い", {
+    x: rx + 0.16, y: 5.90, w: rw - 0.32, h: 0.2, fontFace: F.jp, fontSize: 8.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+  });
+  s.addText("カフェ・ド・クリエ様との解約協議の中で、造作・床・給排水・電気を可能な限り現状のまま残していただく方向でご調整いただけますと幸いでございます。工期の短縮と工事費の抑制の両方につながります。", {
+    x: rx + 0.16, y: 6.12, w: rw - 0.32, h: 0.90, fontFace: F.jp, fontSize: 8, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
+  });
+
+  foot(s, [
+    "※　工期は目安でございます。館（イオンモール様）の工事申請に要する期間は含んでおりません。",
+  ]);
+}
+
+/* ================================================= 別紙2 ご相談ポイント・費用・工程 */
+{
+  const s = pres.addSlide();
+  head(s, "別紙２　秋田店　ご相談ポイント・費用・今後の進め方", "", DOC2);
+
+  const lw = 6.4, rx = M + lw + 0.35, rw = R - rx;
+  secAt(s, M, 1.10, lw, "レイアウト作成に伴うご相談ポイント");
+  const pts = [
+    ["席数と席種の構成", "カウンター席／4人掛け／ソファ席の比率。30坪で約55〜60席を想定しております。"],
+    ["マシン・決済端末の位置", "電源および給排水の位置に制約されます。壁面か、島配置かをご相談させてください。"],
+    ["書籍の持ち込み運用", "ご購入前の書籍・雑誌の持ち込みを可とするか。可の場合、動線と汚損対策の整理が必要です。"],
+    ["レジとの関係", "書店レジとカフェ区画の距離。お客様の動線と、スタッフの目が届く範囲。"],
+    ["サイン表記", "「MIRAIYA Book & Cafe」の最終表記と、館の看板規定への適合。"],
+    ["既存什器の再利用範囲", "テーブル・椅子・造作のうち、再利用可能なものの選別。"],
+    ["バックヤード", "原料・備品のストック場所、ゴミの一時保管場所の確保。"],
+    ["清掃・補充の動線", "1日15分の作業を、書店業務の流れの中でどこに組み込むか。"],
+  ];
+  pts.forEach((pt, i) => {
+    const y = 1.36 + i * 0.52;
+    s.addShape("rect", { x: M, y, w: lw, h: 0.48, fill: { color: i % 2 ? C.band : C.white }, line: { color: C.lightLine, width: 0.5 } });
+    s.addText((i + 1) + "．" + pt[0], {
+      x: M + 0.14, y: y + 0.03, w: lw - 0.28, h: 0.2, fontFace: F.jp, fontSize: 8.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+    });
+    s.addText(pt[1], {
+      x: M + 0.14, y: y + 0.23, w: lw - 0.28, h: 0.22, fontFace: F.jp, fontSize: 8, color: C.body, margin: 0, valign: "middle",
+    });
+  });
+
+  secAt(s, M, 5.66, lw, "区画の見え方（本日のご相談）");
+  bullets(s, M, 5.92, lw, [
+    { m: "①", t: "書店売場との境界の作り方", hl: true },
+    "　什器で仕切るか、床仕上げのみで区切るか",
+    { m: "②", t: "店頭（モール通路側）の見え方", hl: true },
+    "　サインの位置と、カフェを前面に出すか書店を前面にするか",
+  ], { pitch: 0.205, size: 8.5 });
+  s.addText("※ 30坪をどこから切り出すかにつきましては、本編 P1・P2 にて2案をご提案しております。", {
+    x: M, y: 6.80, w: lw, h: 0.18, fontFace: F.jp, fontSize: 7.5, color: C.muted, margin: 0, valign: "middle",
+  });
+
+  secAt(s, rx, 1.10, rw, "費用・契約に関するご確認事項");
+  bullets(s, rx, 1.36, rw, [
+    "業務委託型のため、工事費のお見積りのご提出はございません。貴社にご負担いただく費用は、設置工事費（30〜50万円・税抜）のみでございます。",
+    "防犯カメラの映像（個人情報）の取扱い。保存期間・閲覧権限等の取り決め案を弊社よりご提示いたします。覚書の要否をご教示ください。",
+    "インターネット回線は貴社にて新規お引き込みをお願いしております。お申込みから開通まで1〜2か月を要します。",
+    "水道光熱費・通信費・消耗品費は貴社ご負担での運用を想定しております。ご認識に相違がないかご確認ください。",
+  ], { pitch: 0.50, size: 8.5 });
+
+  secAt(s, rx, 3.44, rw, "本日お決めいただきたいこと");
+  const dec = [
+    ["①", "11月上旬の現地内見の日程", "2〜3候補をいただけますと幸いです。"],
+    ["②", "30坪の候補領域の方向性", "案Ａ（厨房前）か案Ｂ（厨房込み）か。"],
+    ["③", "クリエ様へご確認いただく事項", "別紙１の11項目のうち、協議にのせていただく範囲。"],
+    ["④", "仙台の確認事項の回答期限の目安", "いつ頃までにご回答いただけるか。"],
+  ];
+  dec.forEach((d, i) => {
+    const y = 3.66 + i * 0.54;
+    s.addShape("rect", { x: rx, y, w: rw, h: 0.50, fill: { color: i % 2 ? C.band : C.white }, line: { color: C.lightLine, width: 0.5 } });
+    s.addText(d[0], {
+      x: rx + 0.08, y: y + 0.04, w: 0.26, h: 0.2, fontFace: F.jp, fontSize: 9, bold: true, color: C.green, margin: 0, valign: "middle",
+    });
+    s.addText(d[1], {
+      x: rx + 0.36, y: y + 0.04, w: rw - 0.46, h: 0.2, fontFace: F.jp, fontSize: 8.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+    });
+    s.addText(d[2], {
+      x: rx + 0.36, y: y + 0.24, w: rw - 0.46, h: 0.24, fontFace: F.jp, fontSize: 8, color: C.body, margin: 0, valign: "middle",
+    });
+  });
+
+  secAt(s, rx, 5.88, rw, "主要工程");
+  const sch = [
+    ["11月上旬", "現地内見（弊社施工担当同行）"],
+    ["11月中旬", "レイアウト図のご提出／解約条件の確定"],
+    ["12月上旬", "回線お申込み・什器機器の発注"],
+    ["1月末", "クリエ様 閉店・退去"],
+    ["2月", "内装工事・機器設置（約1か月）"],
+    ["3月上旬", "開業"],
+  ];
+  s.addTable(
+    [
+      [th("時期"), th("内容")],
+      ...sch.map((r, i) => {
+        const last = i === sch.length - 1;
+        const f = last ? C.tint : (i % 2 ? C.band : C.white);
+        return [
+          td(r[0], { bold: true, color: last ? C.green : C.ink, size: 8, fill: f }),
+          td(r[1], { size: 8, fill: f, bold: last, color: last ? C.green : C.body }),
+        ];
+      }),
+    ],
+    { x: rx, y: 6.12, w: rw, colW: [0.95, rw - 0.95], rowH: [0.18, ...sch.map(() => 0.175)], border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false }
+  );
+
+  foot(s, [
+    "※　インターネット回線はお申込みから開通まで1〜2か月を要します。12月中のお手続きをお願いいたします。",
+    "※　工期約1か月は、造作・床・給排水・電気を残置いただくことを前提としております。",
+  ]);
+}
+
+/* ================================================= 別紙3 仙台 */
+{
+  const s = pres.addSlide();
+  head(s, "別紙３　仙台新規出店　ご確認事項", "売上試算は確認事項が揃いしだい作成いたします", DOC2);
+
+  const lw = 4.6, rx = M + lw + 0.35, rw = R - rx;
+  secAt(s, M, 1.10, lw, "ご提供いただいた物件情報");
+  const info = [
+    ["商業施設", "旧アリオ仙台泉（SENDAI IZUMI Reborn PROJECT）"],
+    ["所在地", "仙台市泉区泉中央1-5-1／泉中央駅 徒歩2分"],
+    ["開業予定", "2028年度内予定"],
+    ["館の規模", "総賃貸面積 約20,000㎡／専門店50〜70店舗"],
+    ["商業集積", "SELVA等と合わせ約40,000㎡・約180店舗"],
+    ["交通", "地下鉄・バス 1日約3.1万人／年間約1,130万人"],
+    ["書店フロア", "4F"],
+    ["書店の坪数", "446坪（新店全体）"],
+    ["書籍売場来店客数", "13,000人／月（想定）"],
+    ["セルフカフェ坪数", "30坪（60坪の試算もご希望）"],
+    ["水回り", "なし"],
+    ["電源・回線", "新規物件のため工事対応"],
+    ["営業時間", "書店・カフェとも未定"],
+  ];
+  s.addTable(
+    [
+      [th("項目"), th("内容")],
+      ...info.map((r) => [td(r[0], { bold: true, color: C.ink, size: 8 }), td(r[1], { size: 8 })]),
+    ],
+    { x: M, y: 1.36, w: lw, colW: [1.45, 3.15], rowH: [0.2, ...info.map(() => 0.235)], border: { type: "solid", color: C.line, pt: 0.75 }, autoPage: false }
+  );
+
+  secAt(s, M, 4.80, lw, "仙台の進め方");
+  bullets(s, M, 5.06, lw, [
+    "本日　　物件情報・確認事項のすり合わせ",
+    "後日　　確認事項が揃いしだい、30坪・60坪の2案で売上試算をご提出",
+    "その後　出店条件のご提示・ご協議",
+  ], { pitch: 0.21, size: 8.5 });
+
+  secAt(s, M, 5.92, lw, "ご参考：弊社既存店の販売実績");
+  s.addShape("roundRect", { x: M, y: 6.18, w: lw, h: 0.80, rectRadius: 0.04, fill: { color: C.band }, line: { color: C.lightLine, width: 0.75 } });
+  s.addText("書店併設型の既存店（2026年5〜8月平均）　1日 40〜45杯程度\n商業施設内の大型店　1日 約123杯", {
+    x: M + 0.16, y: 6.28, w: lw - 0.32, h: 0.60, fontFace: F.jp, fontSize: 8.5, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.35,
+  });
+
+  secAt(s, rx, 1.10, rw, "本日ご確認させていただきたい事項");
+  s.addShape("roundRect", { x: rx, y: 1.36, w: rw, h: 1.72, rectRadius: 0.04, fill: { color: C.goldTint }, line: { color: "E2CFA6", width: 0.75 } });
+  s.addText("【最重要】来客数の定義をそろえさせてください", {
+    x: rx + 0.18, y: 1.44, w: rw - 0.36, h: 0.2, fontFace: F.jp, fontSize: 9.5, bold: true, color: C.gold, margin: 0, valign: "middle",
+  });
+  s.addText("秋田店・土浦店の試算は「カフェ区画の来客数」（秋田3,760人／月）を分母としております。一方、今回の13,000人／月は「書籍売場への来店客数」であり、分母が異なります。同じ購入率を当てはめると過大な試算となってしまいます。\n\nつきましては、13,000人／月の算出方法（書店への入店客数か、レジ通過客数か等）をご教示いただくとともに、同じ定義での秋田店・土浦店の数値をあわせてご提供いただけませんでしょうか。既存店の販売実績と突き合わせることで、仙台の販売杯数に根拠を持たせることができます。", {
+    x: rx + 0.18, y: 1.66, w: rw - 0.36, h: 1.34, fontFace: F.jp, fontSize: 8, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+  });
+
+  const grp = (y, t) => {
+    s.addText(t, { x: rx, y, w: rw, h: 0.2, fontFace: F.jp, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle" });
+    s.addShape("rect", { x: rx, y: y + 0.21, w: rw, h: 0.008, fill: { color: C.lightLine } });
+  };
+
+  grp(3.20, "Ａ．売上試算の前提に関する事項");
+  bullets(s, rx, 3.44, rw, [
+    { m: "★", t: "13,000人／月の算出方法と、同じ定義での秋田店・土浦店の数値", hl: true },
+    "館全体の想定来客数（年間・月間）",
+    "4Fのフロア構成と、核となるテナント",
+    "カフェ区画の想定位置（通路・エスカレーターとの関係）",
+    "書店の想定営業時間／カフェの希望営業時間",
+    "想定席数（30坪・60坪それぞれ）",
+    "書籍の持ち込み可否など、運用のお考え",
+  ], { pitch: 0.185, size: 8.5 });
+
+  grp(4.86, "Ｂ．工事・設備に関する事項");
+  bullets(s, rx, 5.10, rw, [
+    { m: "★", t: "給排水の新設可否と引込ルート（水回りなしのため）", hl: true },
+    { m: "★", t: "電源容量および回線の引込条件・申請先", hl: true },
+    "館側の内装制限・工事区分（Ａ工事／Ｂ工事／Ｃ工事）",
+    "什器・サインに関する館の規定",
+  ], { pitch: 0.185, size: 8.5 });
+
+  grp(5.94, "Ｃ．出店条件・スケジュールに関する事項");
+  bullets(s, rx, 6.18, rw, [
+    "開業時期の確度（2028年度内のいつ頃か）",
+    "出店条件（賃料・共益費等）の概算",
+    "ご想定の契約形態（業務委託型／FC）",
+    "貴社内のご検討スケジュール",
+  ], { pitch: 0.185, size: 8.5 });
+
+  foot(s, [
+    "※　★印の3点は、売上試算の根拠および工事費・出店可否そのものに影響いたします。",
+    "※　売上試算は確認事項が揃いしだい、30坪・60坪の2案で作成のうえご提出いたします。本日時点では未着手でございます。",
   ]);
 }
 

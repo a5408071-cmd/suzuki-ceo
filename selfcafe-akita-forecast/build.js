@@ -373,29 +373,8 @@ function bars(s, o) {
       td(p[0], { bold: true, color: C.ink, size: 8.5, fill: i % 2 ? C.soft : C.white }),
       td(p[1], { size: 8.5, fill: i % 2 ? C.soft : C.white }),
     ])],
-    { x: M, y: 4.08, w: lw, colW: [1.85, lw - 1.85], rowH: PRE.map(() => 0.27), border: { type: "solid", color: C.rule, pt: 0.75 }, autoPage: false }
+    { x: M, y: 4.08, w: lw, colW: [1.85, lw - 1.85], rowH: PRE.map(() => 0.32), border: { type: "solid", color: C.rule, pt: 0.75 }, autoPage: false }
   );
-
-  sec(s, M, 6.46, lw, "ご要望に応じてご提出できる試算");
-  const ADD = [
-    ["実質手取りベース", "水道光熱費・通信費・消耗品費を差し引いた3か年"],
-    ["月次の推移", "1年目の月別お受取額（立ち上がりの月次イメージ）"],
-    ["開業後の実績報告", "月次でご報告する実績レポートのひな型"],
-  ];
-  const aw = (lw - 0.18 * 2) / 3;
-  ADD.forEach((a, i) => {
-    const x = M + i * (aw + 0.18);
-    s.addShape("rect", { x, y: 6.76, w: aw, h: 0.62, fill: { color: C.soft } });
-    s.addShape("rect", { x, y: 6.76, w: 0.04, h: 0.62, fill: { color: C.bronze } });
-    s.addText(a[0], {
-      x: x + 0.14, y: 6.80, w: aw - 0.24, h: 0.2,
-      fontFace: F.jp, fontSize: 8.5, bold: true, color: C.ink, margin: 0, valign: "middle",
-    });
-    s.addText(a[1], {
-      x: x + 0.14, y: 6.99, w: aw - 0.24, h: 0.34,
-      fontFace: F.jp, fontSize: 7.3, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
-    });
-  });
 
   sec(s, rx, 3.78, rw, "ご留意事項");
   const NT = [

@@ -15,8 +15,10 @@ const C = {
   hair: "C8C8C8",
   headFill: "E4E4E4",
   band: "F2F2F2",
-  bandD: "E9E9E9",
-  barD: "4D4D4D",
+  bandD: "E9F1EC",
+  barD: "106838",
+  gr: "106838",
+  grPale: "E9F1EC",
   barL: "BFBFBF",
   white: "FFFFFF",
 };
@@ -59,7 +61,7 @@ function head(s, title, sub) {
     x: R - 3.3, y: 0.73, w: 3.3, h: 0.18,
     fontFace: FG, fontSize: 8, color: C.muted, align: "right", margin: 0, valign: "middle",
   });
-  s.addShape("rect", { x: M, y: 0.98, w: CW, h: 0.019, fill: { color: C.ruleS } });
+  s.addShape("rect", { x: M, y: 0.98, w: CW, h: 0.019, fill: { color: C.gr } });
   s.addShape("rect", { x: M, y: 1.025, w: CW, h: 0.006, fill: { color: C.ruleS } });
 }
 const foot = (s, notes) => {
@@ -87,12 +89,12 @@ const sec = (s, x, y, w, t, note) => {
       x: x + w - 3.6, y, w: 3.6, h: 0.24,
       fontFace: FG, fontSize: 8, color: C.muted, align: "right", margin: 0, valign: "middle",
     });
-  s.addShape("rect", { x, y: y + 0.25, w, h: 0.008, fill: { color: C.ruleS } });
+  s.addShape("rect", { x, y: y + 0.25, w, h: 0.008, fill: { color: C.gr } });
 };
 
 const th = (t, al) => ({
   text: t,
-  options: { fill: { color: C.headFill }, color: C.ink, bold: true, fontSize: 9, fontFace: FG, align: al || "left", valign: "middle", margin: [0.03, 0.1, 0.03, 0.1] },
+  options: { fill: { color: C.grPale }, color: C.gr, bold: true, fontSize: 9, fontFace: FG, align: al || "left", valign: "middle", margin: [0.03, 0.1, 0.03, 0.1] },
 });
 const td = (t, o = {}) => ({
   text: t,
@@ -156,7 +158,7 @@ const yen = (v) => v.toLocaleString();
   s.addShape("rect", { x: M, y: 1.14, w: CW, h: 0.74, fill: { color: C.white }, line: { color: C.ruleS, width: 1 } });
   s.addText("【ご留意】　本資料は、開業前の時点における机上の試算でございます。", {
     x: M + 0.18, y: 1.20, w: CW - 0.36, h: 0.22,
-    fontFace: FM, fontSize: 10.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+    fontFace: FM, fontSize: 10.5, bold: true, color: C.gr, margin: 0, valign: "middle",
   });
   s.addText("現地での営業実績はございません。ご提示いただいた前提数値から、下記の計算式のとおり機械的に算出したものでございます。館の来客数は計画値であり、区画の配置・営業時間はいずれも未確定でございます。前提が変われば結果も変わりますので、あくまでご検討の出発点としてお取り扱いくださいますようお願い申し上げます。", {
     x: M + 0.18, y: 1.43, w: CW - 0.36, h: 0.40,
@@ -173,7 +175,7 @@ const yen = (v) => v.toLocaleString();
     const y = 2.46 + i * 0.32;
     s.addText(e[0], { x: M + 0.18, y, w: 0.56, h: 0.26, fontFace: FG, fontSize: 9, color: C.ink, margin: 0, valign: "middle" });
     s.addText(e[1], { x: M + 0.74, y, w: 5.2, h: 0.26, fontFace: FG, fontSize: 9.5, color: C.ink, margin: 0, valign: "middle" });
-    s.addText(e[2], { x: M + 6.1, y, w: CW - 6.28, h: 0.26, fontFace: FG, fontSize: 9.5, bold: true, color: C.ink, align: "right", margin: 0, valign: "middle" });
+    s.addText(e[2], { x: M + 6.1, y, w: CW - 6.28, h: 0.26, fontFace: FG, fontSize: 9.5, bold: true, color: C.gr, align: "right", margin: 0, valign: "middle" });
   });
 
   // 試算結果
@@ -189,8 +191,8 @@ const yen = (v) => v.toLocaleString();
       [td("セルフカフェ売上（1杯420円）"), ...CASE.map((c, i) => rc(yen(c.sales), { bold: true, color: C.ink, fill: hf(i) }))],
       [td("　うち 売上の25％"), ...CASE.map((c, i) => rc(yen(c.roy), { fill: hf(i) }))],
       [td("　月額固定"), ...CASE.map((c, i) => rc(yen(FIX), { fill: hf(i) }))],
-      [td("貴社お受取額（月）", { fill: C.bandD, bold: true, color: C.ink }), ...CASE.map((c) => rc(yen(c.fee), { fill: C.bandD, bold: true, color: C.ink, size: 10.5 }))],
-      [td("貴社お受取額（年・12か月）", { fill: C.bandD, bold: true, color: C.ink }), ...CASE.map((c) => rc(yen(c.year), { fill: C.bandD, bold: true, color: C.ink, size: 10 }))],
+      [td("貴社お受取額（月）", { fill: C.bandD, bold: true, color: C.gr }), ...CASE.map((c) => rc(yen(c.fee), { fill: C.bandD, bold: true, color: C.gr, size: 10.5 }))],
+      [td("貴社お受取額（年・12か月）", { fill: C.bandD, bold: true, color: C.gr }), ...CASE.map((c) => rc(yen(c.year), { fill: C.bandD, bold: true, color: C.gr, size: 10 }))],
     ],
     { x: M, y: 3.70, w: lw, colW: [2.44, 1.14, 1.14, 1.14, 1.14], rowH: [0.36, 0.26, 0.24, 0.26, 0.24, 0.24, 0.3, 0.3], border: TB, autoPage: false }
   );
@@ -239,18 +241,18 @@ const yen = (v) => v.toLocaleString();
   const fw = 2.70, ga = 1.06;
   [
     { t: "秋田店 30坪", v: "75", s2: "確定済みの想定値", f: C.white },
-    { t: "仙台泉 30坪　店頭配置", v: "86", s2: "本試算の基準", f: C.bandD },
+    { t: "仙台泉 30坪　店頭配置", v: "86", s2: "本試算の基準", f: C.bandD, tc: C.gr },
     { t: "仙台泉 30坪　店奥配置", v: "60", s2: "通路からの直接来店を見込まず", f: C.white },
   ].forEach((f, i) => {
     const x = M + i * (fw + ga);
     s.addShape("rect", { x, y: 1.52, w: fw, h: 1.02, fill: { color: f.f }, line: { color: C.ruleT, width: 0.75 } });
     s.addText(f.t, {
       x: x + 0.14, y: 1.57, w: fw - 0.28, h: 0.22,
-      fontFace: FG, fontSize: 8.5, bold: true, color: C.ink, margin: 0, valign: "middle",
+      fontFace: FG, fontSize: 8.5, bold: true, color: f.tc || C.ink, margin: 0, valign: "middle",
     });
     s.addText(
       [
-        { text: f.v, options: { fontFace: FG, fontSize: 22, bold: true, color: C.ink } },
+        { text: f.v, options: { fontFace: FG, fontSize: 22, bold: true, color: f.tc || C.ink } },
         { text: " 杯／日", options: { fontFace: FG, fontSize: 9, color: C.body } },
       ],
       { x: x + 0.14, y: 1.80, w: fw - 0.28, h: 0.38, margin: 0, valign: "middle" }

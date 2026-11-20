@@ -150,7 +150,7 @@ const CASE = [
 ].map((c) => {
   const sales = c.cups * UP * DAYS;
   const mat = Math.floor(sales * 0.2);
-  const fix = 30000 + UTL[c.tb] + 86000 + 20000 + 50000 + ETC[c.tb];
+  const fix = UTL[c.tb] + 86000 + 50000 + ETC[c.tb];
   const pf = sales - mat - fix;
   return Object.assign({}, c, { sales, mat, cln: 30000, utl: UTL[c.tb], mac: 86000, sec: 20000, roy: 50000, etc: ETC[c.tb], pf, inv: INV[c.tb], pay: INV[c.tb] / pf });
 });
@@ -183,17 +183,16 @@ const man = (v) => (v / 10000).toLocaleString();
       row("売上高（1杯420円×杯数×30日）", (c) => yen(c.sales), { l: { bold: true, color: C.ink }, v: { bold: true, color: C.ink } }),
       row("　想定販売杯数（1日）", (c) => c.cups + "杯", { l: { color: C.muted }, v: { color: C.muted } }),
       row("ドリンク原料（売上の20％）", (c) => "▲ " + yen(c.mat)),
-      row("清掃業務委託費", () => "▲ 30,000"),
+      row("清掃業務委託費（貴社スタッフ対応のため）", () => "（30,000）", { l: { color: C.muted }, v: { color: C.muted } }),
       row("水道光熱費（書店営業時間ベース）", (c) => "▲ " + yen(c.utl)),
       row("機械使用料（マシン2台・決済端末2台）", () => "▲ 86,000"),
-      row("セキュリティ費", () => "▲ 20,000"),
       row("ロイヤリティ（一律・売上連動なし）", () => "▲ 50,000"),
       row("雑費", (c) => "▲ " + yen(c.etc)),
       row("家賃（貴社の賃借面積に含まれる前提）", () => "0"),
       [td("償却前営業利益", { fill: C.bandD, bold: true, color: C.gr }), ...CASE.map((c) => rc(yen(c.pf), { fill: C.bandD, bold: true, color: C.gr, size: 11 }))],
       [td("平均荒利率", { fill: C.band, bold: true, color: C.ink }), ...CASE.map(() => rc("80.0％", { fill: C.band, bold: true, color: C.ink }))],
     ],
-    { x: M, y: 2.30, w: lw, colW: [3.06, 1.06, 1.06, 1.06, 1.06], rowH: [0.34, 0.26, 0.22, 0.24, 0.22, 0.24, 0.24, 0.22, 0.24, 0.22, 0.24, 0.3, 0.26], border: TB, autoPage: false }
+    { x: M, y: 2.30, w: lw, colW: [3.06, 1.06, 1.06, 1.06, 1.06], rowH: [0.34, 0.26, 0.22, 0.26, 0.24, 0.26, 0.24, 0.24, 0.26, 0.32, 0.28], border: TB, autoPage: false }
   );
 
   sec(s, rx, 1.94, rw, "償却前営業利益（月）");
@@ -212,8 +211,9 @@ const man = (v) => (v / 10000).toLocaleString();
 
   sec(s, M, 5.86, CW, "ランニング経費についての補足");
   [
-    "清掃業務委託費　30,000円／月は、貴社スタッフで対応される場合には不要となり、その分が利益に加算されます。",
+    "清掃業務委託費　貴社スタッフでご対応いただく前提のため、計上しておりません。外部委託とされる場合は月30,000円が加わります。",
     "人件費　未計上でございます。日常業務（清掃・補充・発注）は、業務委託型・FCプランのいずれも貴社スタッフによる運用を想定しております。",
+    "セキュリティ費　貴社書店内への併設のため、計上しておりません。",
     "家賃　カフェ区画が貴社の賃借面積に含まれる前提で0円としております。別途ご負担が生じる場合は差し引いてご覧ください。",
   ].forEach((t, i) => {
     s.addText("（" + (i + 1) + "）", {
@@ -291,7 +291,7 @@ const man = (v) => (v / 10000).toLocaleString();
     ],
     { x: M, y: 4.94, w: CW, colW: [3.4, 2.3, 2.5, CW - 8.2], rowH: [0.24, 0.3, 0.28, 0.28, 0.28], border: TB, autoPage: false }
   );
-  s.addText("30坪・店頭配置の場合、ご投資額 900万円に対して約15.0か月でございます。清掃を貴社スタッフで対応される場合は、月30,000円の利益増となり、回収はさらに短縮いたします。", {
+  s.addText("30坪・店頭配置の場合、ご投資額 900万円に対して約13.8か月でございます。清掃を外部委託とされる場合は月30,000円が加わり、回収の目安は約14.5か月となります。", {
     x: M, y: 6.50, w: CW, h: 0.4,
     fontFace: FG, fontSize: 8.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
   });
@@ -314,11 +314,11 @@ const man = (v) => (v / 10000).toLocaleString();
       [th("観点"), th("業務委託型", "right"), th("FCプラン", "right")],
       [td("運営主体"), td("セルフカフェ", { align: "right" }), td("未来屋書店様", { align: "right", bold: true, color: C.gr })],
       [td("貴社のご投資"), td("設置工事費 30〜50万円", { align: "right" }), td("900万円", { align: "right", bold: true, color: C.gr })],
-      [td("貴社の月次収入"), td("320,900円（お受取額）", { align: "right" }), td("600,880円（償却前営業利益）", { align: "right", bold: true, color: C.gr })],
+      [td("貴社の月次収入"), td("320,900円（お受取額）", { align: "right" }), td("650,880円（償却前営業利益）", { align: "right", bold: true, color: C.gr })],
       [td("売上変動のリスク"), td("小（固定5万円を含む）", { align: "right" }), td("貴社がご負担", { align: "right" })],
       [td("食品衛生責任者"), td("不要", { align: "right" }), td("1名のご選任が必要", { align: "right" })],
       [td("設備の保守・更新"), td("弊社", { align: "right" }), td("貴社（弊社がサポート）", { align: "right" })],
-      [td("月次の差額", { fill: C.bandD, bold: true, color: C.gr }), td("－", { align: "right", fill: C.bandD }), td("＋279,980円", { align: "right", fill: C.bandD, bold: true, color: C.gr, size: 10.5 })],
+      [td("月次の差額", { fill: C.bandD, bold: true, color: C.gr }), td("－", { align: "right", fill: C.bandD }), td("＋329,980円", { align: "right", fill: C.bandD, bold: true, color: C.gr, size: 10.5 })],
     ],
     { x: M, y: 1.50, w: lw, colW: [1.7, 1.9, 2.3], rowH: [0.22, 0.26, 0.26, 0.3, 0.26, 0.26, 0.26, 0.3], border: TB, autoPage: false }
   );
@@ -327,21 +327,21 @@ const man = (v) => (v / 10000).toLocaleString();
   s.addTable(
     [
       [th("経過"), th("業務委託型", "right"), th("FCプラン", "right"), th("差", "right")],
-      [td("12か月", { size: 8.5 }), td("335.1", { align: "right", size: 8.5 }), td("▲ 178.9", { align: "right", size: 8.5 }), td("▲ 514.0", { align: "right", size: 8.5 })],
-      [td("30.4か月", { color: C.gr, bold: true, size: 8.5 }), td("ほぼ同額", { align: "right", color: C.gr, size: 8.5 }), td("ほぼ同額", { align: "right", color: C.gr, size: 8.5 }), td("均衡点", { align: "right", bold: true, color: C.gr, size: 8.5 })],
-      [td("36か月", { size: 8.5 }), td("1,105.2", { align: "right", size: 8.5 }), td("1,263.2", { align: "right", size: 8.5 }), td("＋157.9", { align: "right", bold: true, color: C.gr, size: 8.5 })],
-      [td("60か月", { size: 8.5 }), td("1,875.4", { align: "right", size: 8.5 }), td("2,705.3", { align: "right", size: 8.5 }), td("＋829.9", { align: "right", bold: true, color: C.gr, size: 8.5 })],
+      [td("12か月", { size: 8.5 }), td("335.1", { align: "right", size: 8.5 }), td("▲ 118.9", { align: "right", size: 8.5 }), td("▲ 454.0", { align: "right", size: 8.5 })],
+      [td("25.8か月", { color: C.gr, bold: true, size: 8.5 }), td("ほぼ同額", { align: "right", color: C.gr, size: 8.5 }), td("ほぼ同額", { align: "right", color: C.gr, size: 8.5 }), td("均衡点", { align: "right", bold: true, color: C.gr, size: 8.5 })],
+      [td("36か月", { size: 8.5 }), td("1,105.2", { align: "right", size: 8.5 }), td("1,443.2", { align: "right", size: 8.5 }), td("＋337.9", { align: "right", bold: true, color: C.gr, size: 8.5 })],
+      [td("60か月", { size: 8.5 }), td("1,875.4", { align: "right", size: 8.5 }), td("3,005.3", { align: "right", size: 8.5 }), td("＋1,129.9", { align: "right", bold: true, color: C.gr, size: 8.5 })],
     ],
     { x: rx, y: 1.50, w: rw, colW: [0.88, 1.06, 1.06, rw - 3.0], rowH: [0.22, 0.26, 0.26, 0.26, 0.26], border: TB, autoPage: false }
   );
-  s.addText("ご投資額の差（850万円）を月次の差（279,980円）で回収しますと、約30.4か月（2年7か月）で逆転いたします。以降はFCプランが有利となります。", {
+  s.addText("ご投資額の差（850万円）を月次の差（329,980円）で回収しますと、約25.8か月（2年2か月）で逆転いたします。以降はFCプランが有利となります。", {
     x: rx, y: 2.86, w: rw, h: 0.5,
     fontFace: FG, fontSize: 8.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
   });
 
   sec(s, M, 3.74, lw, "FCプランの利点");
   [
-    ["売上・利益がすべて貴社のものになります", "業務委託型の月320,900円に対し、600,880円。約1.9倍でございます。"],
+    ["売上・利益がすべて貴社のものになります", "業務委託型の月320,900円に対し、650,880円。約2.0倍でございます。"],
     ["ロイヤリティが売上連動ではございません", "一律 月50,000円のため、売上が伸びるほど利益率が向上いたします。"],
     ["マシンは月額使用料でご提供いたします", "初期のご購入が不要で、更新・故障対応も弊社にて行います。"],
     ["自社業態としての運営知見が蓄積されます", "今後の新規出店のご判断材料となります。"],
@@ -359,10 +359,10 @@ const man = (v) => (v / 10000).toLocaleString();
 
   sec(s, rx, 3.74, rw, "FCプランの留意点");
   [
-    ["初期投資が必要でございます", "900万円。回収の目安は約15.0か月でございます。"],
+    ["初期投資が必要でございます", "900万円。回収の目安は約13.8か月でございます。"],
     ["売上変動のリスクを貴社が負われます", "業務委託型の月額固定50,000円のような下支えがございません。"],
     ["食品衛生責任者の選任が必要でございます", "1名。保健所の申請手続きは弊社にて代行いたします。"],
-    ["損益分岐点がございます", "1日約27杯を下回ると赤字でございます（30坪・想定86杯）。"],
+    ["損益分岐点がございます", "1日約22杯を下回ると赤字でございます（30坪・想定86杯）。"],
   ].forEach((t, i) => {
     const y = 4.12 + i * 0.5;
     s.addText("（" + (i + 1) + "）" + t[0], {
@@ -376,7 +376,7 @@ const man = (v) => (v / 10000).toLocaleString();
   });
 
   s.addShape("rect", { x: M, y: 6.28, w: CW, h: 0.64, fill: { color: C.band } });
-  s.addText("ご判断の目安　─　3年を超えてご継続いただける見通しであればFCプラン、まずは負担を抑えて始められる場合は業務委託型が適しております。", {
+  s.addText("ご判断の目安　─　2年半を超えてご継続いただける見通しであればFCプラン、まずは負担を抑えて始められる場合は業務委託型が適しております。", {
     x: M + 0.2, y: 6.34, w: CW - 0.4, h: 0.52,
     fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle",
   });

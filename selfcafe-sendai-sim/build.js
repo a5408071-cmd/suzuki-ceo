@@ -233,7 +233,7 @@ const yen = (v) => v.toLocaleString();
 /* ================================================= P2 */
 {
   const s = pres.addSlide();
-  head(s, "販売杯数の置き方", "館の来客数 1.3倍 に対し、販売杯数は 1.15倍 として算出しております");
+  head(s, "販売杯数の置き方と、試算の前提", "館の来客数 1.3倍 に対し、販売杯数は 1.15倍 として算出しております");
 
   sec(s, M, 1.14, CW, "販売杯数の算出", "いずれも開業前の仮定値でございます");
   const fw = 2.70, ga = 1.06;
@@ -276,52 +276,54 @@ const yen = (v) => v.toLocaleString();
     fontFace: FG, fontSize: 8, color: C.muted, margin: 0, valign: "middle",
   });
 
-  const lw = 6.5, rx = M + lw + 0.42, rw = R - rx;
-  sec(s, M, 2.94, lw, "来客数1.3倍に対し、販売杯数を1.15倍とした理由");
+  const lw = 6.1, rx = M + lw + 0.42, rw = R - rx;
+  sec(s, M, 2.94, lw, "販売杯数を1.15倍とした理由");
   [
-    ["立地特性の違い", "泉中央は地下鉄・バス（1日約3.1万人）に直結した駅前型でございます。通過利用や短時間の買い回りの比率が、郊外モール型の秋田店より高くなるため、滞在を伴う需要の増加率は来客数の増加率を下回ると考えております。"],
-    ["ピーク時間帯の席数", "30坪・約59席は秋田店と同条件でございます。来客数が増えても席数は変わらないため、土日昼間などのピーク時間帯に満席となる時間が延び、増加分の一部は取りこぼしとなります。"],
-    ["計画値であること", "新規開業の館のため、来客数は計画値であり実績の裏付けがございません。開業当初の変動を見込み、安全側に置いております。"],
+    ["立地特性の違い", "泉中央は地下鉄・バスに直結した駅前型で、通過利用の比率が郊外モール型の秋田店より高くなります。"],
+    ["ピーク時間帯の席数", "席数は秋田店と同じ約59席のため、ピーク時には満席となり、増加分の一部は取りこぼしとなります。"],
+    ["計画値であること", "新規開業の館のため、来客数は計画値であり実績の裏付けがございません。"],
   ].forEach((w, i) => {
-    const y = 3.32 + i * 0.84;
+    const y = 3.32 + i * 0.6;
     s.addText("（" + (i + 1) + "）" + w[0], {
       x: M, y, w: lw, h: 0.2,
       fontFace: FG, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
     s.addText(w[1], {
-      x: M + 0.38, y: y + 0.22, w: lw - 0.38, h: 0.56,
+      x: M + 0.38, y: y + 0.21, w: lw - 0.38, h: 0.34,
       fontFace: FG, fontSize: 8.5, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
     });
-  });
-  s.addShape("rect", { x: M, y: 5.90, w: lw, h: 0.56, fill: { color: C.band } });
-  s.addText("来客数の増加分（＋30％）のうち、およそ半分が販売杯数に反映されるものとして置いております。", {
-    x: M + 0.18, y: 5.96, w: lw - 0.36, h: 0.44,
-    fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.2,
   });
 
   sec(s, rx, 2.94, rw, "弊社既存店の実績との位置づけ");
   bars(s, {
-    x: rx + 0.42, y: 3.56, w: rw - 0.6, h: 1.38, max: 140, unit: "単位：杯／日", gap: 0.3,
+    x: rx + 0.42, y: 3.56, w: rw - 0.6, h: 1.26, max: 140, unit: "単位：杯／日", gap: 0.3,
     data: [
       { v: 42.9, t: "42.9", label: "書店併設", sub: "既存2店平均", color: C.barL, fs: 8.5 },
       { v: 86, t: "86", label: "仙台泉", sub: "30坪・店頭", color: C.barD, fs: 9.5 },
       { v: 122.7, t: "122.7", label: "大型店", sub: "商業施設内", color: C.barL, fs: 8.5 },
     ],
   });
-  s.addText("弊社の実績の範囲に収まっており、無理のない水準でございます。", {
-    x: rx, y: 5.42, w: rw, h: 0.2,
-    fontFace: FG, fontSize: 8, color: C.muted, margin: 0, valign: "middle",
+  s.addText("弊社の実績の範囲に収まっております。席の回転で見ますと、秋田店の1.27回転／日に対し1.46回転／日でございます。", {
+    x: rx, y: 5.26, w: rw, h: 0.4,
+    fontFace: FG, fontSize: 8, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
   });
 
-  sec(s, rx, 5.74, rw, "席の回転で見た場合");
+  sec(s, M, 5.80, CW, "試算の前提");
+  const PRE = [
+    ["契約形態", "業務委託型（秋田店と同条件）", "想定席数", "30坪＝約59席／60坪＝約73席"],
+    ["お支払い", "セルフカフェ売上の25％ ＋ 月額固定 50,000円", "営業時間", "未定（書店営業時間ベースで試算）"],
+    ["販売単価", "1杯 420円（税抜・定価ベース）", "館の来客数", "秋田店の1.3倍（貴社ご提示・計画値）"],
+    ["営業日数", "月30日・年12か月で算出", "開業時期", "2028年度内予定"],
+    ["想定坪数", "30坪（60坪はご参考）", "", ""],
+  ];
   s.addTable(
-    [
-      [th("区分"), th("1席あたり／日", "right")],
-      [td("秋田店 30坪（75杯）", { size: 8.5 }), td("1.27回転", { align: "right", size: 8.5 })],
-      [td("仙台泉 30坪（86杯）", { size: 8.5, fill: C.bandD, bold: true, color: C.ink }), td("1.46回転", { align: "right", size: 8.5, fill: C.bandD, bold: true, color: C.ink })],
-      [td("※1.3倍をそのまま適用した場合", { size: 8.5, color: C.muted }), td("1.65回転", { align: "right", size: 8.5, color: C.muted })],
-    ],
-    { x: rx, y: 6.10, w: rw, colW: [2.5, rw - 2.5], rowH: [0.2, 0.24, 0.26, 0.24], border: TB, autoPage: false }
+    PRE.map((r) => [
+      td(r[0], { bold: true, color: C.ink, size: 8.5, fill: C.band }),
+      td(r[1], { size: 8.5 }),
+      td(r[2], { bold: true, color: C.ink, size: 8.5, fill: r[2] ? C.band : C.white }),
+      td(r[3], { size: 8.5 }),
+    ]),
+    { x: M, y: 6.16, w: CW, colW: [1.42, 3.62, 1.42, CW - 6.46], rowH: PRE.map(() => 0.27), border: TB, autoPage: false }
   );
 
   foot(s, [
@@ -333,7 +335,7 @@ const yen = (v) => v.toLocaleString();
 /* ================================================= P3 */
 {
   const s = pres.addSlide();
-  head(s, "本試算の位置づけと、前提条件", "開業前の机上計算であることを、あらためてご確認ください");
+  head(s, "本試算の位置づけと、ご確認事項", "開業前の机上計算であることを、あらためてご確認ください");
 
   sec(s, M, 1.14, CW, "本試算の位置づけ");
   s.addTable(
@@ -350,53 +352,36 @@ const yen = (v) => v.toLocaleString();
         td(p[1], { size: 9 }),
       ]),
     ],
-    { x: M, y: 1.50, w: CW, colW: [0.62, 2.72, CW - 3.34], rowH: [0.22, 0.3, 0.3, 0.3, 0.3], border: TB, autoPage: false }
+    { x: M, y: 1.50, w: CW, colW: [0.62, 2.72, CW - 3.34], rowH: [0.24, 0.34, 0.34, 0.34, 0.34], border: TB, autoPage: false }
   );
   s.addText("本試算は、ご検討の出発点としてお使いいただくことを想定しております。数字だけを機械的に計算した場合にどうなるかをお示ししたものでございますので、実際の売上を示すものではない点を、何卒ご了承くださいませ。", {
-    x: M, y: 3.00, w: CW, h: 0.24,
+    x: M, y: 3.14, w: CW, h: 0.24,
     fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
 
-  const lw = 6.1, rx = M + lw + 0.42, rw = R - rx;
-  sec(s, M, 3.44, lw, "試算の前提");
-  const PRE = [
-    ["契約形態", "業務委託型（秋田店と同条件）"],
-    ["お支払い", "セルフカフェ売上の25％ ＋ 月額固定 50,000円"],
-    ["販売単価", "1杯 420円（税抜・定価ベース）"],
-    ["営業日数", "月30日・年12か月で算出"],
-    ["想定坪数", "30坪（60坪はご参考）"],
-    ["想定席数", "30坪＝約59席／60坪＝約73席"],
-    ["営業時間", "未定（書店営業時間ベースで試算）"],
-    ["館の来客数", "秋田店の1.3倍（貴社ご提示・計画値）"],
-    ["開業時期", "2028年度内予定"],
-  ];
-  s.addTable(
-    PRE.map((p) => [td(p[0], { bold: true, color: C.ink, size: 8.5 }), td(p[1], { size: 8.5 })]),
-    { x: M, y: 3.80, w: lw, colW: [1.62, lw - 1.62], rowH: PRE.map(() => 0.285), border: TB, autoPage: false }
-  );
-
-  sec(s, rx, 3.44, rw, "ご確認をお願いしたい事項");
+  sec(s, M, 3.66, CW, "ご確認をお願いしたい事項");
   [
     ["カフェ区画の配置", "店頭配置・店奥配置のいずれを想定されるか。本試算で最も結果を左右する項目でございます。"],
     ["給排水", "水回りなしのため新設が必要でございます。引込ルートと費用区分のご確認をお願いいたします。"],
     ["営業時間", "館および書店の営業時間。稼働時間により販売杯数が変動いたします。"],
     ["区画の坪数", "30坪・60坪のいずれを前提とされるか。"],
   ].forEach((c, i) => {
-    const y = 3.84 + i * 0.6;
-    s.addText("□", { x: rx, y, w: 0.24, h: 0.2, fontFace: FG, fontSize: 9, color: C.ink, margin: 0, valign: "middle" });
+    const y = 4.06 + i * 0.52;
+    s.addText("□", { x: M, y, w: 0.26, h: 0.22, fontFace: FG, fontSize: 9.5, color: C.ink, margin: 0, valign: "middle" });
     s.addText(c[0], {
-      x: rx + 0.28, y, w: rw - 0.28, h: 0.2,
-      fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle",
+      x: M + 0.32, y, w: 2.5, h: 0.22,
+      fontFace: FG, fontSize: 9.5, bold: true, color: C.ink, margin: 0, valign: "middle",
     });
     s.addText(c[1], {
-      x: rx + 0.28, y: y + 0.21, w: rw - 0.28, h: 0.34,
-      fontFace: FG, fontSize: 8.3, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2,
+      x: M + 2.9, y, w: CW - 2.9, h: 0.22,
+      fontFace: FG, fontSize: 9, color: C.body, margin: 0, valign: "middle",
     });
   });
-  s.addShape("rect", { x: rx, y: 6.34, w: rw, h: 0.56, fill: { color: C.band } });
+
+  s.addShape("rect", { x: M, y: 6.40, w: CW, h: 0.6, fill: { color: C.band } });
   s.addText("FCプランでの試算につきましては、本試算と同じ販売杯数を前提に、別途ご提出いたします。", {
-    x: rx + 0.18, y: 6.40, w: rw - 0.36, h: 0.44,
-    fontFace: FG, fontSize: 8.8, bold: true, color: C.ink, margin: 0, valign: "middle", lineSpacingMultiple: 1.2,
+    x: M + 0.2, y: 6.46, w: CW - 0.4, h: 0.48,
+    fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
 
   foot(s, [

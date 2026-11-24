@@ -184,7 +184,7 @@ const neg = (v) => "▲ " + yen(v);
     },
     {
       t: "FCプラン", sub: "貴社が事業主体となられます", f: C.grPale, bd: C.gr, c: C.gr, hot: true,
-      rows: [["運　営", "未来屋書店様"], ["売上の帰属", "未来屋書店様"], ["内装工事・什器", "未来屋書店様が負担（ご投資に含む）"], ["貴社のご投資", "9,000,000円"], ["貴社の収入", "売上高（経費を差し引いた残りが利益）"]],
+      rows: [["運　営", "未来屋書店様"], ["売上の帰属", "未来屋書店様"], ["内装工事・什器", "未来屋書店様が負担（ご投資に含む）"], ["貴社のご投資", "内装工事・什器等（別途お見積り）"], ["貴社の収入", "売上高（経費を差し引いた残りが利益）"]],
       pf: "520,000",
     },
   ];
@@ -365,71 +365,69 @@ const neg = (v) => "▲ " + yen(v);
   ]);
 }
 
-/* ================================================= P4 投資と期限 */
+/* ================================================= P4 ご投資と今後の進め方 */
 {
   const s = pres.addSlide();
-  head(s, "ご投資と回収、ご判断の期限", "ご投資は約20.3か月で回収され、3年間の累計でもFCプランが上回ります");
+  head(s, "ご投資の考え方と、今後の進め方", "お見積りは、現地確認と仕様の確定後にあらためてご提出いたします");
 
   const lw = 5.5, rx = M + lw + 0.5, rw = R - rx;
-  sec(s, M, 1.14, lw, "ご投資額の内訳（概算）");
-  const IV = [["加盟金", "1,000,000"], ["保証金", "500,000"], ["内装造作工事", "4,200,000"], ["家具什器", "1,300,000"], ["サイン工事", "500,000"], ["開業準備金", "500,000"], ["設計・申請・諸経費", "1,000,000"]];
-  s.addTable(
-    [
-      [th("項目"), th("金額", "right")],
-      ...IV.map((x) => [td(x[0], { size: 8.8 }), td(x[1], { align: "right", size: 8.8 })]),
-      [td("合　計", { fill: C.bandD, bold: true, color: C.gr, size: 9.5 }), td("9,000,000", { align: "right", fill: C.bandD, bold: true, color: C.gr, size: 11 })],
-    ],
-    { x: M, y: 1.50, w: lw, colW: [3.5, lw - 3.5], rowH: [0.22, 0.26, 0.24, 0.26, 0.24, 0.26, 0.24, 0.28, 0.32], border: TB, autoPage: false }
-  );
-  s.addText("マシン・決済端末は月額の利用料でのご提供のため、初期のご購入は不要でございます。秋田店は既存造作を残置いただく前提のため、工事範囲が限定されます。仕様確定後に正式なお見積りをご提出いたします。", {
-    x: M, y: 4.00, w: lw, h: 0.62,
-    fontFace: FG, fontSize: 8.3, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.25,
+  sec(s, M, 1.14, lw, "ご投資に含まれるもの");
+  const IV = [
+    ["加盟金", "FC加盟時にお支払いいただくものでございます。"],
+    ["保証金", "契約終了時にご返還いたします。"],
+    ["内装造作工事", "カウンター・造作・二次側の配線配管。"],
+    ["家具什器", "テーブル・椅子・ソファ。"],
+    ["サイン工事", "店頭サイン・店内表示。"],
+    ["開業準備金", "研修・オープン販促・初期在庫。"],
+    ["設計・申請・諸経費", "レイアウト設計、館への工事申請等。"],
+  ];
+  IV.forEach((r, i) => {
+    const y = 1.52 + i * 0.46;
+    s.addShape("rect", { x: M, y, w: 0.04, h: 0.42, fill: { color: C.gr } });
+    s.addText(r[0], { x: M + 0.16, y, w: lw - 0.16, h: 0.2, fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle" });
+    s.addText(r[1], { x: M + 0.16, y: y + 0.2, w: lw - 0.16, h: 0.22, fontFace: FG, fontSize: 8.2, color: C.body, margin: 0, valign: "middle" });
   });
 
-  sec(s, rx, 1.14, rw, "投資回収と3年間のまとめ");
-  s.addTable(
-    [
-      [th("年度"), th("FC 営業利益（年）", "right"), th("残　額", "right")],
-      [td("開業時", { size: 8.8 }), td("－", { align: "right", size: 8.8 }), td("9,000,000", { align: "right", size: 8.8 })],
-      [td("1年目（62杯／日）", { size: 8.8 }), td("4,667,520", { align: "right", size: 8.8 }), td("4,332,480", { align: "right", size: 8.8 })],
-      [td("2年目 8.3か月目", { size: 8.8, fill: C.bandD, bold: true, color: C.gr }), td("回収完了", { align: "right", size: 8.8, fill: C.bandD, bold: true, color: C.gr }), td("0", { align: "right", size: 9.5, fill: C.bandD, bold: true, color: C.gr })],
-    ],
-    { x: rx, y: 1.50, w: rw, colW: [1.9, 1.7, rw - 3.6], rowH: [0.24, 0.26, 0.26, 0.32], border: TB, autoPage: false }
-  );
-  s.addTable(
-    [
-      [th("3年間の累計"), th("業務委託型", "right"), th("FCプラン", "right")],
-      [td("営業利益の合計", { size: 8.8 }), td(yen(T_I), { align: "right", size: 8.8 }), td(yen(T_F), { align: "right", size: 8.8, bold: true, color: C.ink })],
-      [td("初期費用・ご投資", { size: 8.8 }), td(neg(IT0), { align: "right", size: 8.8 }), td(neg(INV), { align: "right", size: 8.8 })],
-      [td("差　引", { fill: C.bandD, bold: true, color: C.gr, size: 9.5 }), td(yen(T_I - IT0), { align: "right", fill: C.bandD, size: 9.5 }), td(yen(T_F - INV), { align: "right", fill: C.bandD, bold: true, color: C.gr, size: 11 })],
-    ],
-    { x: rx, y: 2.70, w: rw, colW: [1.9, 1.7, rw - 3.6], rowH: [0.24, 0.26, 0.26, 0.32], border: TB, autoPage: false }
-  );
-  s.addShape("rect", { x: rx, y: 3.92, w: rw, h: 0.70, fill: { color: C.grPale }, line: { color: C.gr, width: 1 } });
-  s.addText("3年間の累計でも、FCプランが 1,880,240円 上回ります。4年目以降は年間 3,931,320円 の差となってまいります。", {
-    x: rx + 0.18, y: 3.92, w: rw - 0.36, h: 0.70,
-    fontFace: FG, fontSize: 9, bold: true, color: C.gr, margin: 0, valign: "middle", lineSpacingMultiple: 1.25,
+  sec(s, rx, 1.14, rw, "お見積りについて");
+  s.addShape("rect", { x: rx, y: 1.50, w: rw, h: 1.06, fill: { color: C.white }, line: { color: C.ruleS, width: 1 } });
+  s.addText("ご投資額は、現地確認と仕様の確定後にご提出いたします。", {
+    x: rx + 0.18, y: 1.56, w: rw - 0.36, h: 0.24,
+    fontFace: FG, fontSize: 9.5, bold: true, color: C.gr, margin: 0, valign: "middle",
+  });
+  s.addText("秋田店は、カフェ・ド・クリエ様の既存造作を残置いただく前提でございます。残置の範囲が確定いたしますと工事範囲が定まりますので、そのうえで正式なお見積りをご提出いたします。新規出店の場合と比べ、工事範囲は限定される見込みでございます。", {
+    x: rx + 0.18, y: 1.80, w: rw - 0.36, h: 0.70,
+    fontFace: FG, fontSize: 8.3, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
+  });
+  [
+    ["マシン・決済端末", "月額の利用料でのご提供でございます。初期のご購入は不要でございます。"],
+    ["ご提出の時期", "11月下旬〜12月上旬を予定しております。什器・機器の発注期限に間に合う時期でございます。"],
+    ["業務委託型との関係", "業務委託型では、これらの工事・什器を弊社が負担しております。FCプランでは貴社のご投資となります。"],
+  ].forEach((r, i) => {
+    const y = 2.76 + i * 0.6;
+    s.addText("（" + (i + 1) + "）" + r[0], { x: rx, y, w: rw, h: 0.2, fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle" });
+    s.addText(r[1], { x: rx + 0.38, y: y + 0.2, w: rw - 0.38, h: 0.36, fontFace: FG, fontSize: 8.2, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.25 });
   });
 
-  sec(s, M, 4.84, CW, "FCプランで進める場合の手続きと期限", "開業 2027年3月上旬");
+  sec(s, M, 4.86, CW, "FCプランで進める場合の手続きと期限", "開業 2027年3月上旬");
   s.addTable(
     [
       [th("必要となる手続き"), th("ご担当"), th("期限の目安", "right")],
-      [td("ご投資 900万円の社内ご決裁", { size: 8.8, fill: C.band }), td("貴社", { size: 8.8, fill: C.band }), td("12月上旬", { align: "right", size: 9, bold: true, color: C.gr, fill: C.band })],
+      [td("お見積りのご提出（現地確認・仕様確定後）", { size: 8.8 }), td("弊社", { size: 8.8 }), td("11月下旬〜12月上旬", { align: "right", size: 8.8 })],
+      [td("ご投資の社内ご決裁", { size: 8.8, fill: C.band }), td("貴社", { size: 8.8, fill: C.band }), td("12月上旬", { align: "right", size: 9, bold: true, color: C.gr, fill: C.band })],
       [td("什器・機器の発注（リードタイム4〜6週間）", { size: 8.8, fill: C.band }), td("発注者が貴社となります", { size: 8.8, fill: C.band }), td("12月上旬", { align: "right", size: 9, bold: true, color: C.gr, fill: C.band })],
       [td("FC加盟契約の締結（業務委託契約からの変更）", { size: 8.8 }), td("両社", { size: 8.8 }), td("12月中旬", { align: "right", size: 8.8 })],
       [td("食品衛生責任者のご選任（1名）", { size: 8.8 }), td("貴社", { size: 8.8 }), td("1月中", { align: "right", size: 8.8 })],
       [td("保健所への営業許可申請（名義が貴社となります）", { size: 8.8 }), td("弊社代行", { size: 8.8 }), td("2月中", { align: "right", size: 8.8 })],
     ],
-    { x: M, y: 5.20, w: CW, colW: [5.2, 2.6, CW - 7.8], rowH: [0.24, 0.3, 0.3, 0.28, 0.28, 0.28], border: TB, autoPage: false }
+    { x: M, y: 5.22, w: CW, colW: [5.2, 2.6, CW - 7.8], rowH: [0.24, 0.28, 0.3, 0.3, 0.28, 0.28, 0.28], border: TB, autoPage: false }
   );
-  s.addText("什器・機器の発注が12月上旬期限でございます。FCプランでは発注の主体が貴社となりますため、ご決裁もそれまでにお願いしたく存じます。これを過ぎますと、3月上旬の開業が難しくなります。", {
-    x: M, y: 7.02, w: CW, h: 0.3,
+  s.addText("什器・機器の発注が12月上旬期限のため、お見積りもそれに間に合うようご提出いたします。", {
+    x: M, y: 7.24, w: CW, h: 0.22,
     fontFace: FG, fontSize: 9, bold: true, color: C.ink, margin: 0, valign: "middle",
   });
 
   foot(s, [
-    "※　ご投資額は概算でございます。仕様確定後にあらためて正式なお見積りをご提出いたします。金額はすべて税抜。",
+    "※　金額はすべて税抜でございます。想定値であり、売上および利益を保証するものではございません。",
   ]);
 }
 

@@ -170,7 +170,7 @@ const neg = (v) => "▲ " + yen(v);
     x: M + 0.18, y: 1.18, w: CW - 0.36, h: 0.24,
     fontFace: FG, fontSize: 9.5, bold: true, color: C.gr, margin: 0, valign: "middle",
   });
-  s.addText("他の書店区画と同等の仕上がりが必要となるためでございます。本資料で申し上げる「ご投資」は、その基本工事が完了した状態からの内装造作・什器・サイン等を指しております。業務委託型であれば弊社が負担しておりました部分でございます。", {
+  s.addText("他の書店区画と同等の仕上がりが必要となるためでございます。本資料で申し上げる「ご投資」は、その基本工事が完了した状態からの内装造作・什器・サイン等（業務委託型であれば弊社が負担しておりました部分）に、加盟金・保証金等を加えた総額でございます。", {
     x: M + 0.18, y: 1.42, w: CW - 0.36, h: 0.3,
     fontFace: FG, fontSize: 8.5, color: C.body, margin: 0, valign: "middle",
   });
@@ -308,8 +308,8 @@ const neg = (v) => "▲ " + yen(v);
   head(s, "ご投資と回収、ご判断の材料", "基本工事が完了した状態からのご投資でございます");
 
   sec(s, M, 1.14, CW, "ご投資の目安");
-  s.addShape("rect", { x: M, y: 1.50, w: CW, h: 1.06, fill: { color: C.grPale }, line: { color: C.gr, width: 1.25 } });
-  s.addText("内装造作・家具什器・サイン工事等", {
+  s.addShape("rect", { x: M, y: 1.50, w: CW, h: 1.22, fill: { color: C.grPale }, line: { color: C.gr, width: 1.25 } });
+  s.addText("基本工事を除く総額", {
     x: M + 0.24, y: 1.58, w: 4.2, h: 0.26,
     fontFace: FG, fontSize: 9.5, bold: true, color: C.gr, margin: 0, valign: "middle",
   });
@@ -318,14 +318,18 @@ const neg = (v) => "▲ " + yen(v);
      { text: " 万円 　〜 　", options: { fontFace: FG, fontSize: 12, bold: true, color: C.body } },
      { text: "1,000", options: { fontFace: FG, fontSize: 26, bold: true, color: C.gr } },
      { text: " 万円 程度", options: { fontFace: FG, fontSize: 12, bold: true, color: C.body } }],
-    { x: M + 0.24, y: 1.84, w: 5.4, h: 0.6, margin: 0, valign: "middle" }
+    { x: M + 0.24, y: 1.86, w: 4.6, h: 0.6, margin: 0, valign: "middle" }
   );
-  s.addText("現地を確認しておらず、また新規物件のため、現時点では概算でございます。仕様により変動いたします。\n基本工事（床・壁・天井・照明）は含みません。加盟金・保証金・開業準備金・設計申請諸経費は別途でございます。\nマシン・決済端末は月額利用料でのご提供のため、初期購入は不要でございます。", {
-    x: M + 5.9, y: 1.58, w: CW - 6.14, h: 0.92,
-    fontFace: FG, fontSize: 8.3, color: C.ink, margin: 0, valign: "top", lineSpacingMultiple: 1.3,
-  });
+  s.addText(
+    [{ text: "含まれるもの　", options: { fontFace: FG, fontSize: 8.3, bold: true, color: C.gr } },
+     { text: "内装造作工事／家具什器／サイン工事／加盟金／保証金／開業準備金／設計・申請・諸経費", options: { fontFace: FG, fontSize: 8.3, color: C.ink, breakLine: true } },
+     { text: "含まれないもの　", options: { fontFace: FG, fontSize: 8.3, bold: true, color: C.gr } },
+     { text: "基本工事（床・壁・天井・照明）", options: { fontFace: FG, fontSize: 8.3, color: C.ink, breakLine: true } },
+     { text: "現地を確認しておらず、また新規物件のため、現時点では概算でございます。仕様により変動いたします。マシン・決済端末は月額利用料でのご提供のため、初期購入は不要でございます。", options: { fontFace: FG, fontSize: 8.3, color: C.body } }],
+    { x: M + 5.0, y: 1.58, w: CW - 5.24, h: 1.08, margin: 0, valign: "top", lineSpacingMultiple: 1.3 }
+  );
 
-  sec(s, M, 2.76, CW, "投資回収の目安");
+  sec(s, M, 2.92, CW, "投資回収の目安");
   const cc = (v, o = {}) => td(v, Object.assign({ align: "right", size: 8.8 }, o));
   s.addTable(
     [
@@ -337,34 +341,34 @@ const neg = (v) => "▲ " + yen(v);
         cc("約 " + c.hi.toFixed(1) + " か月", { bold: true, color: c.hot ? C.gr : C.ink, fill: c.hot ? C.bandD : C.white }),
       ]),
     ],
-    { x: M, y: 3.12, w: CW, colW: [3.4, 2.5, 2.4, CW - 8.3], rowH: [0.24, 0.3, 0.28, 0.28, 0.28], border: TB, autoPage: false }
+    { x: M, y: 3.28, w: CW, colW: [3.4, 2.5, 2.4, CW - 8.3], rowH: [0.24, 0.3, 0.28, 0.28, 0.28], border: TB, autoPage: false }
   );
   s.addText("30坪・店頭配置であれば、ご投資700万円で約11か月、1,000万円でも約16か月で回収の見通しでございます。いずれも開業から2年以内でございます。", {
-    x: M, y: 4.60, w: CW, h: 0.24,
+    x: M, y: 4.76, w: CW, h: 0.24,
     fontFace: FG, fontSize: 9, bold: true, color: C.gr, margin: 0, valign: "middle",
   });
 
   const lw = 5.3, rx = M + lw + 0.5, rw = R - rx;
-  sec(s, M, 4.98, lw, "FCプランの利点");
+  sec(s, M, 5.12, lw, "FCプランの利点");
   [
     ["売上・利益がすべて貴社のものになります", "30坪・店頭配置で月630,880円、年間7,570,560円でございます。"],
     ["ロイヤリティが売上連動ではございません", "一律 月50,000円。売上が伸びるほど利益率が向上いたします。"],
     ["損益分岐点が低く、下振れに強い構造です", "1日約24杯。想定86杯に対して3倍以上の余裕がございます。"],
     ["基本工事のご負担も利益で回収いただけます", "売上がそのまま帰属いたしますので、回収を月次の利益で進められます。"],
   ].forEach((t, i) => {
-    const y = 5.36 + i * 0.5;
+    const y = 5.50 + i * 0.5;
     s.addText("（" + (i + 1) + "）" + t[0], { x: M, y, w: lw, h: 0.2, fontFace: FG, fontSize: 8.8, bold: true, color: C.ink, margin: 0, valign: "middle" });
     s.addText(t[1], { x: M + 0.36, y: y + 0.2, w: lw - 0.36, h: 0.28, fontFace: FG, fontSize: 8.2, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2 });
   });
 
-  sec(s, rx, 4.98, rw, "ご留意いただきたい点");
+  sec(s, rx, 5.12, rw, "ご留意いただきたい点");
   [
     ["ご投資は概算でございます", "現地未確認かつ新規物件のため、仕様確定後にお見積りをご提出いたします。"],
     ["売上変動のリスクを貴社が負われます", "来客数は館の計画値であり、実績の裏付けはございません。"],
     ["配置により結果が大きく変わります", "店頭配置と店奥配置で、月の営業利益に262,080円の差が生じます。"],
     ["食品衛生責任者の選任が必要でございます", "1名。保健所の申請手続きは弊社にて代行いたします。"],
   ].forEach((t, i) => {
-    const y = 5.36 + i * 0.5;
+    const y = 5.50 + i * 0.5;
     s.addText("（" + (i + 1) + "）" + t[0], { x: rx, y, w: rw, h: 0.2, fontFace: FG, fontSize: 8.8, bold: true, color: C.ink, margin: 0, valign: "middle" });
     s.addText(t[1], { x: rx + 0.36, y: y + 0.2, w: rw - 0.36, h: 0.28, fontFace: FG, fontSize: 8.2, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2 });
   });

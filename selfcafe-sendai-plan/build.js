@@ -1,6 +1,6 @@
 /**
- * 未来屋書店 仙台泉（新店）セルフカフェ レイアウトイメージ（30坪・カウンター中心）
- * A4横 1ページ／現地未確認のイメージ図
+ * 未来屋書店 仙台泉（新店）セルフカフェ レイアウトイメージ（30坪）
+ * カウンター中心＋ソファ席／電源席を明示／A4横 1ページ
  */
 const pptxgen = require("pptxgenjs");
 
@@ -13,6 +13,7 @@ const C = {
   cnt: "E8E8E6", cntE: "9A9A96",
   tbl: "FFFFFF", tblE: "8C8C8C",
   seat: "D4D4D1", comm: "F4F2ED",
+  sofa: "DEDEDA", sofaB: "B6B6B1",
 };
 const FM = "Yu Mincho", FG = "Yu Gothic";
 const W = 11.69, H = 8.27, M = 0.58, CW = W - M * 2, R = M + CW;
@@ -31,7 +32,7 @@ s.addText("仙台泉店（仮称）　セルフカフェ　レイアウトイメ
   x: M, y: 0.36, w: CW - 3.3, h: 0.36,
   fontFace: FM, fontSize: 17, bold: true, color: C.ink, margin: 0, valign: "middle",
 });
-s.addText("30坪・店頭配置／カウンター席を中心とした構成の参考図でございます（現地未確認）", {
+s.addText("30坪・店頭配置／カウンター席を中心に、一部ソファ席を配した構成の参考図でございます（現地未確認）", {
   x: M, y: 0.72, w: CW - 3.3, h: 0.2,
   fontFace: FG, fontSize: 8.5, color: C.body, margin: 0, valign: "middle",
 });
@@ -68,19 +69,16 @@ const Y = (mm) => PY0 + mm * SC;
 const Z = (mm) => mm * SC;
 const PIH = Z(PD);
 
-sec(M, 1.14, PIW + 0.30, "平面イメージ（30坪／59席・うちカウンター39席）", "上＝モール通路・書店入口側");
+sec(M, 1.14, PIW + 0.30, "平面イメージ（30坪／59席・うちカウンター45席）", "上＝モール通路・書店入口側");
 
-// 床
 s.addShape("rect", { x: X(0), y: Y(0), w: Z(PW), h: Z(PD), fill: { color: C.floor }, line: { color: C.hair, width: 0.5 } });
 
-// 壁
 const WT = 150;
 const wall = (x0, y0, x1, y1) => s.addShape("rect", { x: X(x0), y: Y(y0), w: Z(x1 - x0), h: Z(y1 - y0), fill: { color: C.wall } });
 wall(0, 0, 2000, WT); wall(9000, 0, PW, WT);
 wall(0, PD - WT, PW, PD);
 wall(0, 0, WT, PD); wall(PW - WT, 0, PW, PD);
 
-// 開口
 s.addShape("rect", { x: X(2000), y: Y(0), w: Z(7000), h: Z(70), fill: { color: C.gr } });
 s.addText("開口（書店売場・モール通路側／間口 約7.0m）", {
   x: X(1700), y: PY0 - 0.22, w: Z(5100), h: 0.19,
@@ -97,44 +95,53 @@ const ell = (cx, cy, d, fill, line) =>
 const stool = (cx, cy) => ell(cx, cy, 380, C.seat);
 const chair = (cx, cy) =>
   s.addShape("roundRect", { x: X(cx - 210), y: Y(cy - 200), w: Z(420), h: Z(400), rectRadius: 0.2, fill: { color: C.seat }, line: { type: "none" } });
+const pwr = (cx, cy) =>
+  s.addShape("rect", { x: X(cx - 130), y: Y(cy - 130), w: Z(260), h: Z(260), fill: { color: C.gr }, line: { type: "none" } });
+const sofa = (x0, y0, w, h, backTop) => {
+  s.addShape("roundRect", { x: X(x0), y: Y(y0), w: Z(w), h: Z(h), rectRadius: 0.12, fill: { color: C.sofa }, line: { color: C.sofaB, width: 0.6 } });
+  s.addShape("rect", { x: X(x0 + 60), y: Y(backTop ? y0 + 40 : y0 + h - 180), w: Z(w - 120), h: Z(140), fill: { color: C.sofaB }, line: { type: "none" } });
+};
 const zl = (x0, y0, w, t, o = {}) =>
   s.addText(t, { x: X(x0), y: Y(y0), w: Z(w), h: 0.17, fontFace: FG, fontSize: o.fs || 7, bold: true, color: o.c || C.gr, align: o.al || "center", margin: 0, valign: "middle" });
 const vl = (cx, cy, t) =>
-  s.addText(t, { x: X(cx) - 0.85, y: Y(cy) - 0.085, w: 1.7, h: 0.17, fontFace: FG, fontSize: 7, bold: true, color: C.gr, align: "center", margin: 0, valign: "middle", rotate: 270 });
+  s.addText(t, { x: X(cx) - 0.95, y: Y(cy) - 0.085, w: 1.9, h: 0.17, fontFace: FG, fontSize: 7, bold: true, color: C.gr, align: "center", margin: 0, valign: "middle", rotate: 270 });
 
-/* --- A フロントカウンター席 11席（通路に面する） --- */
-box(2200, 800, 6600, 550, C.cnt, C.cntE);
-for (let i = 0; i < 11; i++) stool(2500 + i * 600, 1720);
-zl(2200, 210, 6600, "フロントカウンター席 11席");
+/* --- A フロントカウンター席 12席 --- */
+box(1900, 800, 7000, 550, C.cnt, C.cntE);
+for (let i = 0; i < 12; i++) { stool(2200 + i * 600, 1720); pwr(2200 + i * 600, 1210); }
+zl(1900, 210, 7000, "フロントカウンター席 12席（全席電源付き）");
 
-/* --- B 左壁カウンター席 6席 --- */
-box(150, 2700, 600, 3600, C.cnt, C.cntE);
-for (let i = 0; i < 6; i++) stool(1090, 3000 + i * 600);
-vl(450, 4500, "壁付カウンター 6席");
+/* --- B 左壁カウンター席 9席 --- */
+box(150, 2600, 600, 4800, C.cnt, C.cntE);
+for (let i = 0; i < 9; i++) { stool(1090, 2900 + i * 550); pwr(600, 2900 + i * 550); }
+vl(450, 5000, "壁付カウンター 9席・電源付き");
 
-/* --- C 右壁カウンター席 10席 --- */
-box(10250, 1900, 600, 6000, C.cnt, C.cntE);
-for (let i = 0; i < 10; i++) stool(9910, 2200 + i * 600);
-vl(10550, 4900, "壁付カウンター 10席");
+/* --- C 右壁カウンター席 12席 --- */
+box(10250, 1500, 600, 6200, C.cnt, C.cntE);
+for (let i = 0; i < 12; i++) { stool(9910, 1750 + i * 540); pwr(10380, 1750 + i * 540); }
+vl(10550, 4600, "壁付カウンター 12席・電源付き");
 
 /* --- D 中央コミュナルテーブル 12席 --- */
-box(4900, 3000, 1200, 3600, C.comm, C.gr, 1);
-for (let i = 0; i < 6; i++) { stool(4540, 3300 + i * 600); stool(6460, 3300 + i * 600); }
-zl(4300, 2560, 2400, "コミュナルテーブル 12席");
+box(4900, 2900, 1200, 3600, C.comm, C.gr, 1);
+for (let i = 0; i < 6; i++) { stool(4540, 3200 + i * 600); stool(6460, 3200 + i * 600); pwr(5500, 3200 + i * 600); }
+zl(3500, 2440, 4000, "コミュナルテーブル 12席（電源付き）");
 
-/* --- E/F 4人掛けテーブル 4卓 16席 --- */
-const T4W = 1200, T4D = 800;
-[[1950, 3150], [1950, 5350], [7500, 3150], [7500, 5350]].forEach(([tx, ty]) => {
-  box(tx, ty, T4W, T4D, C.tbl);
-  chair(tx + 300, ty - 320); chair(tx + 900, ty - 320);
-  chair(tx + 300, ty + T4D + 320); chair(tx + 900, ty + T4D + 320);
+/* --- E ソファ席 8席（2人掛け4台・向かい合わせ2組） --- */
+[1900, 7300].forEach((sx) => {
+  sofa(sx, 5200, 1400, 700, true);
+  box(sx + 250, 6050, 900, 550, C.tbl);
+  sofa(sx, 6700, 1400, 700, false);
+  pwr(sx - 130, 5550); pwr(sx - 130, 7050);
+  zl(sx, 4870, 1400, "ソファ席 4席");
 });
 
-/* --- G 2人掛け丸テーブル 2卓 4席 --- */
-[2700, 8000].forEach((cx) => {
-  ell(cx, 7350, 750, C.tbl, C.tblE);
-  stool(cx - 655, 7350); stool(cx + 655, 7350);
-});
+/* --- F 4人掛けテーブル 1卓 4席 --- */
+box(2100, 3000, 1200, 800, C.tbl);
+chair(2400, 2680); chair(3000, 2680); chair(2400, 4120); chair(3000, 4120);
+
+/* --- G 2人掛け丸テーブル 1卓 2席 --- */
+ell(8000, 3300, 750, C.tbl, C.tblE);
+stool(7345, 3300); stool(8655, 3300);
 
 /* --- 奥側：ドリンクカウンター --- */
 box(900, 7950, 4400, 900, C.cnt, C.cntE);
@@ -150,11 +157,13 @@ zl(5700, 8330, 1400, "返却・ゴミ", { c: C.ink });
 box(9400, 7950, 1450, 900, C.band, C.cntE);
 zl(9400, 8230, 1450, "ストック備品", { c: C.ink });
 
-/* --- 寸法 --- */
+/* --- 寸法・凡例 --- */
 const dy = PY0 + PIH + 0.10;
 s.addShape("rect", { x: X(0), y: dy, w: Z(PW), h: 0.008, fill: { color: C.ruleT } });
 s.addShape("rect", { x: X(0), y: dy - 0.04, w: 0.008, h: 0.088, fill: { color: C.ruleT } });
 s.addShape("rect", { x: X(PW), y: dy - 0.04, w: 0.008, h: 0.088, fill: { color: C.ruleT } });
+s.addShape("rect", { x: X(0), y: dy + 0.085, w: 0.105, h: 0.105, fill: { color: C.gr } });
+s.addText("電源（コンセント）設置位置", { x: X(0) + 0.17, y: dy + 0.04, w: 2.0, h: 0.18, fontFace: FG, fontSize: 7.5, bold: true, color: C.gr, margin: 0, valign: "middle" });
 s.addText("間口 11,000", { x: X(0), y: dy + 0.04, w: Z(PW), h: 0.18, fontFace: FG, fontSize: 8, color: C.muted, align: "center", margin: 0, valign: "middle" });
 s.addText("奥行 9,000", { x: X(0) - 0.70, y: PY0 + PIH / 2 - 0.11, w: 1.2, h: 0.22, fontFace: FG, fontSize: 8, color: C.muted, align: "center", margin: 0, valign: "middle", rotate: 270 });
 
@@ -167,35 +176,40 @@ s.addTable(
     [td("想定面積", { bold: true, fill: C.soft }), td("99.0㎡（約30坪）")],
     [td("間口×奥行", { bold: true, fill: C.soft }), td("11,000mm × 9,000mm")],
     [td("想定席数", { bold: true, fill: C.soft }), td("59席", { bold: true, color: C.gr })],
-    [td("うちカウンター席", { bold: true, fill: C.soft }), td("39席（全体の66％）", { bold: true, color: C.gr })],
+    [td("カウンター席", { bold: true, fill: C.soft }), td("45席（全体の76％）", { bold: true, color: C.gr })],
+    [td("電源付き席", { bold: true, fill: C.soft }), td("53席（全体の90％）", { bold: true, color: C.gr })],
     [td("ドリンクマシン", { bold: true, fill: C.soft }), td("2台")],
     [td("1席あたり面積", { bold: true, fill: C.soft }), td("約1.7㎡／席")],
   ],
-  { x: RX, y: 1.50, w: RW, colW: [1.42, RW - 1.42], rowH: [0.26, 0.26, 0.27, 0.27, 0.26, 0.26], border: TB, autoPage: false }
+  { x: RX, y: 1.50, w: RW, colW: [1.42, RW - 1.42], rowH: [0.245, 0.245, 0.245, 0.245, 0.245, 0.245, 0.245], border: TB, autoPage: false }
 );
 
-sec(RX, 3.22, RW, "席構成");
+sec(RX, 3.34, RW, "席構成", "●＝電源付き");
+const ok = (t) => td(t, { align: "center", color: C.gr, bold: true });
 s.addTable(
   [
-    [td("フロントカウンター席", { fill: C.white }), td("11席", { align: "right" })],
-    [td("壁付カウンター席（左右）", { fill: C.white }), td("16席", { align: "right" })],
-    [td("コミュナルテーブル", { fill: C.white }), td("12席", { align: "right" })],
-    [td("4人掛けテーブル（4卓）", { fill: C.white }), td("16席", { align: "right" })],
-    [td("2人掛け丸テーブル（2卓）", { fill: C.white }), td("4席", { align: "right" })],
-    [td("合計", { bold: true, color: C.ink, fill: C.bandD }), td("59席", { bold: true, color: C.gr, align: "right", fill: C.bandD })],
+    [td("フロントカウンター席"), td("12席", { align: "right" }), ok("●")],
+    [td("壁付カウンター席（左右）"), td("21席", { align: "right" }), ok("●")],
+    [td("コミュナルテーブル"), td("12席", { align: "right" }), ok("●")],
+    [td("ソファ席（2人掛け4台）"), td("8席", { align: "right" }), ok("●")],
+    [td("テーブル席（4人掛け1卓・丸1卓）", { size: 8 }), td("6席", { align: "right" }), td("－", { align: "center", color: C.muted })],
+    [td("合計", { bold: true, color: C.ink, fill: C.bandD }), td("59席", { bold: true, color: C.gr, align: "right", fill: C.bandD }), td("53席", { bold: true, color: C.gr, align: "center", fill: C.bandD })],
   ],
-  { x: RX, y: 3.58, w: RW, colW: [RW - 0.95, 0.95], rowH: [0.25, 0.25, 0.25, 0.25, 0.25, 0.29], border: TB, autoPage: false }
+  { x: RX, y: 3.70, w: RW, colW: [RW - 1.42, 0.72, 0.70], rowH: [0.245, 0.245, 0.245, 0.245, 0.245, 0.28], border: TB, autoPage: false }
 );
 
-sec(RX, 5.32, RW, "レイアウトの考え方");
+sec(RX, 5.38, RW, "レイアウトの考え方");
 [
-  ["カウンター\n中心", "全席の約3分の2をカウンター席としております。お1人様・短時間のご利用に対応し、席の回転を高める構成でございます。"],
-  ["視認性", "通路に面してフロントカウンターを設けております。ご利用の風景が外から見えることが、最も確実な集客につながります。"],
-  ["給排水", "奥の壁面1面にドリンクカウンターを集約し、給排水・電源の引込みを最短としております。工事範囲の抑制に直結いたします。"],
+  ["カウンター中心", "全席の76％をカウンター席といたしました。お1人様・短時間のご利用に対応いたします。"],
+  ["電源席", "53席に電源を設置いたします。書店併設の立地では、長めのご利用が中心になるためでございます。"],
+  ["ソファ席", "通路寄りに2人掛けソファを4台設けております。ご休憩・お待ち合わせにも対応いたします。"],
+  ["給排水", "ドリンクカウンターを奥の壁面1面に集約し、工事範囲を最小限といたします。"],
 ].forEach((t, i) => {
-  const y = 5.70 + i * 0.52;
-  s.addText(t[0], { x: RX, y, w: 0.78, h: 0.44, fontFace: FG, fontSize: 8.3, bold: true, color: C.gr, margin: 0, valign: "top", lineSpacingMultiple: 1.1 });
-  s.addText(t[1], { x: RX + 0.82, y: y - 0.02, w: RW - 0.82, h: 0.5, fontFace: FG, fontSize: 7.8, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.12 });
+  s.addText(
+    [{ text: t[0] + "　", options: { bold: true, color: C.gr } },
+     { text: t[1], options: { color: C.body } }],
+    { x: RX, y: 5.76 + i * 0.40, w: RW, h: 0.38, fontFace: FG, fontSize: 7.7, margin: 0, valign: "top", lineSpacingMultiple: 1.14 }
+  );
 });
 
 /* ---------------- 脚注 ---------------- */

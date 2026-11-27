@@ -199,7 +199,7 @@ const neg = (v) => "▲ " + yen(v);
   [
     { l: "セルフカフェ売上（月）", v: yen(B.sales), u: "円" },
     { l: "償却前営業利益（月）", v: yen(B.pf), u: "円", hot: true },
-    { l: "平均荒利率", v: "80.0", u: "％" },
+    { l: "平均粗利率", v: "80.0", u: "％" },
     { l: "損益分岐点", v: "約24", u: "杯／日" },
   ].forEach((k, i) => {
     const x = M + i * (kw + 0.24);
@@ -262,7 +262,7 @@ const neg = (v) => "▲ " + yen(v);
       rr("家賃（貴社の賃借面積に含まれる前提）", "0"),
       rr("ランニングコスト計", neg(B.cost), { b: true }),
       rr("償却前営業利益（月）", yen(B.pf), { b: true, gr: true, f: C.bandD, big: true }),
-      rr("平均荒利率", "80.0％", { b: true, f: C.band }),
+      rr("平均粗利率", "80.0％", { b: true, f: C.band }),
     ],
     { x: M, y: 1.50, w: lw, colW: [3.5, lw - 3.5], rowH: [0.24, 0.3, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.28, 0.34, 0.28], border: TB, autoPage: false }
   );

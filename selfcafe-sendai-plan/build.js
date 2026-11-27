@@ -69,11 +69,11 @@ const Y = (mm) => PY0 + mm * SC;
 const Z = (mm) => mm * SC;
 const PIH = Z(PD);
 
-sec(M, 1.14, PIW + 0.30, "平面イメージ（30坪／59席・うちカウンター47席）", "上＝モール通路・書店入口側");
+sec(M, 1.14, PIW + 0.30, "平面イメージ（30坪／59席・うちカウンター43席）", "上＝モール通路・書店入口側");
 
 s.addShape("rect", { x: X(0), y: Y(0), w: Z(PW), h: Z(PD), fill: { color: C.floor }, line: { color: C.hair, width: 0.5 } });
 // 書店側ラウンジの床帯
-s.addShape("rect", { x: X(400), y: Y(620), w: Z(10200), h: Z(2080), fill: { color: C.lounge }, line: { type: "none" } });
+s.addShape("rect", { x: X(400), y: Y(620), w: Z(10200), h: Z(2180), fill: { color: C.lounge }, line: { type: "none" } });
 
 const WT = 150;
 const wall = (x0, y0, x1, y1) => s.addShape("rect", { x: X(x0), y: Y(y0), w: Z(x1 - x0), h: Z(y1 - y0), fill: { color: C.wall } });
@@ -106,14 +106,15 @@ const zl = (x0, y0, w, t, o = {}) =>
 const vl = (cx, cy, t) =>
   s.addText(t, { x: X(cx) - 0.95, y: Y(cy) - 0.085, w: 1.9, h: 0.17, fontFace: FG, fontSize: 7, bold: true, color: C.gr, align: "center", margin: 0, valign: "middle", rotate: 270 });
 
-/* --- A 書店側ソファラウンジ 12席（2人掛けソファ6組） --- */
-for (let i = 0; i < 6; i++) {
-  const sx = 400 + i * 1760;
-  box(sx + 275, 780, 850, 450, C.tbl);
-  pwr(sx + 700, 1005);
-  sofa(sx, 1380, 1400, 700, false);
+/* --- A 書店側ソファラウンジ 16席（1人掛けソファ16台・向かい合わせ8組） --- */
+for (let i = 0; i < 8; i++) {
+  const sx = 400 + Math.round(i * 1342.8);
+  sofa(sx, 760, 800, 700, true);
+  box(sx + 100, 1540, 600, 420, C.tbl);
+  pwr(sx + 400, 1750);
+  sofa(sx, 2010, 800, 700, false);
 }
-zl(400, 300, 10200, "書店側ソファラウンジ　2人掛けソファ6組／12席（売場側を向いた配置）");
+zl(400, 300, 10200, "書店側ソファラウンジ　1人掛けソファ16台／向かい合わせ8組・16席");
 
 /* --- B 左壁カウンター席 9席 --- */
 box(150, 2900, 600, 4800, C.cnt, C.cntE);
@@ -125,15 +126,15 @@ box(10250, 2900, 600, 4800, C.cnt, C.cntE);
 for (let i = 0; i < 10; i++) { stool(9910, 3100 + i * 500); pwr(10380, 3100 + i * 500); }
 vl(10550, 5300, "壁付カウンター 10席・電源付き");
 
-/* --- D コミュナルテーブル 2台（両面）28席 --- */
+/* --- D コミュナルテーブル 2台（両面）24席 --- */
 [[2600, 2240, 4160], [7200, 6840, 8760]].forEach(([tx, lx, rx]) => {
-  box(tx, 3100, 1200, 4000, C.comm, C.gr, 1);
-  for (let i = 0; i < 7; i++) {
-    stool(lx, 3400 + i * 600); stool(rx, 3400 + i * 600); pwr(tx + 600, 3400 + i * 600);
+  box(tx, 3400, 1200, 3600, C.comm, C.gr, 1);
+  for (let i = 0; i < 6; i++) {
+    stool(lx, 3700 + i * 600); stool(rx, 3700 + i * 600); pwr(tx + 600, 3700 + i * 600);
   }
 });
-zl(2100, 2770, 2200, "コミュナルテーブル 14席");
-zl(6700, 2770, 2200, "コミュナルテーブル 14席");
+zl(2100, 3070, 2200, "コミュナルテーブル 12席");
+zl(6700, 3070, 2200, "コミュナルテーブル 12席");
 
 /* --- 奥側：ドリンクカウンター --- */
 box(900, 7950, 4400, 900, C.cnt, C.cntE);
@@ -168,8 +169,8 @@ s.addTable(
     [td("想定面積", { bold: true, fill: C.soft }), td("99.0㎡（約30坪）")],
     [td("間口×奥行", { bold: true, fill: C.soft }), td("11,000mm × 9,000mm")],
     [td("想定席数", { bold: true, fill: C.soft }), td("59席", { bold: true, color: C.gr })],
-    [td("カウンター席", { bold: true, fill: C.soft }), td("47席（全体の80％）", { bold: true, color: C.gr })],
-    [td("ソファ席", { bold: true, fill: C.soft }), td("12席（2人掛け6組）", { bold: true, color: C.gr })],
+    [td("カウンター席", { bold: true, fill: C.soft }), td("43席（全体の73％）", { bold: true, color: C.gr })],
+    [td("ソファ席", { bold: true, fill: C.soft }), td("16席（1人掛け8組）", { bold: true, color: C.gr })],
     [td("電源付き席", { bold: true, fill: C.soft }), td("59席（全席）", { bold: true, color: C.gr })],
     [td("1席あたり面積", { bold: true, fill: C.soft }), td("約1.7㎡／席")],
   ],
@@ -180,9 +181,9 @@ sec(RX, 3.34, RW, "席構成", "●＝電源付き");
 const ok = (t) => td(t, { align: "center", color: C.gr, bold: true });
 s.addTable(
   [
-    [td("書店側ソファラウンジ（6組）"), td("12席", { align: "right" }), ok("●")],
+    [td("書店側ソファラウンジ（8組）"), td("16席", { align: "right" }), ok("●")],
     [td("壁付カウンター席（左9・右10）", { size: 8 }), td("19席", { align: "right" }), ok("●")],
-    [td("コミュナルテーブル（2台）"), td("28席", { align: "right" }), ok("●")],
+    [td("コミュナルテーブル（2台）"), td("24席", { align: "right" }), ok("●")],
     [td("合計", { bold: true, color: C.ink, fill: C.bandD }), td("59席", { bold: true, color: C.gr, align: "right", fill: C.bandD }), td("59席", { bold: true, color: C.gr, align: "center", fill: C.bandD })],
   ],
   { x: RX, y: 3.70, w: RW, colW: [RW - 1.42, 0.72, 0.70], rowH: [0.27, 0.27, 0.27, 0.30], border: TB, autoPage: false }
@@ -190,8 +191,8 @@ s.addTable(
 
 sec(RX, 5.08, RW, "レイアウトの考え方");
 [
-  ["書店側ラウンジ", "書店側にソファ6組を売場向きに並べております。少人数のお客様が別々にお掛けいただけます。"],
-  ["カウンター中心", "全席の80％をカウンター席といたしました。お1人様・短時間のご利用に対応し、席の回転を高めます。"],
+  ["書店側ラウンジ", "書店側に1人掛けソファを向かい合わせ8組で並べております。お1人様・お2人様が別々にお掛けいただけます。"],
+  ["カウンター中心", "全席の73％をカウンター席といたしました。お1人様・短時間のご利用に対応し、席の回転を高めます。"],
   ["全席電源", "59席すべてに電源を設置いたします。書店併設の立地では、長めのご利用が中心になるためでございます。"],
   ["給排水", "ドリンクカウンターを奥の壁面1面に集約し、工事範囲を最小限といたします。"],
 ].forEach((t, i) => {

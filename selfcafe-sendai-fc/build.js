@@ -35,7 +35,7 @@ pres.author = "セルフカフェ株式会社";
 pres.title = "仙台泉 FCプランのご提案";
 
 let PAGE = 0;
-const TOTAL = 3;
+const TOTAL = 4;
 
 /* ---------------- 体裁 ---------------- */
 function head(s, title, sub) {
@@ -54,7 +54,7 @@ function head(s, title, sub) {
     x: R - 3.3, y: 0.34, w: 3.3, h: 0.2,
     fontFace: FG, fontSize: 9, color: C.ink, align: "right", margin: 0, valign: "middle",
   });
-  s.addText("2026年11月26日　セルフカフェ株式会社", {
+  s.addText("2026年11月27日　セルフカフェ株式会社", {
     x: R - 3.3, y: 0.54, w: 3.3, h: 0.18,
     fontFace: FG, fontSize: 8, color: C.muted, align: "right", margin: 0, valign: "middle",
   });
@@ -233,7 +233,150 @@ const neg = (v) => "▲ " + yen(v);
   ]);
 }
 
-/* ================================================= P2 月次損益 */
+
+/* ================================================= P2 レイアウトイメージ */
+{
+  const s = pres.addSlide();
+  head(s, "店舗レイアウトのイメージ（30坪）", "書店側にソファラウンジ、カウンター席を中心とした構成でございます（現地未確認の参考図）");
+
+  const PC = { floor: "FBFBFA", lounge: "F5F3EE", wall: "1A1A1A", cnt: "E8E8E6", cntE: "9A9A96", tbl: "FFFFFF", tblE: "8C8C8C", seat: "D4D4D1", comm: "F4F2ED", sofa: "DEDEDA", sofaB: "B6B6B1" };
+  const PW = 11000, PD = 9000;
+  const PX0 = 0.70, PY0 = 1.62, PIW = 6.05;
+  const SCL = PIW / PW;
+  const X = (mm) => PX0 + mm * SCL;
+  const Y = (mm) => PY0 + mm * SCL;
+  const Z = (mm) => mm * SCL;
+  const PIH = Z(PD);
+
+  sec(s, M, 1.14, PIW + 0.20, "平面イメージ（59席・うちカウンター43席）", "上＝モール通路・書店入口側");
+
+  s.addShape("rect", { x: X(0), y: Y(0), w: Z(PW), h: Z(PD), fill: { color: PC.floor }, line: { color: C.hair, width: 0.5 } });
+  s.addShape("rect", { x: X(400), y: Y(620), w: Z(10200), h: Z(2180), fill: { color: PC.lounge }, line: { type: "none" } });
+
+  const WT = 150;
+  const wall = (x0, y0, x1, y1) => s.addShape("rect", { x: X(x0), y: Y(y0), w: Z(x1 - x0), h: Z(y1 - y0), fill: { color: PC.wall } });
+  wall(0, 0, 2000, WT); wall(9000, 0, PW, WT);
+  wall(0, PD - WT, PW, PD);
+  wall(0, 0, WT, PD); wall(PW - WT, 0, PW, PD);
+
+  s.addShape("rect", { x: X(2000), y: Y(0), w: Z(7000), h: Z(70), fill: { color: C.gr } });
+  s.addText("開口（書店売場・モール通路側／間口 約7.0m）", { x: X(1700), y: PY0 - 0.21, w: Z(5100), h: 0.18, fontFace: FG, fontSize: 7.3, bold: true, color: C.gr, margin: 0, valign: "middle" });
+  s.addShape("rect", { x: X(7000), y: PY0 - 0.225, w: Z(2000), h: 0.17, fill: { color: C.gr } });
+  s.addText("サイン", { x: X(7000), y: PY0 - 0.225, w: Z(2000), h: 0.17, fontFace: FG, fontSize: 6.8, bold: true, color: "FFFFFF", align: "center", margin: 0, valign: "middle" });
+
+  const box = (x0, y0, w, h, fill, line, lw) =>
+    s.addShape("rect", { x: X(x0), y: Y(y0), w: Z(w), h: Z(h), fill: { color: fill }, line: { color: line || PC.tblE, width: lw === undefined ? 0.6 : lw } });
+  const stool = (cx, cy) =>
+    s.addShape("ellipse", { x: X(cx - 190), y: Y(cy - 190), w: Z(380), h: Z(380), fill: { color: PC.seat }, line: { type: "none" } });
+  const pwr = (cx, cy) =>
+    s.addShape("rect", { x: X(cx - 130), y: Y(cy - 130), w: Z(260), h: Z(260), fill: { color: C.gr }, line: { type: "none" } });
+  const sofa = (x0, y0, w, h, backTop) => {
+    s.addShape("roundRect", { x: X(x0), y: Y(y0), w: Z(w), h: Z(h), rectRadius: 0.12, fill: { color: PC.sofa }, line: { color: PC.sofaB, width: 0.6 } });
+    s.addShape("rect", { x: X(x0 + 60), y: Y(backTop ? y0 + 40 : y0 + h - 180), w: Z(w - 120), h: Z(140), fill: { color: PC.sofaB }, line: { type: "none" } });
+  };
+  const zl = (x0, y0, w, t, o) => {
+    o = o || {};
+    s.addText(t, { x: X(x0), y: Y(y0), w: Z(w), h: 0.16, fontFace: FG, fontSize: o.fs || 6.8, bold: true, color: o.c || C.gr, align: "center", margin: 0, valign: "middle" });
+  };
+  const vl = (cx, cy, t) =>
+    s.addText(t, { x: X(cx) - 0.95, y: Y(cy) - 0.08, w: 1.9, h: 0.16, fontFace: FG, fontSize: 6.8, bold: true, color: C.gr, align: "center", margin: 0, valign: "middle", rotate: 270 });
+
+  /* 書店側ソファラウンジ 16席（1人掛け16台・向かい合わせ8組） */
+  for (let i = 0; i < 8; i++) {
+    const sx = 400 + Math.round(i * 1342.8);
+    sofa(sx, 760, 800, 700, true);
+    box(sx + 100, 1540, 600, 420, PC.tbl);
+    pwr(sx + 400, 1750);
+    sofa(sx, 2010, 800, 700, false);
+  }
+  zl(400, 290, 10200, "書店側ソファラウンジ　1人掛けソファ16台／向かい合わせ8組・16席");
+
+  /* 壁付カウンター */
+  box(150, 2900, 600, 4800, PC.cnt, PC.cntE);
+  for (let i = 0; i < 9; i++) { stool(1090, 3150 + i * 560); pwr(600, 3150 + i * 560); }
+  vl(1665, 5300, "壁付カウンター席 9席");
+  box(10250, 2900, 600, 4800, PC.cnt, PC.cntE);
+  for (let i = 0; i < 10; i++) { stool(9910, 3100 + i * 500); pwr(10380, 3100 + i * 500); }
+  vl(9335, 5300, "壁付カウンター席 10席");
+
+  /* コミュナルテーブル 2台 24席 */
+  [[2600, 2240, 4160], [7200, 6840, 8760]].forEach(function (a) {
+    const tx = a[0], lx = a[1], rx2 = a[2];
+    box(tx, 3400, 1200, 3600, PC.comm, C.gr, 1);
+    for (let i = 0; i < 6; i++) { stool(lx, 3700 + i * 600); stool(rx2, 3700 + i * 600); pwr(tx + 600, 3700 + i * 600); }
+  });
+  zl(2100, 3070, 2200, "コミュナルテーブル 12席");
+  zl(6700, 3070, 2200, "コミュナルテーブル 12席");
+
+  /* 奥側 */
+  box(900, 7950, 4400, 900, PC.cnt, PC.cntE);
+  box(1100, 8030, 900, 740, C.gr, C.gr);
+  box(2150, 8030, 900, 740, C.gr, C.gr);
+  zl(1100, 8180, 900, "マシン①", { c: "FFFFFF" });
+  zl(2150, 8180, 900, "マシン②", { c: "FFFFFF" });
+  zl(3150, 8180, 2050, "カップ・備品／決済端末", { c: C.ink });
+  box(5700, 8150, 1400, 700, PC.cnt, PC.cntE);
+  zl(5700, 8330, 1400, "返却・ゴミ", { c: C.ink });
+  box(9400, 7950, 1450, 900, C.band, PC.cntE);
+  zl(9400, 8230, 1450, "ストック備品", { c: C.ink });
+
+  /* 寸法・凡例 */
+  const dy = PY0 + PIH + 0.09;
+  s.addShape("rect", { x: X(0), y: dy, w: Z(PW), h: 0.008, fill: { color: C.ruleT } });
+  s.addShape("rect", { x: X(0), y: dy - 0.04, w: 0.008, h: 0.085, fill: { color: C.ruleT } });
+  s.addShape("rect", { x: X(PW), y: dy - 0.04, w: 0.008, h: 0.085, fill: { color: C.ruleT } });
+  s.addShape("rect", { x: X(0), y: dy + 0.08, w: 0.1, h: 0.1, fill: { color: C.gr } });
+  s.addText("電源（コンセント）設置位置", { x: X(0) + 0.16, y: dy + 0.04, w: 2.0, h: 0.17, fontFace: FG, fontSize: 7.2, bold: true, color: C.gr, margin: 0, valign: "middle" });
+  s.addText("間口 11,000", { x: X(0), y: dy + 0.04, w: Z(PW), h: 0.17, fontFace: FG, fontSize: 7.6, color: C.muted, align: "center", margin: 0, valign: "middle" });
+  s.addText("奥行 9,000", { x: X(0) - 0.66, y: PY0 + PIH / 2 - 0.1, w: 1.1, h: 0.2, fontFace: FG, fontSize: 7.6, color: C.muted, align: "center", margin: 0, valign: "middle", rotate: 270 });
+
+  /* 右欄 */
+  const RX = 7.05, RW = R - RX;
+  sec(s, RX, 1.14, RW, "想定諸元");
+  s.addTable(
+    [
+      [td("想定面積", { bold: true, fill: C.soft, size: 8.3 }), td("99.0㎡（約30坪）", { size: 8.3 })],
+      [td("間口×奥行", { bold: true, fill: C.soft, size: 8.3 }), td("11,000mm × 9,000mm", { size: 8.3 })],
+      [td("想定席数", { bold: true, fill: C.soft, size: 8.3 }), td("59席", { bold: true, color: C.gr, size: 8.3 })],
+      [td("カウンター席", { bold: true, fill: C.soft, size: 8.3 }), td("43席（全体の73％）", { bold: true, color: C.gr, size: 8.3 })],
+      [td("電源付き席", { bold: true, fill: C.soft, size: 8.3 }), td("59席（全席）", { bold: true, color: C.gr, size: 8.3 })],
+    ],
+    { x: RX, y: 1.50, w: RW, colW: [1.38, RW - 1.38], rowH: [0.25, 0.25, 0.25, 0.25, 0.25], border: TB, autoPage: false }
+  );
+
+  sec(s, RX, 3.00, RW, "席構成", "●＝電源付き");
+  const ok = (t) => td(t, { align: "center", color: C.gr, bold: true, size: 8.3 });
+  s.addTable(
+    [
+      [td("書店側ソファラウンジ（8組）", { size: 8.3 }), td("16席", { align: "right", size: 8.3 }), ok("●")],
+      [td("壁付カウンター席（左9・右10）", { size: 8 }), td("19席", { align: "right", size: 8.3 }), ok("●")],
+      [td("コミュナルテーブル（2台）", { size: 8.3 }), td("24席", { align: "right", size: 8.3 }), ok("●")],
+      [td("合計", { bold: true, color: C.ink, fill: C.bandD, size: 8.3 }), td("59席", { bold: true, color: C.gr, align: "right", fill: C.bandD, size: 8.3 }), td("59席", { bold: true, color: C.gr, align: "center", fill: C.bandD, size: 8.3 })],
+    ],
+    { x: RX, y: 3.36, w: RW, colW: [RW - 1.38, 0.70, 0.68], rowH: [0.26, 0.26, 0.26, 0.28], border: TB, autoPage: false }
+  );
+
+  sec(s, RX, 4.64, RW, "レイアウトの考え方");
+  [
+    ["書店側ラウンジ", "書店側に1人掛けソファを向かい合わせ8組で並べております。お1人様・お2人様が別々にお掛けいただけます。"],
+    ["カウンター中心", "全席の73％をカウンター席といたしました。お1人様・短時間のご利用に対応し、席の回転を高めます。"],
+    ["全席電源", "59席すべてに電源を設置いたします。書店併設の立地では、長めのご利用が中心になるためでございます。"],
+    ["給排水", "ドリンクカウンターを奥の壁面1面に集約し、工事範囲を最小限といたします。"],
+  ].forEach((t, i) => {
+    s.addText(
+      [{ text: t[0] + "　", options: { bold: true, color: C.gr } },
+       { text: t[1], options: { color: C.body } }],
+      { x: RX, y: 5.02 + i * 0.46, w: RW, h: 0.44, fontFace: FG, fontSize: 7.6, margin: 0, valign: "top", lineSpacingMultiple: 1.14 }
+    );
+  });
+
+  foot(s, [
+    "※　本図は現地未確認のイメージ図でございます。区画の形状・寸法・開口位置・柱位置・設備位置はいずれも確定しておらず、実際のレイアウトとは異なります。",
+    "※　席数は弊社既存店（30坪／約59席）の実績をもとにした想定値でございます。区画形状の確定後に、あらためて図面をご提出いたします。",
+  ]);
+}
+
+/* ================================================= P3 月次損益 */
 {
   const s = pres.addSlide();
   head(s, "月次損益と、坪数・配置別の試算", "単位：円（税抜）　償却前営業利益（減価償却前）でございます");
@@ -302,34 +445,58 @@ const neg = (v) => "▲ " + yen(v);
   ]);
 }
 
-/* ================================================= P3 投資と回収 */
+/* ================================================= P4 投資と回収 */
 {
   const s = pres.addSlide();
   head(s, "ご投資と回収、ご判断の材料", "基本工事が完了した状態からのご投資でございます");
 
-  sec(s, M, 1.14, CW, "ご投資の目安");
-  s.addShape("rect", { x: M, y: 1.50, w: CW, h: 1.22, fill: { color: C.grPale }, line: { color: C.gr, width: 1.25 } });
-  s.addText("基本工事を除く総額", {
-    x: M + 0.24, y: 1.58, w: 4.2, h: 0.26,
-    fontFace: FG, fontSize: 9.5, bold: true, color: C.gr, margin: 0, valign: "middle",
-  });
-  s.addText(
-    [{ text: "700", options: { fontFace: FG, fontSize: 26, bold: true, color: C.gr } },
-     { text: " 万円 　〜 　", options: { fontFace: FG, fontSize: 12, bold: true, color: C.body } },
-     { text: "1,000", options: { fontFace: FG, fontSize: 26, bold: true, color: C.gr } },
-     { text: " 万円 程度", options: { fontFace: FG, fontSize: 12, bold: true, color: C.body } }],
-    { x: M + 0.24, y: 1.86, w: 4.6, h: 0.6, margin: 0, valign: "middle" }
-  );
-  s.addText(
-    [{ text: "含まれるもの　", options: { fontFace: FG, fontSize: 8.3, bold: true, color: C.gr } },
-     { text: "内装造作工事／家具什器／サイン工事／加盟金／保証金／開業準備金／設計・申請・諸経費", options: { fontFace: FG, fontSize: 8.3, color: C.ink, breakLine: true } },
-     { text: "含まれないもの　", options: { fontFace: FG, fontSize: 8.3, bold: true, color: C.gr } },
-     { text: "基本工事（床・壁・天井・照明）", options: { fontFace: FG, fontSize: 8.3, color: C.ink, breakLine: true } },
-     { text: "現地を確認しておらず、また新規物件のため、現時点では概算でございます。仕様により変動いたします。マシン・決済端末は月額利用料でのご提供のため、初期購入は不要でございます。", options: { fontFace: FG, fontSize: 8.3, color: C.body } }],
-    { x: M + 5.0, y: 1.58, w: CW - 5.24, h: 1.08, margin: 0, valign: "top", lineSpacingMultiple: 1.3 }
+  sec(s, M, 1.14, CW, "ご投資の目安", "基本工事を除く／30坪・2026年11月時点の概算");
+  const lwI = 5.60, rxI = M + lwI + 0.24, rwI = R - rxI;
+  const ir = (l, v, o) => {
+    o = o || {};
+    return [
+      td(l, { size: 8.2, bold: !!o.b, color: o.b ? C.ink : C.body, fill: o.f }),
+      td(v, { size: o.b ? 9 : 8.2, bold: !!o.b, align: "right", color: o.b ? C.gr : C.body, fill: o.f }),
+    ];
+  };
+  s.addTable(
+    [
+      [th("項目"), th("金額の目安", "right")],
+      ir("内装造作工事（仕上げ・造作カウンター）", "240 〜 380 万円"),
+      ir("家具什器（ソファ・スツール・テーブル）", "130 〜 190 万円"),
+      ir("電気・給排水の二次工事（マシン設置・電源）", "70 〜 120 万円"),
+      ir("サイン工事", "25 〜 50 万円"),
+      ir("加盟金", "100 万円"),
+      ir("保証金　※契約終了時にご返還いたします", "50 万円"),
+      ir("開業準備金", "70 万円"),
+      ir("設計・申請・諸経費", "15 〜 40 万円"),
+      ir("合計", "700 〜 1,000 万円", { b: true, f: C.bandD }),
+    ],
+    { x: M, y: 1.50, w: lwI, colW: [3.65, lwI - 3.65], rowH: [0.22, 0.185, 0.185, 0.185, 0.185, 0.185, 0.185, 0.185, 0.185, 0.26], border: TB, autoPage: false }
   );
 
-  sec(s, M, 2.92, CW, "投資回収の目安");
+  s.addShape("rect", { x: rxI, y: 1.50, w: rwI, h: 1.04, fill: { color: C.grPale }, line: { color: C.gr, width: 1.25 } });
+  s.addText("基本工事を除く総額", {
+    x: rxI + 0.20, y: 1.56, w: rwI - 0.4, h: 0.24,
+    fontFace: FG, fontSize: 9, bold: true, color: C.gr, margin: 0, valign: "middle",
+  });
+  s.addText(
+    [{ text: "700", options: { fontFace: FG, fontSize: 23, bold: true, color: C.gr } },
+     { text: " 万円 　〜 　", options: { fontFace: FG, fontSize: 11, bold: true, color: C.body } },
+     { text: "1,000", options: { fontFace: FG, fontSize: 23, bold: true, color: C.gr } },
+     { text: " 万円", options: { fontFace: FG, fontSize: 11, bold: true, color: C.body } }],
+    { x: rxI + 0.20, y: 1.82, w: rwI - 0.4, h: 0.56, margin: 0, valign: "middle" }
+  );
+  s.addText(
+    [{ text: "含まれないもの　", options: { fontFace: FG, fontSize: 8, bold: true, color: C.gr } },
+     { text: "基本工事（床・壁・天井・照明）", options: { fontFace: FG, fontSize: 8, color: C.ink, breakLine: true } },
+     { text: "保証金50万円は契約終了時にご返還いたしますので、実質のご負担は650〜950万円程度でございます。", options: { fontFace: FG, fontSize: 8, color: C.body, breakLine: true } },
+     { text: "ドリンクマシン・決済端末は月額利用料でのご提供のため、初期のご購入は不要でございます。", options: { fontFace: FG, fontSize: 8, color: C.body, breakLine: true } },
+     { text: "現地を確認しておらず、また新規物件のため、現時点では概算でございます。仕様により変動いたします。", options: { fontFace: FG, fontSize: 8, color: C.body } }],
+    { x: rxI, y: 2.62, w: rwI, h: 0.92, margin: 0, valign: "top", lineSpacingMultiple: 1.26 }
+  );
+
+  sec(s, M, 3.62, CW, "投資回収の目安", "700万円のご投資で約11か月での回収見通しでございます");
   const cc = (v, o = {}) => td(v, Object.assign({ align: "right", size: 8.8 }, o));
   s.addTable(
     [
@@ -341,34 +508,29 @@ const neg = (v) => "▲ " + yen(v);
         cc("約 " + c.hi.toFixed(1) + " か月", { bold: true, color: c.hot ? C.gr : C.ink, fill: c.hot ? C.bandD : C.white }),
       ]),
     ],
-    { x: M, y: 3.28, w: CW, colW: [3.4, 2.5, 2.4, CW - 8.3], rowH: [0.24, 0.3, 0.28, 0.28, 0.28], border: TB, autoPage: false }
+    { x: M, y: 3.98, w: CW, colW: [3.4, 2.5, 2.4, CW - 8.3], rowH: [0.22, 0.26, 0.25, 0.25, 0.25], border: TB, autoPage: false }
   );
-  s.addText("30坪・店頭配置であれば、ご投資700万円で約11か月、1,000万円でも約16か月で回収の見通しでございます。いずれも開業から2年以内でございます。", {
-    x: M, y: 4.76, w: CW, h: 0.24,
-    fontFace: FG, fontSize: 9, bold: true, color: C.gr, margin: 0, valign: "middle",
-  });
-
   const lw = 5.3, rx = M + lw + 0.5, rw = R - rx;
-  sec(s, M, 5.12, lw, "FCプランの利点");
+  sec(s, M, 5.42, lw, "FCプランの利点");
   [
     ["売上・利益がすべて貴社のものになります", "30坪・店頭配置で月630,880円、年間7,570,560円でございます。"],
     ["ロイヤリティが売上連動ではございません", "一律 月50,000円。売上が伸びるほど利益率が向上いたします。"],
     ["損益分岐点が低く、下振れに強い構造です", "1日約24杯。想定86杯に対して3倍以上の余裕がございます。"],
     ["基本工事のご負担も利益で回収いただけます", "売上がそのまま帰属いたしますので、回収を月次の利益で進められます。"],
   ].forEach((t, i) => {
-    const y = 5.50 + i * 0.5;
+    const y = 5.80 + i * 0.42;
     s.addText("（" + (i + 1) + "）" + t[0], { x: M, y, w: lw, h: 0.2, fontFace: FG, fontSize: 8.8, bold: true, color: C.ink, margin: 0, valign: "middle" });
     s.addText(t[1], { x: M + 0.36, y: y + 0.2, w: lw - 0.36, h: 0.28, fontFace: FG, fontSize: 8.2, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2 });
   });
 
-  sec(s, rx, 5.12, rw, "ご留意いただきたい点");
+  sec(s, rx, 5.42, rw, "ご留意いただきたい点");
   [
     ["ご投資は概算でございます", "現地未確認かつ新規物件のため、仕様確定後にお見積りをご提出いたします。"],
     ["売上変動のリスクを貴社が負われます", "来客数は館の計画値であり、実績の裏付けはございません。"],
     ["配置により結果が大きく変わります", "店頭配置と店奥配置で、月の営業利益に262,080円の差が生じます。"],
     ["食品衛生責任者の選任が必要でございます", "1名。保健所の申請手続きは弊社にて代行いたします。"],
   ].forEach((t, i) => {
-    const y = 5.50 + i * 0.5;
+    const y = 5.80 + i * 0.42;
     s.addText("（" + (i + 1) + "）" + t[0], { x: rx, y, w: rw, h: 0.2, fontFace: FG, fontSize: 8.8, bold: true, color: C.ink, margin: 0, valign: "middle" });
     s.addText(t[1], { x: rx + 0.36, y: y + 0.2, w: rw - 0.36, h: 0.28, fontFace: FG, fontSize: 8.2, color: C.body, margin: 0, valign: "top", lineSpacingMultiple: 1.2 });
   });

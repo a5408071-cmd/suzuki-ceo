@@ -462,17 +462,14 @@ const neg = (v) => "▲ " + yen(v);
   s.addTable(
     [
       [th("項目"), th("金額の目安", "right")],
-      ir("内装造作工事（仕上げ・造作カウンター）", "240 〜 380 万円"),
-      ir("家具什器（ソファ・スツール・テーブル）", "130 〜 190 万円"),
-      ir("電気・給排水の二次工事（マシン設置・電源）", "70 〜 120 万円"),
-      ir("サイン工事", "25 〜 50 万円"),
       ir("加盟金", "100 万円"),
-      ir("保証金　※契約終了時にご返還いたします", "50 万円"),
-      ir("開業準備金", "70 万円"),
-      ir("設計・申請・諸経費", "15 〜 40 万円"),
+      ir("出店工事費用　※基本工事を除く", "200 〜 500 万円"),
+      ir("開業準備金・出店準備金", "200 万円"),
+      ir("保証金（預り金）　※契約条件に基づき精算", "50 万円"),
+      ir("諸経費・予備費", "150 万円"),
       ir("合計", "700 〜 1,000 万円", { b: true, f: C.bandD }),
     ],
-    { x: M, y: 1.50, w: lwI, colW: [3.65, lwI - 3.65], rowH: [0.22, 0.185, 0.185, 0.185, 0.185, 0.185, 0.185, 0.185, 0.185, 0.26], border: TB, autoPage: false }
+    { x: M, y: 1.50, w: lwI, colW: [3.65, lwI - 3.65], rowH: [0.24, 0.26, 0.26, 0.26, 0.26, 0.26, 0.30], border: TB, autoPage: false }
   );
 
   s.addShape("rect", { x: rxI, y: 1.50, w: rwI, h: 1.04, fill: { color: C.grPale }, line: { color: C.gr, width: 1.25 } });
@@ -488,12 +485,14 @@ const neg = (v) => "▲ " + yen(v);
     { x: rxI + 0.20, y: 1.82, w: rwI - 0.4, h: 0.56, margin: 0, valign: "middle" }
   );
   s.addText(
-    [{ text: "含まれないもの　", options: { fontFace: FG, fontSize: 8, bold: true, color: C.gr } },
-     { text: "基本工事（床・壁・天井・照明）", options: { fontFace: FG, fontSize: 8, color: C.ink, breakLine: true } },
-     { text: "保証金50万円は契約終了時にご返還いたしますので、実質のご負担は650〜950万円程度でございます。", options: { fontFace: FG, fontSize: 8, color: C.body, breakLine: true } },
-     { text: "ドリンクマシン・決済端末は月額利用料でのご提供のため、初期のご購入は不要でございます。", options: { fontFace: FG, fontSize: 8, color: C.body, breakLine: true } },
-     { text: "現地を確認しておらず、また新規物件のため、現時点では概算でございます。仕様により変動いたします。", options: { fontFace: FG, fontSize: 8, color: C.body } }],
-    { x: rxI, y: 2.62, w: rwI, h: 0.92, margin: 0, valign: "top", lineSpacingMultiple: 1.26 }
+    [{ text: "加盟金・準備金・保証金・諸経費は、弊社フランチャイズ制度の標準額でございます。", options: { fontFace: FG, fontSize: 7.9, color: C.body, breakLine: true } },
+     { text: "出店準備金", options: { fontFace: FG, fontSize: 7.9, bold: true, color: C.gr } },
+     { text: "はカメラ・モニター・机・椅子等の備品類、", options: { fontFace: FG, fontSize: 7.9, color: C.body } },
+     { text: "開業準備金", options: { fontFace: FG, fontSize: 7.9, bold: true, color: C.gr } },
+     { text: "は設計費・デザイン費・開業サポート費でございます。", options: { fontFace: FG, fontSize: 7.9, color: C.body, breakLine: true } },
+     { text: "出店工事費用は基本工事（床・壁・天井・照明）を除く内装造作・設備の二次工事・サイン工事でございます。基本工事を貴社でご負担いただくため、標準額より低く収まります。", options: { fontFace: FG, fontSize: 7.9, color: C.body, breakLine: true } },
+     { text: "ドリンクマシン・決済端末は月額利用料でのご提供のため、初期のご購入は不要でございます。", options: { fontFace: FG, fontSize: 7.9, color: C.body } }],
+    { x: rxI, y: 2.60, w: rwI, h: 1.00, margin: 0, valign: "top", lineSpacingMultiple: 1.24 }
   );
 
   sec(s, M, 3.62, CW, "投資回収の目安", "700万円のご投資で約11か月での回収見通しでございます");
